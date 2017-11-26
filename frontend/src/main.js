@@ -11,6 +11,7 @@ require('./assets/lib/aui-slide');
 
 import Vue from 'vue'
 import App from './App'
+import $ from 'n-zepto';
 //import router from './router'
 import routerConfig from './router/router'
 import Router from 'vue-router'
@@ -18,7 +19,6 @@ Vue.use(Router)
 import VueResource from 'vue-resource'; //vue-router路由
 Vue.use(VueResource)
 Vue.config.productionTip = false
-
 
 
 //路由

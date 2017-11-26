@@ -7,8 +7,6 @@
         <router-view class="full-h" ></router-view>
       </transition>
     </div>
-
-
   </div>
 </template>
 

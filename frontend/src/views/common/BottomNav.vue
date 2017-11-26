@@ -4,7 +4,7 @@
       <i class="iconfont icon-shouye aui-font-size-20"></i>
       <div class="aui-bar-tab-label">首页</div>
     </router-link>
-    <router-link to="/zwh" class="aui-bar-tab-item " >
+    <router-link to="/signin" class="aui-bar-tab-item " >
       <i class="iconfont icon-huiyishi aui-font-size-20"></i>
       <div class="aui-bar-tab-label">报名</div>
     </router-link>
