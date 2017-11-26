@@ -1,10 +1,11 @@
+
 <template>
     <div>
       <conutDown :time="endTime"/>
       <div class="aui-margin-t-15 aui-margin-r-10 aui-margin-l-10 aui-content">
         <div class="aui-bar aui-bar-btn aui-bar-btn-sm">
             <div class="aui-bar-btn-item aui-active">票数榜</div>
-            <div class="aui-bar-btn-item " >礼物榜</div>
+            <div class="aui-bar-btn-item" >礼物榜</div>
         </div>
         <div class="aui-content content-card-list">
           <ul class="aui-list aui-media-list aui-font-size-12" v-for="(item,index) in rankList">
@@ -16,11 +17,12 @@
                     </div>
                     <div class="aui-list-item-inner" style="width:11.27rem">
                         <div class="aui-list-item-text aui-font-size-12">
-                            <div class="aui-list-item-title aui-font-size-12">{{item.name}}  {{item.number}}</div>
-                            <div class="aui-list-item-right">{{index+1}}</div>
+                            <div class="aui-list-item-title aui-font-size-12">{{item.name}}  {{item.number}}号</div>
+                            
                         </div>
                         <div class="aui-list-item-text aui-font-size-12">
-                            <span>票数 {{item.voteNum}}  礼物 {{item.present}}点</span>
+                            <span class="aui-font-size-12">票数 {{item.voteNum}}&nbsp;&nbsp; 礼物 {{item.present}}点</span>
+                            <div class="aui-list-item-right">{{index+1}}</div>
                         </div>
                         <div class="aui-list-item-text aui-ellipsis-1 aui-font-size-12" style="max-width:11rem">
                           {{item.title}}
@@ -36,8 +38,23 @@
     </div>
 </template>
 <style scoped>
+.aui-bar{
+    .aui-bar-btn-item{
+        border-color: #CfCfCf;
+        font-size: .5rem;
+        background-color: white;
+        color: #767386;
+        font-weight: 900;
+        &.aui-active{
+            color:#9955d7 ;
+        }
+    }
+}
 
-</style>
+.aui-list .aui-list-item-title{
+    color: rgba(114,114,114,.95);
+    font-weight: 600;    
+}</style>
 <script>
 import conutDown from './common/conutDown.vue';
 import BottomNav from './common/BottomNav.vue';

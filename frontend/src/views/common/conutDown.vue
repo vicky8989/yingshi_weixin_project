@@ -1,17 +1,31 @@
 <template>
   <div class="pd-10 aui-font-size-12 bg-2 aui-text-center">
-    <div class="text-white">活动倒计时</div>
-    <div class="aui-margin-t-10">
-      <div class="countItem  aui-margin-r-10 cl-2"><span >{{day}}</span>天</div>
-      <div class="countItem  aui-margin-r-10"><span >{{hour}}</span>时</div>
-      <div class="countItem  aui-margin-r-10"><span >{{minute}}</span>分</div>
+    <div style="color: #afaaab;">活动倒计时</div>
+    <div class="aui-margin-t-10 timeitem">
+      <div class="countItem  aui-margin-r-5"><span >{{day}}</span>天</div>
+      <div class="countItem  aui-margin-r-5"><span >{{hour}}</span>时</div>
+      <div class="countItem  aui-margin-r-5"><span >{{minute}}</span>分</div>
       <div class="countItem  "><span >{{second}}</span>秒</div>
     </div>
   </div>
 </template>
+<style scoped>
+	.countItem{
+    border: 1px solid #a39f9b;
+	}
+	.pd-10 {
+		background-color: white;
+	}
+	.timeitem .countItem {
+		padding: .2rem .1rem;
+    min-width: 2rem;
+    color: rgba(106,106,106,.8);
+    border:1px solid #E1E1E1;
+	}
+</style>
 <script>
+
     export default{
-      name:'conutDown',
         data(){
             return{
               curTime:0,
