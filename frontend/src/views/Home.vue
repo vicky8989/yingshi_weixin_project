@@ -58,7 +58,7 @@
 <script>
   import Slider from './common/Slider.vue';
   import conutDown from './common/conutDown.vue';
-  import BottomNav from './common/BottomNav.vue'
+  import BottomNav from './common/BottomNav.vue';
   import loading from './common/loading.vue'
   import Mock from 'mockjs';
   let maxPageNum = 5;
@@ -136,8 +136,6 @@
                       // error callback
            })
       }
-
-
    },
   mounted: function () {
     this.$nextTick(function () {

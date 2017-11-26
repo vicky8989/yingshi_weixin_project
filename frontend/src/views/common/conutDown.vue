@@ -10,8 +10,8 @@
   </div>
 </template>
 <script>
-
     export default{
+      name:'conutDown',
         data(){
             return{
               curTime:0,

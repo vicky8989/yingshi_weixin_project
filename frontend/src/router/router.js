@@ -10,12 +10,6 @@ const  routes=[
     component: Home
   },
   {
-    path: '/',
-    name: 'home',
-    redirect: '/home',
-    component: Home
-  },
-  {
     path: '/pink',
     name: 'pink',
     component: resolve => {require(['../views/Pink.vue'], resolve)} //异步加载方式
@@ -24,6 +18,16 @@ const  routes=[
     path: '/vote',
     name: 'vote',
     component: resolve => {require(['../views/Vote.vue'], resolve)} //异步加载方式
+  },
+  {
+    path: '/signin',
+    name: 'signin',
+    component: resolve => {require(['../views/SingIn.vue'], resolve)} //异步加载方式
+  },
+  {
+    path: '/award',
+    name: 'award',
+    component: resolve => {require(['../views/Awards.vue'], resolve)} //异步加载方式
   },
   //404页面
   {
