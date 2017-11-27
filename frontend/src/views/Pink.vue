@@ -37,7 +37,7 @@
       <BottomNav/>
     </div>
 </template>
-<style scoped>
+<style lang='less'>
 .aui-bar{
     .aui-bar-btn-item{
         border-color: #CfCfCf;
@@ -46,7 +46,7 @@
         color: #767386;
         font-weight: 900;
         &.aui-active{
-            color:#9955d7 ;
+            color:#9955d7;
         }
     }
 }
