@@ -173,16 +173,22 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    background-color: rgba(27, 188, 155, 1);
-    color: #fff;
-    line-height: 1.6rem;
+    background-color: #fcf8e3;
+    color: #967b4d;
     height: 1.6rem;
+    line-height: 1.4rem;
+    border-top: 1px solid #fbefd2;
+    border-bottom: 1px solid #fbefd2;
+    box-sizing: border-box;
     i {
-        font-size: 0.6rem;
+        font-size: @minSize !important;
         letter-spacing: 0.05rem;
     }
 }
-
+.cl-white{
+    color: #967b4d;
+    font-size: @mediumSize;
+}
 .text-hide-2 {
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -521,7 +527,20 @@ body .aui-font-size-12 {
     background-color: white;
 }
 
-
+.aui-bar-tab-label{
+    font-size: @minSize !important;
+    color: #828282 !important;
+}
+.aui-font-size-20{
+     font-size: @titleSize !important;
+     color: #828282 !important;
+}
+.aui-bar-tab{
+    border-top:1px solid @borderColor !important;
+    .aui-bar-tab-item{
+        height: 2rem !important;
+    }
+}
 /****aui css start*****/
 
 
