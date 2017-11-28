@@ -1,6 +1,6 @@
 <template>
   <footer class="aui-bar aui-bar-tab" id="footer">
-    <router-link to="/home" class="aui-bar-tab-item" >
+    <router-link to="/index" class="aui-bar-tab-item" >
       <i class="iconfont icon-shouye aui-font-size-20"></i>
       <div class="aui-bar-tab-label">首页</div>
     </router-link>

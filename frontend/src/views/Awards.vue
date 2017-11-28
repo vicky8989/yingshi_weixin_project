@@ -2,11 +2,11 @@
 	<div>
 		<div class="aui-content aui-margin-b-15">
 			<ul class="aui-list aui-list-in" v-for="(item,index) in awardsList">
-		        <li class="aui-list-header aui-padded-l-15" style="text-align:left;">		        	
+		        <li class="aui-list-header aui-padded-l-15 aui-font-size-12" style="text-align:left;">		        	
 		            {{item.name}} {{item.number}}名
 		        </li>
 		        <template v-for="(detail,i) in item.details">
-			        <li class="aui-list-item ">
+			        <li class="aui-list-item">
 			            <div class="aui-list-item-inner">
 			                <div class="aui-list-item-title aui-text-danger aui-font-size-12">{{detail.name}}:{{detail.subname}}</div>
 			            </div>
@@ -18,7 +18,17 @@
 	</div>
 </template>
 <style scoped>
-
+.aui-list-item{
+  min-height: 1.3rem !important;
+  height: 1.3rem;
+}
+.aui-list-item .aui-list-item-inner{
+  min-height: 1.3rem !important;
+  height: 1.3rem;
+}
+.aui-list.aui-list-in .aui-list-item-inner:after{
+  height: 0px;
+}
 </style>
 
 <script>

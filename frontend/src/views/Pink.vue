@@ -9,7 +9,7 @@
         </div>
         <div class="aui-content content-card-list">
           <ul class="aui-list aui-media-list aui-font-size-12" v-for="(item,index) in rankList">
-            <router-link :to="{path:'vote',query:{id:item.id}}" :key="item.id">
+            <router-link :to="{path:'votes',query:{id:item.id}}" :key="item.id">
             <li class="aui-list-item aui-list-item-middle">
                 <div class="aui-media-list-item-inner">
                     <div class="aui-list-item-media" style="width: 3rem;">
