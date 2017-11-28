@@ -1,8 +1,8 @@
 import Vue from 'vue'
-//import axios from 'axios'
-//import qs from 'qs'
+import axios from 'axios'
+import qs from 'qs'
 
-//Vue.prototype.$http = axios
+Vue.prototype.$http = axios
 
 // 常量 API 接口地址
 const HOST = HOST_CONFIG;
@@ -14,9 +14,11 @@ const TEST = `${HOST}test`;
 
 export default {
 	getListData: (jsons) => {
-		console.log('传的参数',jsons);
-		return VueHttp.$http.get(TEST,
-			//			qs.stringify(jsons)
+		return VueHttp.$http.get(TEST)
+	},
+	add: (jsons) => {
+		return VueHttp.$http.post(TEST,
+			qs.stringify(jsons)
 		)
 	},
 	httpUrl: HOST
