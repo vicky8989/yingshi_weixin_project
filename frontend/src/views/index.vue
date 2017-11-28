@@ -118,20 +118,21 @@
 			getListData() {
 				let self = this;
 				let param = {
-					pageNumber: self.playerList.pageNumber,
-					pageSize: self.playerList.pageSize
+//					pageNumber: self.playerList.pageNumber,
+//					pageSize: self.playerList.pageSize
 				};
 				this.appendLi();
 
-				//				this.ApiSever.getListData(param).then(res => {
-				//					let result = res.data;
-				//					if(result.success) {
-				//						self.playerList.value = result.value;
-				//						self.playerList.totalCount = result.count;
-				//						self.isHaveMore();
-				//						self.appendLi();
-				//					}
-				//				});
+								this.ApiSever.getListData(param).then(res => {
+									console.log(res)
+//									let result = res.data;
+//									if(result.success) {
+//										self.playerList.value = result.value;
+//										self.playerList.totalCount = result.count;
+//										self.isHaveMore();
+//										self.appendLi();
+//								   }
+								});
 			},
 
 			//是否可以点击加载更多事件

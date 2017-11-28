@@ -21,6 +21,7 @@ Vue.use(VueResource)
 Vue.config.productionTip = false
 import ApiSever from './api.js';
 
+
 Vue.use(ApiSever);
 Vue.prototype.ApiSever=ApiSever;
 
