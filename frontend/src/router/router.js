@@ -29,6 +29,21 @@ const  routes=[
     name: 'award',
     component: resolve => {require(['../views/Awards.vue'], resolve)} //异步加载方式
   },
+  {
+    path: '/index',
+    name: 'index',
+    component: resolve => {require(['../views/index.vue'], resolve)}
+  },
+  {
+    path: '/votes/:id?',
+    name: 'votes',
+    component: resolve => {require(['../views/votes.vue'], resolve)}
+  },
+  {
+    path: '/gift/:id?',
+    name: 'gift',
+    component: resolve => {require(['../views/gift.vue'], resolve)}
+  },
   //404页面
   {
     path:'*',

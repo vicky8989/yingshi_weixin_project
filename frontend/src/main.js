@@ -4,7 +4,7 @@
 require('./assets/css/aui.2.0.css');
 require('./assets/css/aui-slide.css');
 require('./assets/css/iconfont.css');
-require("./assets/css/main.less");
+//require("./assets/css/main.less");
 require('./assets/css/blue.less');
 require('./assets/lib/rem');
 require('./assets/lib/aui-slide');
@@ -19,6 +19,11 @@ Vue.use(Router)
 import VueResource from 'vue-resource'; //vue-router路由
 Vue.use(VueResource)
 Vue.config.productionTip = false
+import ApiSever from './api.js';
+
+Vue.use(ApiSever);
+Vue.prototype.ApiSever=ApiSever;
+
 
 
 //路由
