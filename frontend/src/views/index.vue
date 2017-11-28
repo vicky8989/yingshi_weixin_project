@@ -51,12 +51,14 @@
 				<span>大赛客服老师微信号：shuhuadasaiwang</span>
 			</div>
 		</div>
+		<BottomNav/>
 	</div>
 </template>
 
 <script>
 	import Slider from './common/Slider.vue'
 	import conutDown from './common/conutDown.vue'
+	 import BottomNav from './common/BottomNav.vue'
 	let testData = [{
 		id: 3,
 		num: 200,
@@ -108,7 +110,8 @@
 		created() {},
 		components: {
 			Slider,
-			conutDown
+			conutDown,
+			BottomNav
 		},
 		methods: {
 			//获取列表
