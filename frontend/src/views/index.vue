@@ -18,7 +18,7 @@
 			</ul>
 			<conutDown time="2017/12/2 20:10:10" />
 			<div class="enrol">
-				<a href="javascript:;" class="enrol_btn">我要报名</a>
+				<a href="javascript:;" class="enrol_btn" @click="handleSignin">我要报名</a>
 			</div>
 		</div>
 
@@ -58,7 +58,7 @@
 <script>
 	import Slider from './common/Slider.vue'
 	import conutDown from './common/conutDown.vue'
-	 import BottomNav from './common/BottomNav.vue'
+	import BottomNav from './common/BottomNav.vue'
 	let testData = [{
 		id: 3,
 		num: 200,
@@ -118,21 +118,21 @@
 			getListData() {
 				let self = this;
 				let param = {
-//					pageNumber: self.playerList.pageNumber,
-//					pageSize: self.playerList.pageSize
+					pageNumber: self.playerList.pageNumber,
+					pageSize: self.playerList.pageSize
 				};
 				this.appendLi();
 
-								this.ApiSever.getListData(param).then(res => {
-									console.log(res)
-//									let result = res.data;
-//									if(result.success) {
-//										self.playerList.value = result.value;
-//										self.playerList.totalCount = result.count;
-//										self.isHaveMore();
-//										self.appendLi();
-//								   }
-								});
+				this.ApiSever.getListData(param).then(res => {
+					console.log(res)
+					//									let result = res.data;
+					//									if(result.success) {
+					//										self.playerList.value = result.value;
+					//										self.playerList.totalCount = result.count;
+					//										self.isHaveMore();
+					//										self.appendLi();
+					//								   }
+				});
 			},
 
 			//是否可以点击加载更多事件
@@ -229,7 +229,15 @@
 					arr[0].appendChild(oLi);
 				}
 
+			},
+
+			//我要报名点击事件
+			handleSignin() {
+				this.$router.push({
+					path: '/signin'
+				});
 			}
+
 		},
 
 		mounted() {

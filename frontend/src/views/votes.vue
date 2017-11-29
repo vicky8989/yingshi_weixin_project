@@ -17,7 +17,7 @@
 		<div class="declaration"><i class="iconfont icon_font">&#xe6bf;</i>胜利一定属于我们</div>
 		<Slider :list="pics" />
 		<div class="enrol">
-			<a href="javascript:;" class="enrol_btn">我要报名</a>
+			<a href="javascript:;" class="enrol_btn" @click="handleSignin">我要报名</a>
 		</div>
 		<div class="rules_title"><i class="iconfont icon_font">&#xe62f;</i>礼物列表</div>
 		<div class="giftlist">
@@ -155,16 +155,23 @@
 				let param = {
 					id: this.$route.params.id
 				};
-//				this.$toast.loading({
-//					title: "投票中",
-//					html: '<i class="aui-iconfont aui-icon-laud"></i>',
-//					duration: 2000 //猜的，还没测试
-//				});
-//				this.ApiSever.getListData(param).then(res => {
-//					toast.hide();
-//					let result = res.data;
-//				});
+				//				this.$toast.loading({
+				//					title: "投票中",
+				//					html: '<i class="aui-iconfont aui-icon-laud"></i>',
+				//					duration: 2000 //猜的，还没测试
+				//				});
+				//				this.ApiSever.getListData(param).then(res => {
+				//					toast.hide();
+				//					let result = res.data;
+				//				});
 
+			},
+
+			//我要报名点击事件
+			handleSignin() {
+				this.$router.push({
+					path: '/signin'
+				});
 			}
 		},
 
