@@ -1,21 +1,14 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-
-require('./assets/css/aui.2.0.css');
-require('./assets/css/aui-slide.css');
-require('./assets/css/iconfont.css');
-//require("./assets/css/main.less");
-require('./assets/css/blue.less');
-require('./assets/lib/rem');
-require('./assets/lib/aui-slide');
-
 import Vue from 'vue'
 import App from './App'
+import MintUI from 'mint-ui'
+import 'mint-ui/lib/style.css'
+Vue.use(MintUI);
 import $ from 'n-zepto';
 //import router from './router'
 import routerConfig from './router/router'
 import Router from 'vue-router'
-Vue.use(Router)
+
+Vue.use(Router);
 import VueResource from 'vue-resource'; //vue-router路由
 Vue.use(VueResource)
 Vue.config.productionTip = false
@@ -25,7 +18,19 @@ import ApiSever from './api.js';
 Vue.use(ApiSever);
 Vue.prototype.ApiSever=ApiSever;
 
-
+Vue.prototype.successLoadImg = function(event) {
+	if(event.target.complete == true) {
+		var imgParentNode = event.target.parentNode;
+		imgParentNode.classList.add("bg_cover");
+		event.target.style.display = "none";
+	}
+};
+Vue.prototype.errorLoadImg = function(event) {
+	var imgParentNode = event.target.parentNode;
+	imgParentNode.classList.remove("bg_cover");
+	imgParentNode.classList.add('errorLoadImgbg_cover');
+	event.target.style.display = "none";
+};
 
 //路由
 const router = new Router({

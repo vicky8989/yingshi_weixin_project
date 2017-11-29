@@ -1,19 +1,12 @@
 <template>
 	<div>
-		<!--幻灯片 images:750*400-->
-		<div id="aui-slide3">
-			<div class="aui-slide-wrap">
-				<div class="aui-slide-node bg-dark" v-for="(item,index) in list" key="index">
-					<div class="bg_cover" :style="{backgroundImage: 'url('+item.src+')'}">
-						<img :src="item.src">
-					</div>
-
+		<mt-swipe :auto="4000">
+			<mt-swipe-item v-for="(item,index) in list" key="index">
+				<div class="bg_cover" :style="{backgroundImage: 'url('+item.src+')'}">
+					<img :src="item.src">
 				</div>
-			</div>
-			<div class="aui-slide-page-wrap">
-				<!--分页容器-->
-			</div>
-		</div>
+			</mt-swipe-item>
+		</mt-swipe>
 	</div>
 </template>
 <script>
@@ -79,5 +72,9 @@
 	
 	.bg_cover img {
 		opacity: 0;
+	}
+	
+	.mint-swipe {
+		height: 300px;
 	}
 </style>

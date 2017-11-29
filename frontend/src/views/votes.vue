@@ -1,6 +1,6 @@
 <template>
 	<div id="vote">
-		<div class="user_Info">
+		<div class="user_poho">
 			<img src="./../assets/images/IMG_0117.png" />单曲循环
 		</div>
 		<ul class="user_vote">

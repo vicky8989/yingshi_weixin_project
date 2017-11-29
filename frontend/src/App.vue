@@ -31,7 +31,7 @@
 		text-align: center;
 		color: #333;
 		padding-top: 1.6rem;
-		font-family: 'Avenir', Helvetica, Arial, sans-serif;
+		font-family: Arial, 'Times New Roman', 'Microsoft YaHei', SimHei;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
 	}

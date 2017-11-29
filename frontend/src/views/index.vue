@@ -33,10 +33,8 @@
 				<ul>
 				</ul>
 			</div>
-			<div class="aui-card-list-footer aui-text-center more" @click="handleMore">
-				加载更多
-			</div>
-			<!--<div class="load_more" @click="handleMore">加载更多</div>-->
+
+			<div class="load_more" @click="handleMore">加载更多</div>
 		</div>
 
 		<div class="activity_rules">
@@ -46,7 +44,6 @@
 				<p>大赛奖品丰厚，设有特等奖，一，二，三等奖，优秀奖。前50名都有大赛奖杯，大赛荣誉证书，大赛奖牌，大赛荣誉牌匾，这些奖品不仅仅是物质上的奖励，更是对您取得的艺术成就的肯定，所以具有非常重要的收藏意义！前50名以后的参赛者只要满500票，同时满150点礼物积分，也会颁发大赛荣誉证书，大赛荣誉牌匾，豪华精装笔墨纸砚套装礼盒，紫砂纪念杯。欢迎广大书画艺术爱好者踊跃报名参赛！</p>
 				<img src="./../assets/images/IMG_0117.png" />
 				<h1>2017世界华人书画大赛</h1>
-				<h4>主办方：世界华人书画大赛网</h4>
 				<h5>协办方：书画美术艺术竞赛平台官网</h5>
 				<span>大赛客服老师微信号：shuhuadasaiwang</span>
 			</div>
@@ -56,6 +53,7 @@
 </template>
 
 <script>
+	import { Indicator } from 'mint-ui'
 	import Slider from './common/Slider.vue'
 	import conutDown from './common/conutDown.vue'
 	import BottomNav from './common/BottomNav.vue'
@@ -116,6 +114,7 @@
 		methods: {
 			//获取列表
 			getListData() {
+				Indicator.open('加载中...');
 				let self = this;
 				let param = {
 					pageNumber: self.playerList.pageNumber,
@@ -124,6 +123,7 @@
 				this.appendLi();
 
 				this.ApiSever.getListData(param).then(res => {
+					Indicator.close();
 					console.log(res)
 					//									let result = res.data;
 					//									if(result.success) {
@@ -242,6 +242,9 @@
 
 		mounted() {
 			this.getListData();
+		},
+		destroyed() {
+			Indicator.close();
 		}
 	}
 </script>

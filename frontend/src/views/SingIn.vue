@@ -39,13 +39,13 @@
     <div style="text-align:left;" class="aui-margin-l-15 aui-margin-b-15">
         <label class="text-black  aui-font-size-12" style="text-align:left;">请上传1-3张照片，第一张为封面图 </label>         </label>
         <div>                  
-          <my-upload  :class="['aui-label', 'aui-label-outlined','myUpload']"
+          <!--<my-upload  :class="['aui-label', 'aui-label-outlined','myUpload']"
                 :crop="false"
                 @imageuploaded="imageuploaded"
                 :data="param"
                 text="+"
                 :max-file-size="5242880"
-                url="http://localhost/yingshi/upload"> </my-upload>
+                url="http://localhost/yingshi/upload"> </my-upload>-->
         </div>
       </div>
         <div class="aui-margin-t-15">
@@ -86,7 +86,7 @@
 <script>
 import BottomNav from './common/BottomNav.vue';
 import Mock from 'mockjs';
-import myUpload from 'vue-core-image-upload';
+//import myUpload from 'vue-core-image-upload';
 
 // 生成商品列数据
 // Mock.mock('http://localhost/yingshi/upload', {
