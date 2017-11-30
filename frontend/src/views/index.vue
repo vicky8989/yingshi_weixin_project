@@ -53,7 +53,7 @@
 </template>
 
 <script>
-	import { Indicator } from 'mint-ui'
+	import { Indicator, Toast } from 'mint-ui'
 	import Slider from './common/Slider.vue'
 	import conutDown from './common/conutDown.vue'
 	import BottomNav from './common/BottomNav.vue'
@@ -105,7 +105,13 @@
 				},
 			}
 		},
-		created() {},
+		created() {
+			Toast({
+				message: '投票中...',
+				position: 'middle',
+				duration: 5000
+			});
+		},
 		components: {
 			Slider,
 			conutDown,
@@ -114,7 +120,7 @@
 		methods: {
 			//获取列表
 			getListData() {
-				Indicator.open('加载中...');
+				//				Indicator.open('加载中...');
 				let self = this;
 				let param = {
 					pageNumber: self.playerList.pageNumber,
@@ -162,7 +168,7 @@
 			//点击搜索按钮事件
 			handleSearch() {
 				if(!this.searchInfo) {
-					alert('请输入搜索内容');
+					alert('请输入搜索内容!');
 				}
 			},
 
