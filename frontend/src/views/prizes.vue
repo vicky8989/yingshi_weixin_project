@@ -13,27 +13,6 @@
 
 <script>
 	import BottomNav from './common/BottomNav.vue'
-	import Mock from 'mockjs'
-
-	// 生成商品列数据
-	Mock.mock('awards.json', {
-		code: 1,
-		msg: '查询成功',
-		data: {
-			'total': 20,
-			'records': 10,
-			'page': 1,
-			'rows|3': [{
-				'id|+1': 1,
-				'name': '@cword(3, 20)',
-				"number": '@natural(1, 100)',
-				'details|1-10': [{
-					"name": "@cword(3, 4)",
-					"subname": "@cword(6, 10)"
-				}]
-			}]
-		}
-	});
 
 	export default {
 		data() {

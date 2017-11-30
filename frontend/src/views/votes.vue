@@ -16,9 +16,9 @@
 		</ul>
 		<div class="declaration"><i class="iconfont icon_font">&#xe6bf;</i>胜利一定属于我们</div>
 		<Slider :list="pics" />
-		<div class="enrol">
+		<!-- <div class="enrol">
 			<a href="javascript:;" class="enrol_btn" @click="handleSignin">我要报名</a>
-		</div>
+		</div> -->
 		<div class="rules_title"><i class="iconfont icon_font">&#xe62f;</i>礼物列表</div>
 		<div class="giftlist">
 			<div class="content">

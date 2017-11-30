@@ -33,8 +33,10 @@
 				<ul>
 				</ul>
 			</div>
-
+			
+			<template v-if="allLoaded === false">
 			<div class="load_more" @click="handleMore">加载更多</div>
+			</template>
 		</div>
 
 		<div class="activity_rules">
@@ -89,7 +91,7 @@
 			return {
 				pics: testData,
 				searchInfo: '',
-				listData: testData,
+				listData: [],
 				playerList: {
 					totalCount: '', //总条数
 					pageNum: 1,
@@ -131,13 +133,14 @@
 				this.ApiSever.getListData(param).then(res => {
 					Indicator.close();
 					console.log(res)
-					//									let result = res.data;
-					//									if(result.success) {
-					//										self.playerList.value = result.value;
-					//										self.playerList.totalCount = result.count;
-					//										self.isHaveMore();
-					//										self.appendLi();
-					//								   }
+					let result = res.body.data;
+					if(result.success) {
+						self.playerList.value = result.value;
+						self.playerList.totalCount = result.count;
+						self.listData = self.listData.concat(result.value);
+						self.isHaveMore();
+						self.appendLi();
+				   }
 				});
 			},
 
@@ -147,7 +150,7 @@
 				let currentNum = parseInt(this.playerList.pageSize);
 				if(currentNum == this.playerList.totalCount || currentNum > this.playerList.totalCount) {
 					this.allLoaded = true;
-				}
+				}else this.allLoaded = false;
 			},
 
 			//点击加载更多
@@ -213,7 +216,6 @@
 
 			//通过排序实现瀑布流效果
 			appendLi() {
-
 				let oAaterfallFlow = document.getElementById('waterfallFlow');
 				let aUl = oAaterfallFlow.getElementsByTagName('ul');
 				aUl[0].innerHTML = '';

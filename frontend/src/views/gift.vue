@@ -90,7 +90,7 @@
 	export default {
 		data() {
 			return {
-				giftList: testData,
+				giftList: [],
 				currentId: null,
 				userId:this.$route.params.id,
 				userData: {
@@ -98,8 +98,7 @@
 					hot: 12,
 					gift: 12,
 					id: 12
-				},
-
+				}
 			}
 		},
 		created() {},
@@ -107,13 +106,15 @@
 			BottomNav
 		},
 		methods: {
-			getUserInfo() {
+			getGiftsList() {
 				let param = {
-					id: userId
+					id: this.userId
 				};
 
-				this.ApiSever.getListData(param).then(res => {
-					let result = res.data;
+				let self = this;
+				this.ApiSever.getGiftsList(param).then(res => {
+					console.log(res);
+					self.giftList = res.body.data.value;
 				});
 
 			},
@@ -145,7 +146,8 @@
 		},
 
 		mounted() {
-			this.getUserInfo();
+			//console.log('idid',this.$route.params.id);
+			this.getGiftsList();
 		}
 	}
 </script>
