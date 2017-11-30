@@ -49,12 +49,11 @@
 		},
 		mounted: function() {
 			this.$nextTick(function() {
-
 				// 代码保证 this.$el 在 document 中
 				let _this = this;
 				if(!(_this.list && _this.list.length === 0)) {
 					console.log((document.documentElement.clientWidth || document.body.clientWidth) * 400 / 750)
-					_this.renderSlider();
+					//_this.renderSlider();
 				}
 			})
 		},
@@ -69,11 +68,11 @@
 		background-repeat: no-repeat;
 		background-position: 50%;
 	}
-	
+
 	.bg_cover img {
 		opacity: 0;
 	}
-	
+
 	.mint-swipe {
 		height: 300px;
 	}
