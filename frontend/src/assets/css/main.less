@@ -1158,7 +1158,6 @@ textarea {
     .ranking_list {
         width: 100%;
         height: auto;
-
         padding-top: 1.5rem;
         box-sizing: border-box;
         overflow: hidden;
@@ -1269,6 +1268,32 @@ textarea {
                 color: red;
             }
         }
+    }
+    .mint-navbar {
+        margin-top: 1rem;
+    }
+    .mint-tab-item {
+        border: 1px solid @borderColor;
+        font-size: @baseSize;
+        height: 35px;
+        line-height: 35px;
+        padding: 0;
+    }
+    .mint-tab-item:first-of-type {
+        border-right: none;
+    }
+    .mint-tab-item:last-of-type {
+        border-left: none;
+    }
+    .mint-tab-item-label {
+        font-size: @baseSize;
+        height: 35px;
+        line-height: 35px;
+    }
+    .mint-tab-item.is-selected {
+        border: 1px solid @borderColor;
+        color: #c000e9;
+        margin-bottom: 0 !important;
     }
 }
 
@@ -1595,7 +1620,6 @@ textarea {
                 width: 15rem;
                 height: 2.875rem;
                 color: @fontCloro1;
-
                 border: none;
                 display: inline-block;
                 vertical-align: top;
