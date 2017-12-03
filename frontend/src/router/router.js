@@ -2,20 +2,12 @@
  * Created by wty on 2017/10/10.
  */
 
-import Home from '@/views/Home.vue' // 同步加载方式
 const routes = [{
 		path: '/',
 		name: 'index',
 		component: resolve => {
 			require(['../views/index.vue'], resolve)
 		}
-	},	
-	{
-		path: '/vote',
-		name: 'vote',
-		component: resolve => {
-			require(['../views/Vote.vue'], resolve)
-		} //异步加载方式
 	},
 	{
 		path: '/index',
