@@ -841,7 +841,7 @@ textarea {
 .user_vote {
     width: 100%;
     /*60*/
-    height: 1.875rem;
+    height: 2.8rem;
     line-height: 1.875rem;
     border-top: 1px dashed @borderColor;
     border-bottom: 1px solid @borderColor;
@@ -853,6 +853,10 @@ textarea {
     li {
         flex: 1;
         text-align: center;
+        p{
+            text-align:center !important;
+            line-height:0.5rem;
+        }
     }
     .iconfont {
         font-size: @baseSize;
@@ -864,6 +868,26 @@ textarea {
     padding-top: 0.5rem;
     padding-bottom: 4rem;
     box-sizing: border-box;
+    .user_poho {
+        background: #f3f3f3;
+        height:1.875rem;
+        img{
+            border-radius: 50%;
+            width:28px;
+            display:inline-block;
+            float:left;
+            margin-left: 7rem;
+            margin-top:4px;
+        }
+        .user_name{
+            display:inline-block;
+            float:left;
+            padding-top: 8px;
+            padding-left: 10px;
+            font-size:0.6875rem;
+            font-weight:600;
+        }
+    }
     .user_Info {
         width: 100%;
         height: auto;
@@ -926,13 +950,14 @@ textarea {
                             max-height: 100%;
                             max-width: 100%;
                             margin: auto auto;
+                            border-radius: 50%;
                         }
                     }
                     .text_div {
                         width: 12.425rem;
                         height: 100%;
                         position: relative;
-                        float: right;
+                        float: left;
                         padding-left: 0.5rem;
                         box-sizing: border-box;
                         >span {
@@ -1157,8 +1182,7 @@ textarea {
     overflow: hidden;
     .ranking_list {
         width: 100%;
-        height: auto;
-        padding-top: 1.5rem;
+        height: auto;        
         box-sizing: border-box;
         overflow: hidden;
         li {
@@ -1490,7 +1514,7 @@ textarea {
     }
     .purchasing {
         position: fixed;
-        bottom: 4rem;       
+        bottom: 4rem;
     }
 }
 

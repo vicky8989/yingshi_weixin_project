@@ -36,6 +36,7 @@
 		margin-left: 0.5rem;
 		box-shadow: 0 1px 2px 1px #ebebeb;
 		text-align: center;
+		background-color: white;
 	}
 	.countItem:first-of-type{
 		margin-left: 0;

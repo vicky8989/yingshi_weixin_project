@@ -6,19 +6,26 @@
 			</div>
 			<div class="div_msg">
 				<div class="div_name">测试</div>
-				<span>给他送礼物</span>
+				<span>给他送一份礼物吧</span>
 			</div>
 			<i class="iconfont">&#xe686;</i>
 		</div>
 		<ul class="user_vote">
 			<li>
-				<i class="iconfont icon-ren"></i>编号{{userData.id}}
+				<i class="iconfont icon-ren"></i>编号
+				<p>{{userData.id}}</p>
 			</li>
 			<li>
-				<i class="iconfont icon-piao"></i>票数{{userData.voteNum}}
+				<i class="iconfont icon-piao"></i>票数
+				<p>{{userData.voteNum}}</p>
 			</li>
 			<li>
-				<i class="iconfont icon-redu"></i>热度{{userData.hot}}
+				<i class="iconfont icon-redu"></i>热度
+				<p>{{userData.hot}}</p>
+			</li>
+			<li>
+				<i class="iconfont icon-liwu"></i>礼物
+				<p>{{userData.gift}}点</p>
 			</li>
 		</ul>
 		<ul class="gift_list">

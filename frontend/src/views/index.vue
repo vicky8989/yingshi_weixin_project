@@ -16,7 +16,7 @@
 					<span>{{userData.hot}}</span>
 				</li>
 			</ul>
-			<conutDown time="2017/12/2 20:10:10" />
+			<conutDown :time="finishTime" />
 			<div class="enrol">
 				<a href="javascript:;" class="enrol_btn" @click="handleSignin">我要报名</a>
 			</div>
@@ -64,34 +64,15 @@
 		num: 200,
 		name: '吉祥象',
 		src: 'http://www.artrondata.com/hml/view/93、苍空独立图.jpg'
-	}, {
-		id: 4,
-		num: 200,
-		name: '装饰画公鸡',
-		src: 'http://www.artrondata.com/hml/view/59%E3%80%81%E8%A3%85%E9%A5%B0%E7%94%BB%E5%85%AC%E9%B8%A1.jpg'
-	}, {
-		id: 6,
-		num: 200,
-		name: '布艺厅',
-		src: 'http://www.artrondata.com/hml/view/11、母与子-1.jpg'
-	}, {
-		id: 7,
-		num: 200,
-		name: '布艺厅',
-		src: 'http://www.artrondata.com/hml/view/23、卡纸岩画.jpg'
-	}, {
-		id: 9,
-		num: 200,
-		name: '母与子',
-		src: 'http://www.artrondata.com/hml/view/11、母与子-2.JPG'
 	}];
 
 	export default {
 		data() {
 			return {
-				pics: testData,
+				pics: [],
 				searchInfo: '',
-				listData: [],
+				listData: testData,
+				finishTime:'2017/12/3 20:10:10',
 				playerList: {
 					totalCount: '', //总条数
 					pageNum: 1,
@@ -108,11 +89,11 @@
 			}
 		},
 		created() {
-			Toast({
+			/*Toast({
 				message: '投票中...',
 				position: 'middle',
 				duration: 5000
-			});
+			});*/
 		},
 		components: {
 			Slider,
@@ -120,6 +101,16 @@
 			BottomNav
 		},
 		methods: {
+			getBannerData() {
+				let self = this;
+				this.ApiSever.getBanners().then(res => {
+					console.log(res);
+					let result = res.body.data;
+					if(result.success) {
+						self.pics = result.value;
+					}
+				});
+			},
 			//获取列表
 			getListData() {
 				//				Indicator.open('加载中...');
@@ -247,8 +238,10 @@
 			}
 
 		},
-
-		mounted() {
+		beforeMount() {
+			this.getBannerData();
+		},
+		mounted() {			
 			this.getListData();
 		},
 		destroyed() {

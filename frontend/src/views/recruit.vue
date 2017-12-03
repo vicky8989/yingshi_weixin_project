@@ -43,7 +43,7 @@
 </template>
 
 <script>
-	import { Toast, MessageBox } from 'mint-ui'
+	import { Indicator,Toast, MessageBox } from 'mint-ui'
 	import BottomNav from './common/BottomNav.vue'
 	//文本框校验正则
 	let rejson = {

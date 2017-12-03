@@ -36,7 +36,6 @@
 					if(result.code == 1) {
 						this.prizesList.value = result.data.rows;
 					}
-
 				})
 			}
 		},
