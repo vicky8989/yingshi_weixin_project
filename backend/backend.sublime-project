@@ -1,0 +1,30 @@
+{
+"folders":
+	[
+		{
+			"file_exclude_patterns":
+			[
+				"mongodb.js",
+				"helloword.js",
+				"node.sublime-project",
+				"*.sublime*",
+				".project",
+				"SVN"
+			],
+			"folder_exclude_patterns":
+			[
+				"node_modules",
+				"misc",
+				"old_files",
+				"doc",
+				"examples",
+				"demos",
+				"jssdk-server-demo",
+				".*",
+				"tool"
+			],
+			"path": "."
+		}
+	]
+}
+	
