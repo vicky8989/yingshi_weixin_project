@@ -33,9 +33,9 @@
 				<ul>
 				</ul>
 			</div>
-			
+
 			<template v-if="allLoaded === false">
-			<div class="load_more" @click="handleMore">加载更多</div>
+				<div class="load_more" @click="handleMore">加载更多</div>
 			</template>
 		</div>
 
@@ -72,7 +72,7 @@
 				pics: [],
 				searchInfo: '',
 				listData: testData,
-				finishTime:'2017/12/3 20:10:10',
+				finishTime: '2017/12/3 20:10:10',
 				playerList: {
 					totalCount: '', //总条数
 					pageNum: 1,
@@ -131,7 +131,7 @@
 						self.listData = self.listData.concat(result.value);
 						self.isHaveMore();
 						self.appendLi();
-				   }
+					}
 				});
 			},
 
@@ -141,12 +141,11 @@
 				let currentNum = parseInt(this.playerList.pageSize);
 				if(currentNum == this.playerList.totalCount || currentNum > this.playerList.totalCount) {
 					this.allLoaded = true;
-				}else this.allLoaded = false;
+				} else this.allLoaded = false;
 			},
 
 			//点击加载更多
 			handleMore() {
-				alert('加载更多')
 				if(this.allLoaded) return false;
 
 				if((this.playerList.totalCount) / (this.playerList.pageSize) <= 1) {
@@ -241,7 +240,7 @@
 		beforeMount() {
 			this.getBannerData();
 		},
-		mounted() {			
+		mounted() {
 			this.getListData();
 		},
 		destroyed() {
