@@ -232,7 +232,7 @@
 			//我要报名点击事件
 			handleSignin() {
 				this.$router.push({
-					path: '/signin'
+					path: '/recruit'
 				});
 			}
 
