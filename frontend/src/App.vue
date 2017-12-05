@@ -27,6 +27,7 @@
 
 <style lang="less"  type="text/css">
 	@import './assets/css/main';
+	@import './assets/css/iconfont.css';
 	#app {
 		text-align: center;
 		color: #333;

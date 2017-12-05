@@ -24,9 +24,9 @@
 			},
 		},
 		watch: {
-			list: function(val) {
+			/*list: function(val) {
 				this.renderSlider()
-			}
+			}*/
 		},
 		methods: {},
 		mounted() {}

@@ -17,6 +17,8 @@ const VueHttp = new Vue();
 /*测试的接口*/
 const TEST = `${HOST}test`;
 const GIFTS = `${HOST}gifts`;
+const BANNERS = `${HOST}banners`;
+const USERDATA = `${HOST}userData`;
 
 // 生成商品列数据
 Mock.mock(TEST, {
@@ -31,6 +33,31 @@ Mock.mock(TEST, {
       'num': '@natural(10, 100)',
       'name': '@title(6, 20)',
       'src': '@image(200x200,#50B347,#fff, nice)'
+    }]
+  }
+});
+
+// 生成商品列数据
+Mock.mock(USERDATA, {
+  code: 1,
+  msg: '查询成功',
+  data: {
+    "success": 'true',
+    "voteNum": 12,
+    "hot": 12,
+    "gift": 12,
+    "id": 12,
+    "name":'@cword(2,4)',
+    "img":'@image(48x48,#50B347,#fff, nice)',
+    'words':'@cword(6,10)',
+    "pics|3":[{
+      'id|+1':1,
+      'src':'@image(200x200,#50B347,#fff, nice)'}],
+    "gifts|10":[{
+      "name":'@cword(2)',
+      "text":'@cword(3,5)',
+      "time":'2017-11-15',
+      "img":'@image(60x60,#50B347,#fff, nice)'
     }]
   }
 });
@@ -69,8 +96,43 @@ Mock.mock('awards.json', {
   }
 });
 
+//模拟礼物列表数据
+Mock.mock(BANNERS, {
+  code: 1,
+  msg: '查询成功',
+  data: {
+    "success": 'true',
+    "value|3": [{
+      'id|+1': 1,
+      'src':'@image(200x200,#50B347,#fff, nice)'
+    }]
+  }
+});
+// 生成商品列数据
+Mock.mock(RANKING, {
+        code: 1,
+        msg: '查询成功',
+        data: {
+            'total': 20,
+            'records': 10,
+            'page': 1,
+            'rows|10': [{
+                'id|+1': 1,
+                'voteNum': '@natural(10, 100)',
+                'number': '@natural(1, 100)',
+                'name':'@cword(2, 5)',
+                'present':'@natural(1, 100)',
+                'title': '@ctitle(6,20)',
+                'pic': '@image(200x200,#50B347,#fff, nice)'
+            }]
+        }
+});
+
 
 export default {
+  getBanners:()=>{
+    return VueHttp.$http.get(BANNERS)
+  },
   //获取奖品数据
   getPrizes: (jsons) => {
     return VueHttp.$http.get(PRIZES)
@@ -82,6 +144,9 @@ export default {
 
   getListData: (jsons) => {
     return VueHttp.$http.get(TEST)
+  },
+  getUserDataByID:(jsons)=>{
+    return VueHttp.$http.get(USERDATA)
   },
   getGiftsList: (jsons) => {
     return VueHttp.$http.get(GIFTS)
