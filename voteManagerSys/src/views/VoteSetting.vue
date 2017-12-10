@@ -7,7 +7,6 @@
           <el-breadcrumb-item>图文投票</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
-
       <el-tabs v-model="activeName" disabled type="border-card" @tab-click="handleClick">
         <el-tab-pane label="活动设置" name="first">
           <el-form ref="activityForm" :label-position="labelPosition" :model="activity" label-width="160px">
@@ -92,7 +91,46 @@
       </el-form>
         </el-tab-pane>
         <el-tab-pane label="奖品设置" name="second">
-          <v-table
+          <el-table :data="tableData" class="tb-edit" style="width: 100%" highlight-current-row @row-click="handleCurrentChange">
+            <el-table-column label="奖品等级名称" width="300">
+                <template scope="scope">
+                    <el-input size="small" v-model="scope.row.rankname" placeholder="请输入内容" @change="handleEdit(scope.$index, scope.row)"></el-input>
+                </template>
+            </el-table-column>
+            <el-table-column label="奖品名称" width="300">
+                <template scope="scope">
+                    <el-input size="small" v-model="scope.row.prizename" placeholder="请输入奖品名称" @change="handleEdit(scope.$index, scope.row)"></el-input>
+                </template>
+            </el-table-column>
+            <el-table-column label="奖品图片" width="220">
+                <template scope="scope">
+                    <el-input size="small" class="input_prizeimg" v-model="scope.row.prizeimg" placeholder="数量" @change="handleEdit(scope.$index, scope.row)"></el-input>
+                    <el-upload
+                      width='100'
+                      class="upload-prizeimg"
+                      action="https://jsonplaceholder.typicode.com/posts/"
+                      :on-preview="handlePreview"
+                      :on-remove="handleRemove"                     
+                      :on-exceed="handleExceed"
+                      >
+                      <el-button size="small" type="primary">点击上传</el-button>
+                      <!-- <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div> -->
+                    </el-upload>
+                </template>
+            </el-table-column>
+            <el-table-column label="奖品数量" width="80">
+                <template scope="scope">
+                    <el-input size="small" v-model="scope.row.prizeCount" placeholder="数量" @change="handleEdit(scope.$index, scope.row)"></el-input>
+                </template>
+            </el-table-column>
+            <el-table-column label="操作">
+                <template scope="scope">
+                    <!--<el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>-->
+                    <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+          <!-- <v-table
             is-horizontal-resize
             style="width:100%;font-size:14px;"
             :columns="columns"
@@ -100,7 +138,7 @@
             row-hover-color="#eee"
             row-click-color="#edf7ff"
             :cell-edit-done="cellEditDone"
-          ></v-table>
+          ></v-table> -->
           <el-form style="margin-top:20px;">
           <el-form-item>
           <el-button type="primary" @click="onFinishSetting">保存,下一步</el-button>
@@ -115,13 +153,13 @@
 <script>
 import Vue from 'vue';
 import { quillEditor } from 'vue-quill-editor';
-import operateRow from '../components/operateRow';
+//import operateRow from '../components/operateRow';
 
 export default {
   name: 'setting',
   components: {
       'quill-editor':quillEditor,
-      'table-operation':operateRow
+      //'table-operation':operateRow
   },
   data () {
     return {
@@ -129,7 +167,7 @@ export default {
       addImg:'src/assets/image/imgadd.png',
       activeName: 'first',
       tableData:[],
-      columns:  [
+      /*columns:  [
          {field: 'rankname', title:'奖品等级名称', width: 350, titleAlign: 'center',columnAlign:'center',isEdit:true,
           formatter: function (rowData,rowIndex,pagingIndex,field) {
 
@@ -139,7 +177,7 @@ export default {
          {field: 'prizeimg', title: '奖品图片', width: 120, titleAlign: 'center',columnAlign:'center',isEdit:true,isResize:true},
          {field: 'prizeCount', title: '奖品数量', width: 80, titleAlign: 'center',columnAlign:'left',isEdit:true,isResize:true},
          {field: 'custome-adv', title: '操作',width: 100, titleAlign: 'center',columnAlign:'center',componentName:'table-operation',isResize:true}
-      ],
+      ],*/
       activity: {
         title: '',
         thumbPic: '',
@@ -302,25 +340,23 @@ export default {
 
         // 接下来处理你的业务逻辑，数据持久化等...
     },
-
-    //表格方法
-    renderTableRankName(row,index){
-      return '<editable-cell row-id="'+row.id+'" key="name" value="'+row.name+'"></editable-cell>';
+    handleCurrentChange(row, event, column) {
+        console.log(row, event, column, event.currentTarget)
     },
-
-    customCompFunc(params){
-
-        console.log(params);
-
-        if (params.type === 'delete'){ // do delete operation
-
-            this.$delete(this.tableData,params.index);
-
-        }else if (params.type === 'edit'){ // do edit operation
-
-            alert(`行号：${params.index} 姓名：${params.rowData['name']}`)
-        }
-
+    handleEdit(index, row) {
+        console.log(index, row);
+    },
+    handleDelete(index, row) {
+        console.log(index, row);
+    },
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+    },
+    handlePreview(file) {
+      console.log(file);
+    },
+    handleExceed(files, fileList) {
+      this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
     }
   },
   mounted(){
@@ -416,12 +452,26 @@ export default {
     color:#2db7f5;
     font-weight: bold;
   }
-  .v-table-rightview {
+  /* .v-table-rightview {
       max-width:1000px;
   }
   .v-table {
     font-size:14px;
     overflow-x:hidden;
+  } */
+
+  .input_prizeimg{
+    width:120px;
+    float: left;
+  }
+
+  .upload-prizeimg {    
+    padding-left: 4px;
+    .el-upload--text {
+      width:75px;
+      display: inline-block;
+      height:32px;
+    }
   }
 
 </style>
