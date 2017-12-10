@@ -38,7 +38,7 @@
 			</div>
 
 		</div>
-		<BottomNav/>
+		<BottomNav :isFinished='isFinish'/>
 	</div>
 </template>
 
@@ -57,7 +57,9 @@
 
 	export default {
 		data() {
+			
 			return {
+				isFinish:false,
 				userInfo: {
 					name: '',
 					declaration: '',
@@ -71,7 +73,9 @@
 
 			}
 		},
-		created() {},
+		created() {
+			console.log(this.$route.query)
+		},
 		components: {
 			BottomNav
 		},

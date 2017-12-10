@@ -25,7 +25,7 @@
 		<div class="declaration"><i class="iconfont icon_font">&#xe6bf;</i>宣言：{{userData.words}}</div>
 		<Slider :list="userData.pics" />
 		<div class="enrol">
-			<a href="javascript:;" class="enrol_btn" @click="handleSignin">我也要参加</a>
+			<a href="javascript:;" class="enrol_btn" @click="handleSignin" v-if="isFinished === false">我也要参加</a>
 		</div>
 		<div class="rules_title"><i class="iconfont icon_font">&#xe62f;</i>礼物列表</div>
 		<div class="giftlist">
@@ -63,6 +63,9 @@
 </template>
 
 <script>
+import {
+		Toast
+	} from 'mint-ui'
 	import Slider from './common/Slider.vue'
 
 	let testData = [{
@@ -95,8 +98,10 @@
 	export default {
 		data() {
 			return {
+				
 				//pics: testData,
 				userId: this.$route.params.id,
+				isFinished:this.$route.query.isFinished,
 				userData: {
 					voteNum: 12,
 					hot: 12,
@@ -119,7 +124,9 @@
 		},
 		methods: {
 			//通过id获取本个人的信息
+			
 			getUserInfo() {
+				console.log(this.$route.query)
 				let param = {
 					id: this.$route.params.id
 				};
@@ -142,20 +149,38 @@
 			},
 
 			handletoGift() {
-				this.$router.push({
+				if(this.isFinished){
+					Toast({
+					message: '投票已结束',
+					position: 'middle',
+					duration: 5000
+				});
+				}else{
+					this.$router.push({
 					path: '/gift/' + this.userId,
 					params: {
 						id: this.userId
 					}
 				});
+				}
+				
 			},
 
 			//投票按钮点击事件
 			handleVotes() {
 				console.log('当前的选手id', this.userId);
-				let param = {
+				if(this.isFinished){
+					Toast({
+					message: '投票已结束',
+					position: 'middle',
+					duration: 5000
+				});
+				}else{
+					let param = {
 					id: this.$route.params.id
 				};
+				}
+				
 				//				this.$toast.loading({
 				//					title: "投票中",
 				//					html: '<i class="aui-iconfont aui-icon-laud"></i>',

@@ -7,7 +7,7 @@
 					<div class="aui-bar-tab-label">首页</div>
 				</router-link>
 			</li>
-			<li>
+			<li v-if="isFinished===false">
 				<router-link to="/recruit">
 					<i class="iconfont">&#xe63f;</i>
 					<div class="aui-bar-tab-label">报名</div>
@@ -35,6 +35,8 @@
 			return {
 
 			}
-		}
+		},
+		props:['isFinished']
+		
 	}
 </script>

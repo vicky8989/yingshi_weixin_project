@@ -12,6 +12,8 @@ const PRIZES = 'awards.json';
 
 const RANKING = 'userList.json';
 
+const FINSIHTIME = '2017/12/11 17:39:10';
+
 const VueHttp = new Vue();
 
 /*测试的接口*/
@@ -130,6 +132,7 @@ Mock.mock(RANKING, {
 
 
 export default {
+	FINSIHTIME,
   getBanners:()=>{
     return VueHttp.$http.get(BANNERS)
   },

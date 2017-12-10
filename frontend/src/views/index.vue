@@ -16,9 +16,9 @@
 					<span>{{userData.hot}}</span>
 				</li>
 			</ul>
-			<conutDown :time="finishTime" />
-			<div class="enrol">
-				<a href="javascript:;" class="enrol_btn" @click="handleSignin">我要报名</a>
+			<conutDown :time="finishTime" @validCurTime="validCurTime" />
+			<div class="enrol" >
+				<a href="javascript:;" class="enrol_btn" @click="handleSignin" v-if="isVoteFinished === false">我要报名</a>
 			</div>
 		</div>
 
@@ -50,12 +50,15 @@
 				<span>大赛客服老师微信号：shuhuadasaiwang</span>
 			</div>
 		</div>
-		<BottomNav/>
+		<BottomNav :isFinished='isVoteFinished'/>
 	</div>
 </template>
 
 <script>
-	import { Indicator, Toast } from 'mint-ui'
+	import {
+		Indicator,
+		Toast
+	} from 'mint-ui'
 	import Slider from './common/Slider.vue'
 	import conutDown from './common/conutDown.vue'
 	import BottomNav from './common/BottomNav.vue'
@@ -68,184 +71,201 @@
 
 	export default {
 		data() {
-			return {
-				pics: [],
-				searchInfo: '',
-				listData: testData,
-				finishTime: '2017/12/3 20:10:10',
-				playerList: {
-					totalCount: '', //总条数
-					pageNum: 1,
-					pageSize: 10,
-					value: []
-				},
-				allLoaded: false, //是否可以加载更多，false可以，true为禁止
-				userData: {
-					voteNum: 12,
-					hot: 12,
-					gift: 12,
-					id: 12
-				},
-			}
-		},
-		created() {
-			/*Toast({
-				message: '投票中...',
-				position: 'middle',
-				duration: 5000
-			});*/
-		},
-		components: {
-			Slider,
-			conutDown,
-			BottomNav
-		},
-		methods: {
-			getBannerData() {
-				let self = this;
-				this.ApiSever.getBanners().then(res => {
-					console.log(res);
-					let result = res.body.data;
-					if(result.success) {
-						self.pics = result.value;
-					}
-				});
-			},
-			//获取列表
-			getListData() {
-				//				Indicator.open('加载中...');
-				let self = this;
-				let param = {
-					pageNumber: self.playerList.pageNumber,
-					pageSize: self.playerList.pageSize
-				};
-				this.appendLi();
-
-				this.ApiSever.getListData(param).then(res => {
-					Indicator.close();
-					console.log(res)
-					let result = res.body.data;
-					if(result.success) {
-						self.playerList.value = result.value;
-						self.playerList.totalCount = result.count;
-						self.listData = self.listData.concat(result.value);
-						self.isHaveMore();
-						self.appendLi();
-					}
-				});
-			},
-
-			//是否可以点击加载更多事件
-			isHaveMore() {
-				this.allLoaded = false;
-				let currentNum = parseInt(this.playerList.pageSize);
-				if(currentNum == this.playerList.totalCount || currentNum > this.playerList.totalCount) {
-					this.allLoaded = true;
-				} else this.allLoaded = false;
-			},
-
-			//点击加载更多
-			handleMore() {
-				if(this.allLoaded) return false;
-
-				if((this.playerList.totalCount) / (this.playerList.pageSize) <= 1) {
-					this.playerList.pageNumber = 1;
-					this.allLoaded = true;
-				} else {
-					this.playerList.pageSize = parseInt(this.playerList.pageSize) + 10;
-					this.allLoaded = false;
-				}
-				this.getListData();
-			},
-
-			//点击搜索按钮事件
-			handleSearch() {
-				if(!this.searchInfo) {
-					alert('请输入搜索内容!');
+				return {
+					pics: [],
+					searchInfo: '',
+					listData: testData,
+					isVoteFinished:false,
+					finishTime: this.ApiSever.FINSIHTIME,
+					playerList: {
+						totalCount: '', //总条数
+						pageNum: 1,
+						pageSize: 10,
+						value: []
+					},
+					allLoaded: false, //是否可以加载更多，false可以，true为禁止
+					userData: {
+						voteNum: 12,
+						hot: 12,
+						gift: 12,
+						id: 12
+					},
 				}
 			},
-
-			//创建Li
-			createLi(data) {
-				let this_ = this;
-				var oLi = document.createElement('li');
-				var oSpan = document.createElement('span');
-				var oP = document.createElement('p');
-				var oDiv = document.createElement('div');
-				oDiv.className = 'vote_btn';
-				oDiv.innerHTML = '投票';
-				oSpan.className = 'votes';
-				oSpan.innerHTML = data.id + '号, ' + data.num + '票';
-				oP.innerHTML = data.name;
-				var oImg = new Image();
-				oImg.src = data.src + '?t=' + Math.random();
-
-				if(!oImg.width || !oImg.height) {
-					var img = new Image();
-					img.src = data.src;
-					oImg = img;
-				}
-
-				//点击跳转到投票界面
-				oDiv.onclick = function() {
-					console.log('给' + data.id + '投票');
-					this_.$router.push({
-						path: '/votes/' + data.id,
-						params: {
-							id: data
+			created() {
+				/*Toast({
+					message: '投票中...',
+					position: 'middle',
+					duration: 5000
+				});*/
+			},
+			components: {
+				Slider,
+				conutDown,
+				BottomNav
+			},
+			methods: {
+				getBannerData() {
+					let self = this;
+					this.ApiSever.getBanners().then(res => {
+						console.log(res);
+						let result = res.body.data;
+						if(result.success) {
+							self.pics = result.value;
 						}
 					});
-				}
-				oLi.appendChild(oImg);
-				oLi.appendChild(oSpan);
-				oLi.appendChild(oP);
-				oLi.appendChild(oDiv);
+				},
+				//获取列表
+				getListData() {
+					//				Indicator.open('加载中...');
+					let self = this;
+					let param = {
+						pageNumber: self.playerList.pageNumber,
+						pageSize: self.playerList.pageSize
+					};
+					this.appendLi();
 
-				return oLi;
-			},
+					this.ApiSever.getListData(param).then(res => {
+						Indicator.close();
+						console.log(res)
+						let result = res.body.data;
+						if(result.success) {
+							self.playerList.value = result.value;
+							self.playerList.totalCount = result.count;
+							self.listData = self.listData.concat(result.value);
+							self.isHaveMore();
+							self.appendLi();
+						}
+					});
+				},
 
-			//通过排序实现瀑布流效果
-			appendLi() {
-				let oAaterfallFlow = document.getElementById('waterfallFlow');
-				let aUl = oAaterfallFlow.getElementsByTagName('ul');
-				aUl[0].innerHTML = '';
-				aUl[1].innerHTML = '';
+				//是否可以点击加载更多事件
+				isHaveMore() {
+					this.allLoaded = false;
+					let currentNum = parseInt(this.playerList.pageSize);
+					if(currentNum == this.playerList.totalCount || currentNum > this.playerList.totalCount) {
+						this.allLoaded = true;
+					} else this.allLoaded = false;
+				},
 
-				let resultData = this.listData;
-				if(!resultData || resultData.length < 1) return false;
+				//点击加载更多
+				handleMore() {
+					if(this.allLoaded) return false;
 
-				for(var i = 0, ilen = resultData.length; i < ilen; i++) {
-					var oLi = this.createLi(resultData[i]);
-					var arr = [];
-					for(var j = 0, len = aUl.length; j < len; j++) {
-						arr.push(aUl[j]);
+					if((this.playerList.totalCount) / (this.playerList.pageSize) <= 1) {
+						this.playerList.pageNumber = 1;
+						this.allLoaded = true;
+					} else {
+						this.playerList.pageSize = parseInt(this.playerList.pageSize) + 10;
+						this.allLoaded = false;
+					}
+					this.getListData();
+				},
+
+				//点击搜索按钮事件
+				handleSearch() {
+					if(!this.searchInfo) {
+						alert('请输入搜索内容!');
+					}
+				},
+
+				//创建Li
+				createLi(data) {
+					let this_ = this;
+					var oLi = document.createElement('li');
+					var oSpan = document.createElement('span');
+					var oP = document.createElement('p');
+					var oDiv = document.createElement('div');
+					oDiv.className = 'vote_btn';
+					oDiv.innerHTML = '投票';
+					oSpan.className = 'votes';
+					oSpan.innerHTML = data.id + '号, ' + data.num + '票';
+					oP.innerHTML = data.name;
+					var oImg = new Image();
+					oImg.src = data.src + '?t=' + Math.random();
+
+					if(!oImg.width || !oImg.height) {
+						var img = new Image();
+						img.src = data.src;
+						oImg = img;
 					}
 
-					arr.sort(function(u1, u2) {
-						return u1.scrollHeight - u2.scrollHeight;
+					//点击跳转到投票界面
+					oDiv.onclick = function() {
+						console.log('给' + data.id + '投票');
+						this_.$router.push({
+							path: '/votes/' + data.id,
+							params: {
+								id: data
+							},
+							query:{
+								isFinished: this_.isVoteFinished
+							}
+						});
+					}
+					oLi.appendChild(oImg);
+					oLi.appendChild(oSpan);
+					oLi.appendChild(oP);
+					oLi.appendChild(oDiv);
+
+					return oLi;
+				},
+
+				//通过排序实现瀑布流效果
+				appendLi() {
+					let oAaterfallFlow = document.getElementById('waterfallFlow');
+					let aUl = oAaterfallFlow.getElementsByTagName('ul');
+					aUl[0].innerHTML = '';
+					aUl[1].innerHTML = '';
+
+					let resultData = this.listData;
+					if(!resultData || resultData.length < 1) return false;
+
+					for(var i = 0, ilen = resultData.length; i < ilen; i++) {
+						var oLi = this.createLi(resultData[i]);
+						var arr = [];
+						for(var j = 0, len = aUl.length; j < len; j++) {
+							arr.push(aUl[j]);
+						}
+
+						arr.sort(function(u1, u2) {
+							return u1.scrollHeight - u2.scrollHeight;
+						});
+						arr[0].appendChild(oLi);
+					}
+
+				},
+
+				//我要报名点击事件
+				handleSignin() {
+					this.$router.push({
+						path: '/recruit'
+						
 					});
-					arr[0].appendChild(oLi);
+				},
+				validCurTime(curtime) {
+					if(curtime <= 0) {
+						Toast({
+							message: '活动已结束',
+							position: 'middle',
+							duration: 5000
+						});
+						this.isVoteFinished=true;
+					}else{
+						this.isVoteFinished=false;
+					}
 				}
 
 			},
-
-			//我要报名点击事件
-			handleSignin() {
-				this.$router.push({
-					path: '/recruit'
-				});
+			beforeMount() {
+				this.getBannerData();
+			},
+			mounted() {
+				this.getListData();
+			},
+			destroyed() {
+				Indicator.close();
 			}
-
-		},
-		beforeMount() {
-			this.getBannerData();
-		},
-		mounted() {
-			this.getListData();
-		},
-		destroyed() {
-			Indicator.close();
-		}
 	}
 </script>
 

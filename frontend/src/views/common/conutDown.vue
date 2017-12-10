@@ -62,13 +62,22 @@
 				var _this = this;
 				_this.curTime = (new Date(d)).getTime() / 1000 - (new Date()).getTime() / 1000;
 				console.log(_this.curTime)
+				
 				var timer = window.setInterval(function() {
+					_this.$emit('validCurTime', _this.curTime);
 					if(_this.curTime > 0) {
 						_this.day = Math.floor(_this.curTime / (60 * 60 * 24));
 						_this.hour = Math.floor(_this.curTime / (60 * 60)) - (_this.day * 24);
 						_this.minute = Math.floor(_this.curTime / 60) - (_this.day * 24 * 60) - (_this.hour * 60);
 						_this.second = Math.floor(_this.curTime) - (_this.day * 24 * 60 * 60) - (_this.hour * 60 * 60) - (_this.minute * 60)
 					}
+					if(_this.day==0&&_this.hour==0&&_this.minute==0&&_this.second==0){
+						_this.day = "00" ;
+						_this.hour = "00" ;
+						_this.minute = "00";
+						_this.second = "00" ;
+						
+					}else{
 					if(_this.day <= 9) {
 						_this.day = "0" + _this.day
 					}
@@ -81,10 +90,12 @@
 					if(_this.second <= 9) {
 						_this.second = "0" + _this.second
 					}
-					if(_this.curTime == 0) {
+					if(_this.curTime <= 0) {
 						clearInterval(timer)
 					}
 					_this.curTime--
+					
+					}
 				}, 1000)
 			}
 		},

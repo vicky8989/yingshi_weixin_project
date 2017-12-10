@@ -17,6 +17,7 @@
 	export default {
 		data() {
 			return {
+//				isFinished:this.$route.query.isFinished,
 				prizesList: {
 					totalCount: 0, // 总条数
 					pageNumber: 1, // 当前显示页号

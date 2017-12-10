@@ -1,6 +1,6 @@
 <template>
 	<div id="ranking">
-		<conutDown :time="endTime" />
+		<conutDown :time="endTime" @validCurTime="validCurTime"/>
 		<mt-navbar v-model="currentSelected">
 			<mt-tab-item id="votes" @click.native="sortUsers(1)">票数榜</mt-tab-item>
 			<mt-tab-item id="gift" @click.native="sortUsers(2)">礼物榜</mt-tab-item>
@@ -52,19 +52,21 @@
 			</mt-tab-container-item>
 		</mt-tab-container>
 
-		<BottomNav></BottomNav>
+		<BottomNav :isFinished='isVoteFinished'></BottomNav>
 	</div>
 </template>
 
 <script>
-	import { Navbar, TabItem } from 'mint-ui';
+	import { Navbar, TabItem, Indicator,
+		Toast} from 'mint-ui';
 	import conutDown from './common/conutDown.vue';
 	import BottomNav from './common/BottomNav.vue';
 
 	export default {
 		data() {
 			return {
-				endTime: '2017/12/4 20:10:10',
+				isVoteFinished:false,
+				endTime: this.ApiSever.FINSIHTIME,
 				listData: {
 					totalCount: 0, // 总条数
 					pageNumber: 1, // 当前显示页号
@@ -100,7 +102,20 @@
 		              return a.present < b.present;
 		            })
 				}
-			}
+			},
+			validCurTime(curtime) {
+					console.log('aa', curtime)
+					if(curtime <= 0) {
+						Toast({
+							message: '活动已结束',
+							position: 'middle',
+							duration: 5000
+						});
+						this.isVoteFinished=true;
+					}else{
+						this.isVoteFinished=false;
+					}
+				}
 		},
 		mounted() {
 			this.getListData();
