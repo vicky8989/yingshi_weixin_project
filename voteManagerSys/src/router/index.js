@@ -19,6 +19,12 @@ export default new Router({
       {
       	path:'/setting',
       	component:resolve => require(['../views/VoteSetting.vue'], resolve)
+      },{
+        path:'/votes',
+        component:resolve => require(['../views/votesPage.vue'], resolve)
+      },{
+        path:'/signer',
+        component:resolve => require(['../views/Signers.vue'], resolve)
       }]
     },
     {

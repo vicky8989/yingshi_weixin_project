@@ -46,10 +46,10 @@
       label="操作"
       width="398">
       <template scope="scope">
-        <el-button>编辑</el-button>
-        <el-button>投票选项</el-button>
-        <el-button>报名管理</el-button>
-        <el-button>投票记录</el-button>
+        <el-button >编辑</el-button>
+        <el-button @click="handleShowActive(scope.row)">投票选项</el-button>
+        <el-button @click="handleShowSigner(scope.row)">报名管理</el-button>
+        <el-button @click="handleShowActive(scope.row)">投票记录</el-button>
         <el-button>删除</el-button>
         <el-button>活动二维码</el-button>
       </template>
@@ -73,8 +73,15 @@ export default {
   components: {
   },
   methods:{
+    handleShowSigner() {
+      this.$router.push('/signer');
+    },
   	handleShow() {
       this.$router.push('/setting');
+    },
+
+    handleShowActive() {
+      this.$router.push('/votes');
     },
 
     getActivity(){

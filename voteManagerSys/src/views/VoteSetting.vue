@@ -3,7 +3,7 @@
 
 		  <div class="index_source">
         <el-breadcrumb separator-class="el-icon-arrow-right">
-          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/index' }">首页</el-breadcrumb-item>
           <el-breadcrumb-item>图文投票</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
@@ -247,6 +247,7 @@ export default {
 
     onFinishSetting(){
       console.log('finish setting prizes');
+      this.$router.push('/index');
     },
 
     //查看照片
