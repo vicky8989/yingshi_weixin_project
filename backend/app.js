@@ -67,7 +67,7 @@ app.delete('/deleteActivity', function (req, res) {
   	});
 })
 
-var server = app.listen(8102, function () {
+var server = app.listen(8084, function () {
  
   var host = server.address().address
   var port = server.address().port
