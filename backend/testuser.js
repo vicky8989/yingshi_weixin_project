@@ -1,6 +1,5 @@
 var voteUser = require('./db/user');
 
-
 var userData = {
     'openid': "0xadcbf2324460caddefe",
     'nickname': "嘿嘿嘿",
