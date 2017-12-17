@@ -1,6 +1,6 @@
 var dbLink = require('./dblink');
 
-var Activity = function()
+var Production = function()
 {
     var ObjectId = require('mongodb').ObjectID;
 
@@ -8,14 +8,17 @@ var Activity = function()
     {
         dbLink.link(function(err,db) {
 
-            var collection = db.collection('activity');
+            var collection = db.collection('production');
 
             var data = {
-                'name': userData.name,
-                'start': userData.start,
-                'end': userData.end ,
-                'status': userData.status,
-                'des': userData.des,
+                'uid': userData.uid,
+                'aid': userData.aid,
+                'name': userData.name ,
+                'manifesto': userData.manifesto,
+                'banner': userData.banner,
+                'praisenum': userData.praiseNum,
+                'presentnum': userData.presentNum,
+                'presentpay': userData.presentPay
             };
 
             collection.insert(data, function(err, result) { 
@@ -30,17 +33,25 @@ var Activity = function()
         });
     }
 
-    this.updateData = function(aid,userData,callback)
+    this.updateData = function(pid,userData,callback)
     {
-        if (aid == null) {
+        if (pid == null) {
             return;
         }
 
         dbLink.link(function(err,db) {
 
-            var collection = db.collection('activity');
-            var whereStr = {"_id":ObjectId(aid)};
-            var data = {$set:{'openid':userData.openid}};
+            var collection = db.collection('production');
+            var whereStr = {"_id":ObjectId(pid)};
+            var data = {$set:{
+                'uid': userData.uid,
+                'aid': userData.aid,
+                'name': userData.name ,
+                'manifesto': userData.manifesto,
+                'banner': userData.banner,
+                'praisenum': userData.praiseNum,
+                'presentnum': userData.presentNum,
+                'presentpay': userData.presentPay}};
 
             collection.update(whereStr,data, function(err, result) { 
                 if(err)
@@ -56,17 +67,16 @@ var Activity = function()
 
     this.queryData = function(aid,callback)
     {
-        if (aid == null) {
+        if (aid==null) {
             return;
         }
 
         dbLink.link(function(err,db) {
 
-            var collection = db.collection('activity');
-            if (aid != ""){
-                var whereStr = {"_id":ObjectId(aid)};
+            var collection = db.collection('production');
 
-                collection.find(whereStr).toArray(function(err, result) {
+            if (aid=="") {
+                collection.find().toArray(function(err, result) {
                     if(err)
                     {
                       console.log('Error:'+ err);
@@ -75,9 +85,11 @@ var Activity = function()
 
                     callback(result);
                 });
-            }else{
-
-                collection.find().toArray(function(err, result) {
+            }
+            else
+            {
+                var whereStr = {"aid":aid};
+                collection.find(whereStr).toArray(function(err, result) {
                     if(err)
                     {
                       console.log('Error:'+ err);
@@ -90,16 +102,16 @@ var Activity = function()
         });
     }
 
-    this.delData = function(aid,callback)
+    this.delData = function(pid,callback)
     {
-        if (aid == null) {
+        if (pid == null) {
             return;
         }
-
+        
         dbLink.link(function(err,db) {
 
-            var collection = db.collection('activity');
-            var whereStr = {"_id":ObjectId(aid)};
+            var collection = db.collection('production');
+            var whereStr = {"_id":ObjectId(pid)};
 
             collection.remove(whereStr, function(err, result) {
                 if(err)
@@ -112,6 +124,7 @@ var Activity = function()
             });
         });
     }
+
 };
 
-module.exports = new Activity();
+module.exports = new Production();

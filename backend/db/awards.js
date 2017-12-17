@@ -1,6 +1,6 @@
 var dbLink = require('./dblink');
 
-var Activity = function()
+var Awards = function()
 {
     var ObjectId = require('mongodb').ObjectID;
 
@@ -8,14 +8,15 @@ var Activity = function()
     {
         dbLink.link(function(err,db) {
 
-            var collection = db.collection('activity');
+            var collection = db.collection('awards');
 
             var data = {
+                'aid':userData.aid,
                 'name': userData.name,
-                'start': userData.start,
-                'end': userData.end ,
-                'status': userData.status,
-                'des': userData.des,
+                'num': userData.num,
+                'prizeinfo': userData.prizeInfo ,
+                'prizeimg': userData.prizeImg,
+                'info': userData.info
             };
 
             collection.insert(data, function(err, result) { 
@@ -38,9 +39,14 @@ var Activity = function()
 
         dbLink.link(function(err,db) {
 
-            var collection = db.collection('activity');
-            var whereStr = {"_id":ObjectId(aid)};
-            var data = {$set:{'openid':userData.openid}};
+            var collection = db.collection('awards');
+            var whereStr = {"aid":aid};
+            var data = {$set:{
+                'name': userData.name,
+                'num': userData.num,
+                'prizeinfo': userData.prizeInfo ,
+                'prizeimg': userData.prizeImg,
+                'info': userData.info}};
 
             collection.update(whereStr,data, function(err, result) { 
                 if(err)
@@ -62,9 +68,9 @@ var Activity = function()
 
         dbLink.link(function(err,db) {
 
-            var collection = db.collection('activity');
+            var collection = db.collection('awards');
             if (aid != ""){
-                var whereStr = {"_id":ObjectId(aid)};
+                var whereStr = {"aid":aid};
 
                 collection.find(whereStr).toArray(function(err, result) {
                     if(err)
@@ -98,8 +104,8 @@ var Activity = function()
 
         dbLink.link(function(err,db) {
 
-            var collection = db.collection('activity');
-            var whereStr = {"_id":ObjectId(aid)};
+            var collection = db.collection('awards');
+            var whereStr = {"aid":aid};
 
             collection.remove(whereStr, function(err, result) {
                 if(err)
@@ -114,4 +120,4 @@ var Activity = function()
     }
 };
 
-module.exports = new Activity();
+module.exports = new Awards();
