@@ -1,6 +1,6 @@
 var dbLink = require('./dblink');
 
-var Activity = function()
+var Gift = function()
 {
     var ObjectId = require('mongodb').ObjectID;
 
@@ -8,14 +8,12 @@ var Activity = function()
     {
         dbLink.link(function(err,db) {
 
-            var collection = db.collection('activity');
+            var collection = db.collection('gift');
 
             var data = {
                 'name': userData.name,
-                'start': userData.start,
-                'end': userData.end ,
-                'status': userData.status,
-                'des': userData.des,
+                'img': userData.img,
+                'pay': userData.pay
             };
 
             collection.insert(data, function(err, result) { 
@@ -30,17 +28,20 @@ var Activity = function()
         });
     }
 
-    this.updateData = function(aid,userData,callback)
+    this.updateData = function(gid,userData,callback)
     {
-        if (aid == null) {
+        if (gid == null) {
             return;
         }
 
         dbLink.link(function(err,db) {
 
-            var collection = db.collection('activity');
-            var whereStr = {"_id":ObjectId(aid)};
-            var data = {$set:{'openid':userData.openid}};
+            var collection = db.collection('gift');
+            var whereStr = {"_id":ObjectId(gid)};
+            var data = {$set:{
+                'name': userData.name,
+                'img': userData.img,
+                'pay': userData.pay}};
 
             collection.update(whereStr,data, function(err, result) { 
                 if(err)
@@ -54,19 +55,18 @@ var Activity = function()
         });
     }
 
-    this.queryData = function(aid,callback)
+    this.queryData = function(gid,callback)
     {
-        if (aid == null) {
+        if (gid==null) {
             return;
         }
 
         dbLink.link(function(err,db) {
 
-            var collection = db.collection('activity');
-            if (aid != ""){
-                var whereStr = {"_id":ObjectId(aid)};
+            var collection = db.collection('gift');
 
-                collection.find(whereStr).toArray(function(err, result) {
+            if (gid=="") {
+                collection.find().toArray(function(err, result) {
                     if(err)
                     {
                       console.log('Error:'+ err);
@@ -75,9 +75,11 @@ var Activity = function()
 
                     callback(result);
                 });
-            }else{
-
-                collection.find().toArray(function(err, result) {
+            }
+            else
+            {
+                var whereStr = {"_id":ObjectId(gid)};
+                collection.find(whereStr).toArray(function(err, result) {
                     if(err)
                     {
                       console.log('Error:'+ err);
@@ -90,16 +92,16 @@ var Activity = function()
         });
     }
 
-    this.delData = function(aid,callback)
+    this.delData = function(gid,callback)
     {
-        if (aid == null) {
+        if (gid == null) {
             return;
         }
-
+        
         dbLink.link(function(err,db) {
 
-            var collection = db.collection('activity');
-            var whereStr = {"_id":ObjectId(aid)};
+            var collection = db.collection('gift');
+            var whereStr = {"_id":ObjectId(gid)};
 
             collection.remove(whereStr, function(err, result) {
                 if(err)
@@ -112,6 +114,7 @@ var Activity = function()
             });
         });
     }
+
 };
 
-module.exports = new Activity();
+module.exports = new Gift();

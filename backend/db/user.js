@@ -1,6 +1,6 @@
 var dbLink = require('./dblink');
 
-var user = function()
+var User = function()
 {
     var ObjectId = require('mongodb').ObjectID;
 
@@ -38,17 +38,26 @@ var user = function()
 
     this.updateData = function(uid,userData,callback)
     {
+        if (uid == null) {
+            return;
+        }
+
         dbLink.link(function(err,db) {
 
             var collection = db.collection('user');
-
-            if (userData.uid) {
-                  console.log('Error: can not update uid /n');
-                  return;
-            }
-
             var whereStr = {"_id":ObjectId(uid)};
-            var data = {$set:{'openid':userData.openid}};
+            var data = {$set:{
+                'openid': userData.openid,
+                'nickname': userData.nickname,
+                'headimgurl': userData.headimgurl ,
+                'sex': userData.sex,
+                'language': userData.language,
+                'city': userData.city,
+                'province': userData.province,
+                'country': userData.country,
+                'name':userData.name,
+                'phone':userData.phone,
+                'adress':userData.adress}};
 
             collection.update(whereStr,data, function(err, result) { 
                 if(err)
@@ -64,25 +73,47 @@ var user = function()
 
     this.queryData = function(openid,callback)
     {
+        if (openid==null) {
+            return;
+        }
+
         dbLink.link(function(err,db) {
 
             var collection = db.collection('user');
-            var whereStr = {"openid":openid};
 
-            collection.find(whereStr).toArray(function(err, result) {
-                if(err)
-                {
-                  console.log('Error:'+ err);
-                  return;
-                }
+            if (openid=="") {
+                collection.find().toArray(function(err, result) {
+                    if(err)
+                    {
+                      console.log('Error:'+ err);
+                      return;
+                    }
 
-                callback(result);
-            });
+                    callback(result);
+                });
+            }
+            else
+            {
+                var whereStr = {"openid":openid};
+                collection.find(whereStr).toArray(function(err, result) {
+                    if(err)
+                    {
+                      console.log('Error:'+ err);
+                      return;
+                    }
+
+                    callback(result);
+                });
+            }
         });
     }
 
     this.delData = function(uid,callback)
     {
+        if (uid == null) {
+            return;
+        }
+        
         dbLink.link(function(err,db) {
 
             var collection = db.collection('user');
@@ -99,6 +130,7 @@ var user = function()
             });
         });
     }
+
 };
 
-module.exports = new user();
+module.exports = new User();

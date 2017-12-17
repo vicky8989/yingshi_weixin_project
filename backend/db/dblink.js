@@ -1,4 +1,4 @@
-var db_link = function()
+var DBLink = function()
 {
 	var mongoClient = require('mongodb').MongoClient;
 	var LinkURL = 'mongodb://localhost:27017/vote';
@@ -26,5 +26,5 @@ var db_link = function()
 
 };
 
-module.exports = new db_link();
+module.exports = new DBLink();
 

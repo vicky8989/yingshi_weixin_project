@@ -1,48 +1,55 @@
 var voteActivity = require('./db/activity');
+var voteActivityInfo = require('./db/activityInfo');
+var voteAwards = require('./db/awards');
 
 var now = new Date();
 var jsonDate = now.toJSON();
-var then = new Date(jsonDate);
 
 var userData = {
     'name': "第一个活动",
     'start': jsonDate,
     'end': jsonDate,
     'status': 0,
-    'des': "测试用的呗 哎 不好整"
+    'des': "第一个活动的描述"
+};
+
+now = new Date();
+jsonDate = now.toJSON();
+
+var userDataInfo = {
+    'enrolStart': jsonDate,
+    'enrolEnd': jsonDate,
+    'voteStart': jsonDate,
+    'voteEnd': jsonDate,
+    'info': "第一个活动的详细信息",
+    'banner': ["第一个活动的图URL0","第一个活动的图URL1","第一个活动的图URL2"],
+    'rule': "第一个活动的规则"
+};
+
+var userDataAwards = {
+    'name': "一等奖",
+    'num': 1,
+    'prizeInfo': "文房四宝一套" ,
+    'prizeImg': "奖品图片URL",
+    'info': "得了一等奖才能拿到呦"
 };
 
 var aid = "5a35fb2c889ea90f4e224437";
 
-var updateData = {
-    'status': 1,
-    'des': "测试用的啊 哎 不好整"
-};
-
 voteActivity.addData(userData, function(result,uid){
-		//打印错误信息
-		console.log(result);
 
-        // voteUser.delData(aid, function(result){
-    
-        //     console.log(result);
-        // });     
-        // 
+        console.log(result);
 
-        // voteActivity.updateData(aid,updateData,function(result){
-            
-        //     console.log(result);
-        // });  
+        userDataInfo.aid = uid;
+		voteActivityInfo.addData(userDataInfo,function(result,uid){
 
-        //查找所有 如果传入ID 查找一个
-        voteActivity.queryData("", function(result){
-            
             console.log(result);
-        });   
+        });
 
-        // voteActivity.queryData("5a35fb2c889ea90f4e224437", function(result){
-            
-        //     console.log(result);
-        // });   
+        userDataAwards.aid = uid;   
+        voteAwards.addData(userDataAwards,function(result,uid){
+
+            console.log(result);
+        });
 });	
 
