@@ -44,7 +44,30 @@ app.post('/addActivity', function (req, res) {
   	});
 })
 
-var server = app.listen(8100, function () {
+app.put('/updateActivity', function (req, res) {
+
+	if (req.body==null || req.body.aid==null) {
+		return;
+	}
+
+	voteActivity.updateData(req.body.aid,req.body,function(result){
+      	res.send(result);
+  	});
+})
+
+app.delete('/deleteActivity', function (req, res) {
+
+	var params = url.parse(req.url, true).query;
+	if (params==null || params.aid==null) {
+		return;
+	}
+
+	voteActivity.delData(params.aid,function(result){
+      	res.send(result);
+  	});
+})
+
+var server = app.listen(8102, function () {
  
   var host = server.address().address
   var port = server.address().port
