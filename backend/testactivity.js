@@ -36,18 +36,18 @@ var userDataAwards = {
 
 var aid = "5a35fb2c889ea90f4e224437";
 
-voteActivity.addData(userData, function(result,uid){
+voteActivity.addData(userData, function(result,aid){
 
         console.log(result);
 
         userDataInfo.aid = uid;
-		voteActivityInfo.addData(userDataInfo,function(result,uid){
+		voteActivityInfo.addData(userDataInfo,function(result,aid){
 
             console.log(result);
         });
 
         userDataAwards.aid = uid;   
-        voteAwards.addData(userDataAwards,function(result,uid){
+        voteAwards.addData(userDataAwards,function(result,aid){
 
             console.log(result);
         });
