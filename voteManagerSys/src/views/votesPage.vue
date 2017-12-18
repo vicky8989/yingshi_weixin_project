@@ -1,5 +1,11 @@
 <template>
 	<div>
+		<div class="index_source">
+        <el-breadcrumb separator-class="el-icon-arrow-right">
+          <el-breadcrumb-item :to="{ path: '/index' }">首页</el-breadcrumb-item>
+          <el-breadcrumb-item>投票统计</el-breadcrumb-item>
+        </el-breadcrumb>
+      </div>
 		<el-form :inline="true" class="demo-form-inline">
 			<el-form-item>
 		    <el-button v-on:click="votesStatic">投票者统计信息</el-button>
@@ -8,7 +14,7 @@
 		    <el-button v-on:click="votesInfoList">投票选项投票信息</el-button>
 		  </el-form-item>
 		  <el-form-item>
-		    <el-input placeholder="搜索"></el-input>
+		    <el-input placeholder="搜索" style="margin-top: 5px;"></el-input>
 		  </el-form-item>
 		  <el-form-item>
 		    <el-button  v-on:click="search">搜索</el-button>

@@ -8,7 +8,7 @@
 		<mt-tab-container v-model="currentSelected">
 			<mt-tab-container-item id="votes">
 				<ul class="ranking_list" v-for="(list, index) in listData.value">
-					<router-link :to="{path:'votes',query:{id:list.id}}" :key="list.id">
+					<router-link :to="{path:'votes',query:{id:list.id,isFinished:isVoteFinished}}" :key="list.id">
 					<li  key="index">
 						<div class="ranking_lf">
 							<div class="crown" v-if="index<3"></div>
@@ -30,7 +30,7 @@
 			</mt-tab-container-item>
 			<mt-tab-container-item id="gift">
 				<ul class="ranking_list" v-for="(list, index) in listData.value" >
-				<router-link :to="{path:'votes',query:{id:list.id}}" :key="list.id">
+				<router-link :to="{path:'votes',query:{id:list.id,isFinished:isVoteFinished}}" :key="list.id" >
 					<li key="index">
 						<div class="ranking_lf">
 							<div class="crown" v-if="index<3"></div>
@@ -51,8 +51,6 @@
 				</ul>
 			</mt-tab-container-item>
 		</mt-tab-container>
-
-		<BottomNav :isFinished='isVoteFinished'></BottomNav>
 	</div>
 </template>
 
@@ -60,13 +58,12 @@
 	import { Navbar, TabItem, Indicator,
 		Toast} from 'mint-ui';
 	import conutDown from './common/conutDown.vue';
-	import BottomNav from './common/BottomNav.vue';
 
 	export default {
 		data() {
 			return {
-				isVoteFinished:false,
 				endTime: this.ApiSever.FINSIHTIME,
+				isVoteFinished:this.ApiSever.getFinishTime(),
 				listData: {
 					totalCount: 0, // 总条数
 					pageNumber: 1, // 当前显示页号
@@ -78,8 +75,7 @@
 		},
 		created() {},
 		components: {
-			conutDown,
-			BottomNav
+			conutDown
 		},
 		methods: {
 			getListData() {
@@ -111,9 +107,6 @@
 							position: 'middle',
 							duration: 5000
 						});
-						this.isVoteFinished=true;
-					}else{
-						this.isVoteFinished=false;
 					}
 				}
 		},

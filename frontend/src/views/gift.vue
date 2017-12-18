@@ -53,12 +53,10 @@
 		<div class="purchasing">
 			<a href="javascript:;" class="purchasing_btn">立刻购买</a>
 		</div>
-		<BottomNav></BottomNav>
 	</div>
 </template>
 
 <script>
-	import BottomNav from './common/BottomNav.vue'
 	
 	let testData = [{
 		id: 1,
@@ -110,7 +108,6 @@
 		},
 		created() {},
 		components: {
-			BottomNav
 		},
 		methods: {
 			getGiftsList() {
