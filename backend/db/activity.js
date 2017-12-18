@@ -40,7 +40,12 @@ var Activity = function()
 
             var collection = db.collection('activity');
             var whereStr = {"_id":ObjectId(aid)};
-            var data = {$set:{'openid':userData.openid}};
+            var data = {$set:{
+                'name': userData.name,
+                'start': userData.start,
+                'end': userData.end ,
+                'status': userData.status,
+                'des': userData.des}};
 
             collection.update(whereStr,data, function(err, result) { 
                 if(err)
