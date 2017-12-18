@@ -10,7 +10,7 @@
       <el-tabs v-model="activeName" disabled type="border-card" @tab-click="handleClick">
         <el-tab-pane label="活动设置" name="first">
           <el-form ref="activityForm" :label-position="labelPosition" :model="activity" label-width="160px">
-        <el-form-item label="活动标题:">         
+        <el-form-item label="活动标题:">
           <el-input v-model="activity.title"></el-input>
         </el-form-item>
         <el-form-item label="封面:">
@@ -27,16 +27,13 @@
           </div>
         </el-form-item>
         <el-form-item label="活动简介:">
-           <el-input  type="textarea" :rows="4"  placeholder="输入活动内容"  v-model="activity.contentDec"></el-input>
-          <!-- <quill-editor ref="activityDec" v-model="activity.contentDec" :config="editorOption" @change="onEditorChange"></quill-editor> -->
+          <quill-editor ref="activityDec" v-model="activity.contentDec" :config="editorOption" @change="onEditorChange"></quill-editor>
         </el-form-item>
         <el-form-item label="如何参与:">
-          <el-input  type="textarea" :rows="4"  placeholder="如何参与"  v-model="activity.contentJoin"></el-input>
-          <!-- <quill-editor ref="contentjoin" v-model="activity.contentJoin" :config="editorOption" @change="onJoinEditorChange"></quill-editor> -->
+          <quill-editor ref="contentjoin" v-model="activity.contentJoin" :config="editorOption" @change="onJoinEditorChange"></quill-editor>
         </el-form-item>
         <el-form-item label="流程介绍:">
-          <el-input  type="textarea" :rows="4"  placeholder="如何参与"  v-model="activity.contentFlow"></el-input>
-          <!-- <quill-editor ref="contentflow" v-model="activity.contentFlow" :config="editorOption" @change="onFlowEditorChange"></quill-editor> -->
+          <quill-editor ref="contentflow" v-model="activity.contentFlow" :config="editorOption" @change="onFlowEditorChange"></quill-editor>
         </el-form-item>
         <el-form-item label="报名时间:">
           <el-col :span="11">
@@ -62,10 +59,10 @@
     ]">
           <el-input type="text" v-model.number="activity.voteNum" auto-complete="off"></el-input>
         </el-form-item>
-        <!-- <el-form-item>
+        <el-form-item>
           <el-button type="primary" @click="onSubmit">立即创建</el-button>
           <el-button>取消</el-button>
-        </el-form-item> -->
+        </el-form-item>
         <el-form-item label="限制每天投票数:" prop="confineVoteNum" :rules="[
       { required: true, message: '限制每天投票数不能为空'},
       { type: 'number', message: '限制每天投票数必须为数字值'}
@@ -186,9 +183,9 @@ export default {
         thumbPic: '',
         thumbPic2: '',
         thumbPic3: '',
-        contentDec: '活动简介',
-        contentJoin: '如何参与',
-        contentFlow: '流程介绍',
+        contentDec: '<p>活动简介</p>',
+        contentJoin: '<p>如何参与</p>',
+        contentFlow: '<p>流程介绍</p>',
         startTime: '',
         endTime: '',
         startVote: '',

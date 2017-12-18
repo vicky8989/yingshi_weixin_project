@@ -38,11 +38,13 @@
 			</div>
 
 		</div>
+		<BottomNav :isFinished='isFinish'/>
 	</div>
 </template>
 
 <script>
-	import { Indicator,Toast, MessageBox } from 'mint-ui';
+	import { Indicator,Toast, MessageBox } from 'mint-ui'
+	import BottomNav from './common/BottomNav.vue'
 	//文本框校验正则
 	let rejson = {
 		name: /\S/,
@@ -57,6 +59,7 @@
 		data() {
 			
 			return {
+				isFinish:false,
 				userInfo: {
 					name: '',
 					declaration: '',
@@ -67,14 +70,17 @@
 				},
 				thumbPic: [],
 				imgURL: 'http://hanml.artup.com/data'
+
 			}
 		},
 		created() {
 			console.log(this.$route.query)
 		},
 		components: {
+			BottomNav
 		},
 		methods: {
+
 			handleBlur(event) {
 				let currentEl = event.target.name;
 				if(rejson[currentEl]) {
