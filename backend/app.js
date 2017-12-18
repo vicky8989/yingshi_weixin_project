@@ -14,6 +14,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
+//活动接口
 app.get('/listActivities', function (req, res) {
 
 	voteActivity.queryData("",function(result){
@@ -67,7 +68,61 @@ app.delete('/deleteActivity', function (req, res) {
   	});
 })
 
-var server = app.listen(8084, function () {
+//活动详情相关接口
+app.get('/listActivityInfos', function (req, res) {
+
+	voteActivityInfo.queryData("",function(result){
+        res.send(result);
+    });
+})
+
+app.get('/getActivityInfo', function (req, res) {
+
+	var params = url.parse(req.url, true).query;
+	if (params==null || params.aid==null) {
+		return;
+	}
+
+	voteActivityInfo.queryData(params.aid,function(result){
+        res.send(result);
+    });
+})
+
+app.post('/addActivityInfo', function (req, res) {
+
+	if (req.body == null) {
+		return;
+	}
+
+	voteActivityInfo.addData(req.body,function(result,aid){
+      	res.send(aid);
+  	});
+})
+
+app.put('/updateActivityInfo', function (req, res) {
+
+	if (req.body==null || req.body.aid==null) {
+		return;
+	}
+
+	voteActivityInfo.updateData(req.body.aid,req.body,function(result){
+      	res.send(result);
+  	});
+})
+
+app.delete('/deleteActivityInfo', function (req, res) {
+
+	var params = url.parse(req.url, true).query;
+	if (params==null || params.aid==null) {
+		return;
+	}
+
+	voteActivityInfo.delData(params.aid,function(result){
+      	res.send(result);
+  	});
+})
+
+var server = app.listen(8086, function () {
  
   var host = server.address().address
   var port = server.address().port
