@@ -43,13 +43,15 @@ var ActivityInfo = function()
 
             var collection = db.collection('activityinfo');
 
-            if (userData.uid) {
-                  console.log('Error: can not update uid /n');
-                  return;
-            }
-
             var whereStr = {"aid":ObjectId(aid)};
-            var data = {$set:{'openid':userData.openid}};
+            var data = {$set:{
+                'enrolstart': userData.enrolStart,
+                'enrolend': userData.enrolEnd,
+                'votestart': userData.voteStart ,
+                'voteend': userData.voteEnd,
+                'info': userData.info,
+                'banner':userData.banner,
+                'rule':userData.rule}};
 
             collection.update(whereStr,data, function(err, result) { 
                 if(err)
@@ -109,7 +111,7 @@ var ActivityInfo = function()
         dbLink.link(function(err,db) {
 
             var collection = db.collection('activityinfo');
-            var whereStr = {"aid":ObjectId(aid)};
+            var whereStr = {"aid":aid};
 
             collection.remove(whereStr, function(err, result) {
                 if(err)
