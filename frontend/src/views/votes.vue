@@ -101,7 +101,7 @@ import {
 				
 				//pics: testData,
 				userId: this.$route.params.id,
-				isFinished:this.$route.query.isFinished,
+				isFinished:this.ApiSever.getFinishTime(),
 				userData: {
 					voteNum: 12,
 					hot: 12,
