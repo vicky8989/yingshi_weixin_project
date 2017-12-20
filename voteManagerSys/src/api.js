@@ -12,7 +12,7 @@ const VueHttp = new Vue();
 
 /*测试的接口*/
 const prize = `${HOST}prize`;
-const activeList = `${HOST}getActivity`;
+const activeList = `${HOST}listActivities`;
 const voterList =`${HOST}getVoter`;
 const paticilist=`${HOST}getPaticilist`;
 const signerList =`${HOST}getSignerlist`;
@@ -36,25 +36,25 @@ Mock.mock(prize, {
 });
 
 // 生成奖品列数据
-Mock.mock(activeList, {
-  code: 1,
-  msg: '查询成功',
-  data: {
-    "success": 'true',
-    "pageSize": 1,
-    "count": 1,
-    "value|2": [{
-      'id|+1': 1,
-      'name': '@ctitle(10, 15)',
-      'reName': '@ctitle(6, 20)',
-      'starttime': "@date('yyyy-MM-dd')",
-      'endtime': "@date('yyyy-MM-dd')",
-      'votestarttime': "@date('yyyy-MM-dd')",
-      'voteendtime': "@date('yyyy-MM-dd')",
-      'status': '1'
-    }]
-  }
-});
+// Mock.mock(activeList, {
+//   code: 1,
+//   msg: '查询成功',
+//   data: {
+//     "success": 'true',
+//     "pageSize": 1,
+//     "count": 1,
+//     "value|2": [{
+//       'id|+1': 1,
+//       'name': '@ctitle(10, 15)',
+//       'reName': '@ctitle(6, 20)',
+//       'starttime': "@date('yyyy-MM-dd')",
+//       'endtime': "@date('yyyy-MM-dd')",
+//       'votestarttime': "@date('yyyy-MM-dd')",
+//       'voteendtime': "@date('yyyy-MM-dd')",
+//       'status': '1'
+//     }]
+//   }
+// });
 
 Mock.mock(voterList,{
   code: 1,
