@@ -9,7 +9,7 @@
 				<!--<div><label>参赛宣言</label>-->
 				<div><label>参赛宣言</label>
 					<textarea placeholder="请输入备注" v-model="userInfo.declaration" name="declaration" @blur="handleBlur" ref="declaration"></textarea>
-					<span class="hiden" ref="declaration_span">请输入参赛宣言</span>
+					<span class="hiden" ref="declaration_span">请输入联系电话</span>
 				</div>
 				<div><label>联系电话</label>
 					<input type="tel" placeholder="请输入联系电话" v-model="userInfo.phone" name="phone" @blur="handleBlur" ref="phone" />
@@ -38,11 +38,13 @@
 			</div>
 
 		</div>
+		<BottomNav :isFinished='isFinish'/>
 	</div>
 </template>
 
 <script>
-	import { Indicator,Toast, MessageBox } from 'mint-ui';
+	import { Indicator,Toast, MessageBox } from 'mint-ui'
+	import BottomNav from './common/BottomNav.vue'
 	//文本框校验正则
 	let rejson = {
 		name: /\S/,
@@ -57,6 +59,7 @@
 		data() {
 			
 			return {
+				isFinish:false,
 				userInfo: {
 					name: '',
 					declaration: '',
@@ -67,14 +70,17 @@
 				},
 				thumbPic: [],
 				imgURL: 'http://hanml.artup.com/data'
+
 			}
 		},
 		created() {
 			console.log(this.$route.query)
 		},
 		components: {
+			BottomNav
 		},
 		methods: {
+
 			handleBlur(event) {
 				let currentEl = event.target.name;
 				if(rejson[currentEl]) {
