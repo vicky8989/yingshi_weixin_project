@@ -125,10 +125,12 @@ app.delete('/deleteActivityInfo', function (req, res) {
 
 //上传图片
 app.post('/uploadActivityImage', upload.single('image'), function (req, res, next) {
+	res.header('Access-Control-Allow-Origin', '*');
 	res.send(req.file);
 })
 
 app.post('/uploadActivityImages', upload.array('images',3), function (req, res, next) {
+	res.header('Access-Control-Allow-Origin', '*');
 	res.send(req.files);
 })
 
