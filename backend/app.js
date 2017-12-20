@@ -1,15 +1,16 @@
 var express = require('express');
-var app = express();
-
 var url = require('url');
 var util = require('util');
 var bodyParser = require('body-parser');
-var querystring = require('querystring');
 
 var voteActivity = require('./db/activity');
 var voteActivityInfo = require('./db/activityInfo');
+var file = require('./file/file');
 
-app.use(bodyParser.json({limit: '1mb'}));  //这里指定参数使用 json 格式
+var app = express();
+var upload = file.upload();
+
+app.use(bodyParser.json({limit: '1mb'}));
 app.use(bodyParser.urlencoded({
   extended: true
 }));
@@ -122,7 +123,16 @@ app.delete('/deleteActivityInfo', function (req, res) {
   	});
 })
 
-var server = app.listen(8086, function () {
+//上传图片
+app.post('/uploadActivityImage', upload.single('image'), function (req, res, next) {
+	res.send(req.file);
+})
+
+app.post('/uploadActivityImages', upload.array('images',3), function (req, res, next) {
+	res.send(req.files);
+})
+
+var server = app.listen(8109,function () {
  
   var host = server.address().address
   var port = server.address().port
