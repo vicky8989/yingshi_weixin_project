@@ -16,14 +16,14 @@ app.use(bodyParser.urlencoded({
 
 //活动接口
 app.get('/listActivities', function (req, res) {
-
+	res.header('Access-Control-Allow-Origin', '*');
 	voteActivity.queryData("",function(result){
         res.send(result);
     });
 })
 
 app.get('/getActivity', function (req, res) {
-
+	res.header('Access-Control-Allow-Origin', '*');
 	var params = url.parse(req.url, true).query;
 	if (params==null || params.aid==null) {
 		return;
@@ -35,7 +35,7 @@ app.get('/getActivity', function (req, res) {
 })
 
 app.post('/addActivity', function (req, res) {
-
+	res.header('Access-Control-Allow-Origin', '*');
 	if (req.body == null) {
 		return;
 	}
@@ -46,7 +46,7 @@ app.post('/addActivity', function (req, res) {
 })
 
 app.put('/updateActivity', function (req, res) {
-
+	res.header('Access-Control-Allow-Origin', '*');
 	if (req.body==null || req.body.aid==null) {
 		return;
 	}
@@ -57,7 +57,7 @@ app.put('/updateActivity', function (req, res) {
 })
 
 app.delete('/deleteActivity', function (req, res) {
-
+	res.header('Access-Control-Allow-Origin', '*');
 	var params = url.parse(req.url, true).query;
 	if (params==null || params.aid==null) {
 		return;
@@ -70,14 +70,14 @@ app.delete('/deleteActivity', function (req, res) {
 
 //活动详情相关接口
 app.get('/listActivityInfos', function (req, res) {
-
+	res.header('Access-Control-Allow-Origin', '*');
 	voteActivityInfo.queryData("",function(result){
         res.send(result);
     });
 })
 
 app.get('/getActivityInfo', function (req, res) {
-
+	res.header('Access-Control-Allow-Origin', '*');
 	var params = url.parse(req.url, true).query;
 	if (params==null || params.aid==null) {
 		return;
@@ -89,7 +89,7 @@ app.get('/getActivityInfo', function (req, res) {
 })
 
 app.post('/addActivityInfo', function (req, res) {
-
+	res.header('Access-Control-Allow-Origin', '*');
 	if (req.body == null) {
 		return;
 	}
@@ -100,7 +100,7 @@ app.post('/addActivityInfo', function (req, res) {
 })
 
 app.put('/updateActivityInfo', function (req, res) {
-
+	res.header('Access-Control-Allow-Origin', '*');
 	if (req.body==null || req.body.aid==null) {
 		return;
 	}
@@ -111,7 +111,7 @@ app.put('/updateActivityInfo', function (req, res) {
 })
 
 app.delete('/deleteActivityInfo', function (req, res) {
-
+	res.header('Access-Control-Allow-Origin', '*');
 	var params = url.parse(req.url, true).query;
 	if (params==null || params.aid==null) {
 		return;

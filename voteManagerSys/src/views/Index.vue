@@ -17,8 +17,8 @@
       label="报名起止时间"
       width="125">
       <template scope="scope">
-          <p>{{scope.row.starttime}}</p>
-          <p>{{scope.row.endtime}}</p>
+          <p>{{getTime(scope.row.start)}}</p>
+          <p>{{getTime(scope.row.end)}}</p>
       </template>
     </el-table-column>
     <el-table-column
@@ -27,8 +27,8 @@
       label="投票起止时间"
       width="125">
     <template scope="scope">
-          <p>{{scope.row.votestarttime}}</p>
-          <p>{{scope.row.voteendtime}}</p>
+          <p>{{getTime(scope.row.start)}}</p>
+          <p>{{getTime(scope.row.end)}}</p>
       </template>
     </el-table-column>
     <el-table-column
@@ -37,7 +37,7 @@
       label="活动状态"
       width="150">
       <template scope="scope">
-        <span>报名期</span>/<span>非投票期</span>
+        <span :class="scope.row.status == 0? 'normal-class':'red-class'">报名期</span>/<span :class="scope.row.status == 1? 'normal-class':'red-class'">非投票期</span>
       </template>
     </el-table-column>
     <el-table-column
@@ -73,6 +73,10 @@ export default {
   components: {
   },
   methods:{
+    getTime(date) {
+      let time = this.$moment(date).format("YYYY-MM-DD");
+      return time;
+    },
     handleShowSigner() {
       this.$router.push('/signer');
     },
@@ -87,7 +91,7 @@ export default {
     getActivity(){
         let self = this;
         this.ApiSever.getActivities().then(res => {
-            self.activityList = res.data.data.value;
+            self.activityList = res.data;
         });
     }
   },
@@ -100,5 +104,11 @@ export default {
 <style lang="less">
 .el-button {
   margin-top:5px;
+}
+.normal-class{
+  color:black;
+}
+.red-class {
+  color:red;
 }
 </style>

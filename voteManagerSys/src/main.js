@@ -7,7 +7,9 @@ import $ from 'n-zepto';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';    // 默认主题
 // 导入 table 和 分页组件
-import {VTable,VPagination} from 'vue-easytable'
+import {VTable,VPagination} from 'vue-easytable';
+import moment from 'moment';
+Object.defineProperty(Vue.prototype, '$moment', { value: moment });
 
 // 引入样式
 import 'vue-easytable/libs/themes-base/index.css';
