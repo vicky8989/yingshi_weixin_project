@@ -8,7 +8,7 @@ var voteActivityInfo = require('./db/activityInfo');
 var file = require('./file/file');
 
 var app = express();
-var upload = file.upload();
+var upload = file.uploadFile();
 
 app.use(bodyParser.json({limit: '1mb'}));
 app.use(bodyParser.urlencoded({
@@ -134,7 +134,33 @@ app.post('/uploadActivityImages', upload.array('images',3), function (req, res, 
 	res.send(req.files);
 })
 
-var server = app.listen(8109,function () {
+app.get('/getActivityImage', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	var params = url.parse(req.url, true).query;
+	if (params==null || params.image==null) {
+		return;
+	}
+
+	var content = file.readFile(params.image);
+   	if (content) {
+        res.write(content,"binary"); //格式必须为 binary，否则会出错
+        res.end();
+    }
+})
+
+app.delete('/deleteActivityImage', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	var params = url.parse(req.url, true).query;
+	if (params==null || params.image==null) {
+		return;
+	}
+
+	file.deleteFile(params.image,function(result){
+      	res.send(result);
+  	});
+})
+
+var server = app.listen(8085,function () {
  
   var host = server.address().address
   var port = server.address().port
