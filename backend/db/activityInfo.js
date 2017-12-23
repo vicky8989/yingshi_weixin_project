@@ -14,8 +14,11 @@ var ActivityInfo = function()
                 'aid':userData.aid,
                 'enrolstart': userData.enrolStart,
                 'enrolend': userData.enrolEnd,
-                'votestart': userData.voteStart ,
+                'votestart': userData.voteStart,
                 'voteend': userData.voteEnd,
+                'participation':userData.participation,
+                'process':userData.process,
+                'contact':userData.contact,
                 'info': userData.info,
                 'banner':userData.banner,
                 'rule':userData.rule
@@ -47,8 +50,11 @@ var ActivityInfo = function()
             var data = {$set:{
                 'enrolstart': userData.enrolStart,
                 'enrolend': userData.enrolEnd,
-                'votestart': userData.voteStart ,
+                'votestart': userData.voteStart,
                 'voteend': userData.voteEnd,
+                'participation':userData.participation,
+                'process':userData.process,
+                'contact':userData.contact,
                 'info': userData.info,
                 'banner':userData.banner,
                 'rule':userData.rule}};
