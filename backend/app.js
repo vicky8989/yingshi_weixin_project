@@ -18,6 +18,44 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
+
+//图片接口
+app.post('/uploadActivityImage', upload.single('image'), function (req, res, next) {
+	res.header('Access-Control-Allow-Origin', '*');
+	res.send(req.file);
+})
+
+app.post('/uploadActivityImages', upload.array('images',3), function (req, res, next) {
+	res.header('Access-Control-Allow-Origin', '*');
+	res.send(req.files);
+})
+
+app.get('/getActivityImage', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	var params = url.parse(req.url, true).query;
+	if (params==null || params.image==null) {
+		return;
+	}
+
+	var content = file.readFile(params.image);
+   	if (content) {
+        res.write(content,"binary"); //格式必须为 binary，否则会出错
+        res.end();
+    }
+})
+
+app.delete('/deleteActivityImage', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	var params = url.parse(req.url, true).query;
+	if (params==null || params.image==null) {
+		return;
+	}
+
+	file.deleteFile(params.image,function(result){
+      	res.send(result);
+  	});
+})
+
 //活动接口
 app.get('/listActivities', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
@@ -51,11 +89,12 @@ app.post('/addActivity', function (req, res) {
 
 app.put('/updateActivity', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
-	if (req.body==null || req.body.aid==null) {
+	var params = url.parse(req.url, true).query;
+	if (params==null || params.aid==null) {
 		return;
 	}
 
-	voteActivity.updateData(req.body.aid,req.body,function(result){
+	voteActivity.updateData(params.aid,req.body,function(result){
       	res.send(result);
   	});
 })
@@ -105,11 +144,12 @@ app.post('/addActivityInfo', function (req, res) {
 
 app.put('/updateActivityInfo', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
-	if (req.body==null || req.body.aid==null) {
+	var params = url.parse(req.url, true).query;
+	if (params==null || params.aid==null) {
 		return;
 	}
 
-	voteActivityInfo.updateData(req.body.aid,req.body,function(result){
+	voteActivityInfo.updateData(params.aid,req.body,function(result){
       	res.send(result);
   	});
 })
@@ -122,43 +162,6 @@ app.delete('/deleteActivityInfo', function (req, res) {
 	}
 
 	voteActivityInfo.delData(params.aid,function(result){
-      	res.send(result);
-  	});
-})
-
-//上传图片
-app.post('/uploadActivityImage', upload.single('image'), function (req, res, next) {
-	res.header('Access-Control-Allow-Origin', '*');
-	res.send(req.file);
-})
-
-app.post('/uploadActivityImages', upload.array('images',3), function (req, res, next) {
-	res.header('Access-Control-Allow-Origin', '*');
-	res.send(req.files);
-})
-
-app.get('/getActivityImage', function (req, res) {
-	res.header('Access-Control-Allow-Origin', '*');
-	var params = url.parse(req.url, true).query;
-	if (params==null || params.image==null) {
-		return;
-	}
-
-	var content = file.readFile(params.image);
-   	if (content) {
-        res.write(content,"binary"); //格式必须为 binary，否则会出错
-        res.end();
-    }
-})
-
-app.delete('/deleteActivityImage', function (req, res) {
-	res.header('Access-Control-Allow-Origin', '*');
-	var params = url.parse(req.url, true).query;
-	if (params==null || params.image==null) {
-		return;
-	}
-
-	file.deleteFile(params.image,function(result){
       	res.send(result);
   	});
 })
@@ -196,11 +199,12 @@ app.post('/addAward', function (req, res) {
 
 app.put('/updateAward', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
-	if (req.body==null || req.body.awid==null) {
+	var params = url.parse(req.url, true).query;
+	if (params==null || params.awid==null) {
 		return;
 	}
 
-	voteAwards.updateData(req.body.awid,req.body,function(result){
+	voteAwards.updateData(params.awid,req.body,function(result){
       	res.send(result);
   	});
 })
@@ -250,11 +254,12 @@ app.post('/addProduction', function (req, res) {
 
 app.put('/updateProduction', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
-	if (req.body==null || req.body.pid==null) {
+	var params = url.parse(req.url, true).query;
+	if (params==null || params.pid==null) {
 		return;
 	}
 
-	voteProduction.updateData(req.body.pid,req.body,function(result){
+	voteProduction.updateData(params.pid,req.body,function(result){
       	res.send(result);
   	});
 })
