@@ -68,6 +68,29 @@ var Present = function()
         });
     }
 
+    this.queryDataByPID = function(pid,callback)
+    {
+        if (pid==null || pid=="") {
+            return;
+        }
+
+        dbLink.link(function(err,db) {
+
+            var collection = db.collection('present');
+           
+            var whereStr = {"pid":pid};
+            collection.find(whereStr).toArray(function(err, result) {
+                if(err)
+                {
+                  console.log('Error:'+ err);
+                  return;
+                }
+
+                callback(result);
+            });
+        });
+    }
+
     this.delData = function(aid,callback)
     {
         if (aid == null) {
@@ -76,7 +99,7 @@ var Present = function()
         
         dbLink.link(function(err,db) {
 
-            var collection = db.collection('gift');
+            var collection = db.collection('present');
             var whereStr = {"aid":aid};
 
             collection.remove(whereStr, function(err, result) {
@@ -91,6 +114,28 @@ var Present = function()
         });
     }
 
+    this.delDataByPID = function(pid,callback)
+    {
+        if (pid == null) {
+            return;
+        }
+        
+        dbLink.link(function(err,db) {
+
+            var collection = db.collection('present');
+            var whereStr = {"pid":pid};
+
+            collection.remove(whereStr, function(err, result) {
+                if(err)
+                {
+                  console.log('Error:'+ err);
+                  return;
+                }
+
+                callback(result);
+            });
+        });
+    }
 };
 
 module.exports = new Present();

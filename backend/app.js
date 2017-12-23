@@ -8,6 +8,7 @@ var voteActivityInfo = require('./db/activityInfo');
 var voteAwards = require('./db/awards');
 var voteProduction = require('./db/production');
 var voteGift = require('./db/gift');
+var votePresent = require('./db/present');
 var file = require('./file/file');
 
 var app = express();
@@ -330,6 +331,63 @@ app.delete('/deleteGift', function (req, res) {
 	voteGift.delData(params.gid,function(result){
       	res.send(result);
   	});
+})
+
+//礼物接口
+app.get('/listPresents', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	votePresent.queryData("",function(result){
+        res.send(result);
+    });
+})
+
+app.get('/getPresents', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	var params = url.parse(req.url, true).query;
+	if (params==null) {
+		return;
+	}
+
+	if (params.aid!=null) {
+		votePresent.queryData(params.aid,function(result){
+        	res.send(result);
+    	});
+	}
+	else if (params.pid != null) {
+		votePresent.queryDataByPID(params.pid,function(result){
+        	res.send(result);
+    	});
+	}
+})
+
+app.post('/addPresent', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	if (req.body == null) {
+		return;
+	}
+
+	votePresent.addData(req.body,function(result,aid){
+      	res.send(aid);
+  	});
+})
+
+app.delete('/deletePresents', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	var params = url.parse(req.url, true).query;
+	if (params==null) {
+		return;
+	}
+
+	if (params.aid!=null) {
+		votePresent.delData(params.aid,function(result){
+        	res.send(result);
+    	});
+	}
+	else if (params.pid != null) {
+		votePresent.delDataByPID(params.pid,function(result){
+        	res.send(result);
+    	});
+	}
 })
 
 var server = app.listen(8085,function () {
