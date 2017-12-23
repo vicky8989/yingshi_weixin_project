@@ -17,8 +17,8 @@ var Production = function()
                 'manifesto': userData.manifesto,
                 'banner': userData.banner,
                 'praisenum': userData.praiseNum,
-                'presentnum': userData.presentNum,
-                'presentpay': userData.presentPay
+                'giftnum': userData.giftNum,
+                'giftpay': userData.giftPay
             };
 
             collection.insert(data, function(err, result) { 
@@ -50,8 +50,8 @@ var Production = function()
                 'manifesto': userData.manifesto,
                 'banner': userData.banner,
                 'praisenum': userData.praiseNum,
-                'presentnum': userData.presentNum,
-                'presentpay': userData.presentPay}};
+                'giftnum': userData.giftNum,
+                'giftpay': userData.giftPay}};
 
             collection.update(whereStr,data, function(err, result) { 
                 if(err)

@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 var voteActivity = require('./db/activity');
 var voteActivityInfo = require('./db/activityInfo');
 var voteAwards = require('./db/awards');
+var voteProduction = require('./db/production');
 var file = require('./file/file');
 
 var app = express();
@@ -212,6 +213,60 @@ app.delete('/deleteAward', function (req, res) {
 	}
 
 	voteAwards.delData(params.awid,function(result){
+      	res.send(result);
+  	});
+})
+
+//作品接口
+app.get('/listProductions', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	voteProduction.queryData("",function(result){
+        res.send(result);
+    });
+})
+
+app.get('/getProductions', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	var params = url.parse(req.url, true).query;
+	if (params==null || params.aid==null) {
+		return;
+	}
+
+	voteProduction.queryData(params.aid,function(result){
+        res.send(result);
+    });
+})
+
+app.post('/addProduction', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	if (req.body == null) {
+		return;
+	}
+
+	voteProduction.addData(req.body,function(result,aid){
+      	res.send(aid);
+  	});
+})
+
+app.put('/updateProduction', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	if (req.body==null || req.body.pid==null) {
+		return;
+	}
+
+	voteProduction.updateData(req.body.pid,req.body,function(result){
+      	res.send(result);
+  	});
+})
+
+app.delete('/deleteProduction', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	var params = url.parse(req.url, true).query;
+	if (params==null || params.pid==null) {
+		return;
+	}
+
+	voteProduction.delData(params.pid,function(result){
       	res.send(result);
   	});
 })
