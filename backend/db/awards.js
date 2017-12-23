@@ -31,17 +31,18 @@ var Awards = function()
         });
     }
 
-    this.updateData = function(aid,userData,callback)
+    this.updateData = function(awid,userData,callback)
     {
-        if (aid == null) {
+        if (awid == null) {
             return;
         }
 
         dbLink.link(function(err,db) {
 
             var collection = db.collection('awards');
-            var whereStr = {"aid":aid};
+            var whereStr = {"_id":ObjectId(awid)};
             var data = {$set:{
+                'aid':userData.aid,
                 'name': userData.name,
                 'num': userData.num,
                 'prizeinfo': userData.prizeInfo ,
@@ -96,16 +97,16 @@ var Awards = function()
         });
     }
 
-    this.delData = function(aid,callback)
+    this.delData = function(awid,callback)
     {
-        if (aid == null) {
+        if (awid == null) {
             return;
         }
 
         dbLink.link(function(err,db) {
 
             var collection = db.collection('awards');
-            var whereStr = {"aid":aid};
+            var whereStr = {"_id":ObjectId(awid)};
 
             collection.remove(whereStr, function(err, result) {
                 if(err)

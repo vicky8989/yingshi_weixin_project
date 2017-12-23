@@ -21,6 +21,9 @@ var userDataInfo = {
     'enrolEnd': jsonDate,
     'voteStart': jsonDate,
     'voteEnd': jsonDate,
+    'participation': "第一个活动的参与方式",
+    'process': "第一个活动的活动流程",
+    'contact': "第一个活动的主办联系方式",
     'info': "第一个活动的详细信息",
     'banner': ["第一个活动的图URL0","第一个活动的图URL1","第一个活动的图URL2"],
     'rule': "第一个活动的规则"

@@ -5,11 +5,13 @@ var bodyParser = require('body-parser');
 
 var voteActivity = require('./db/activity');
 var voteActivityInfo = require('./db/activityInfo');
+var voteAwards = require('./db/awards');
 var file = require('./file/file');
 
 var app = express();
 var upload = file.uploadFile();
 
+app.use(express.static(file.getImageUrlPath()));
 app.use(bodyParser.json({limit: '1mb'}));
 app.use(bodyParser.urlencoded({
   extended: true
@@ -156,6 +158,60 @@ app.delete('/deleteActivityImage', function (req, res) {
 	}
 
 	file.deleteFile(params.image,function(result){
+      	res.send(result);
+  	});
+})
+
+//奖品接口
+app.get('/listAwards', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	voteAwards.queryData("",function(result){
+        res.send(result);
+    });
+})
+
+app.get('/getAwards', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	var params = url.parse(req.url, true).query;
+	if (params==null || params.aid==null) {
+		return;
+	}
+
+	voteAwards.queryData(params.aid,function(result){
+        res.send(result);
+    });
+})
+
+app.post('/addAward', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	if (req.body == null) {
+		return;
+	}
+
+	voteAwards.addData(req.body,function(result,aid){
+      	res.send(aid);
+  	});
+})
+
+app.put('/updateAward', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	if (req.body==null || req.body.awid==null) {
+		return;
+	}
+
+	voteAwards.updateData(req.body.awid,req.body,function(result){
+      	res.send(result);
+  	});
+})
+
+app.delete('/deleteAward', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	var params = url.parse(req.url, true).query;
+	if (params==null || params.awid==null) {
+		return;
+	}
+
+	voteAwards.delData(params.awid,function(result){
       	res.send(result);
   	});
 })
