@@ -9,7 +9,7 @@
   "author": "CastingJiang",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "file:node_modules/body-parser",
+    "body-parser": "^1.18.2",
     "cookie-parser": "^1.4.3",
     "express": "^4.16.2",
     "mongodb": "^2.2.33",
