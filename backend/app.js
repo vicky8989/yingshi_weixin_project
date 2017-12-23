@@ -3,6 +3,7 @@ var url = require('url');
 var util = require('util');
 var bodyParser = require('body-parser');
 
+var voteUser = require('./db/user');
 var voteActivity = require('./db/activity');
 var voteActivityInfo = require('./db/activityInfo');
 var voteAwards = require('./db/awards');
@@ -65,6 +66,62 @@ app.delete('/deleteActivityImage', function (req, res) {
       	res.send(result);
   	});
 })
+
+//用户接口
+app.get('/listUsers', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	voteUser.queryData("",function(result){
+        res.send(result);
+    });
+})
+
+app.get('/getUser', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	var params = url.parse(req.url, true).query;
+	if (params==null || params.openid==null) {
+		return;
+	}
+
+	voteUser.queryData(params.openid,function(result){
+        res.send(result);
+    });
+})
+
+app.post('/addUser', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	if (req.body == null) {
+		return;
+	}
+
+	voteUser.addData(req.body,function(result,aid){
+      	res.send(aid);
+  	});
+})
+
+app.put('/updateUser', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	var params = url.parse(req.url, true).query;
+	if (params==null || params.uid==null) {
+		return;
+	}
+
+	voteUser.updateData(params.uid,req.body,function(result){
+      	res.send(result);
+  	});
+})
+
+app.delete('/deleteUser', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	var params = url.parse(req.url, true).query;
+	if (params==null || params.uid==null) {
+		return;
+	}
+
+	voteUser.delData(params.uid,function(result){
+      	res.send(result);
+  	});
+})
+
 
 //活动接口
 app.get('/listActivities', function (req, res) {
