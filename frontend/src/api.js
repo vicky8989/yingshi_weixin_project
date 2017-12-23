@@ -12,7 +12,11 @@ const PRIZES = 'awards.json';
 
 const RANKING = 'userList.json';
 
+<<<<<<< Updated upstream
 const FINSIHTIME = '2017/12/11 17:39:10';
+=======
+const FINSIHTIME = '2017/12/17 17:39:10';
+>>>>>>> Stashed changes
 
 const VueHttp = new Vue();
 
