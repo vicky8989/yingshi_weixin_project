@@ -45,6 +45,7 @@ app.get('/getActivityImage', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
 	var params = url.parse(req.url, true).query;
 	if (params==null || params.image==null) {
+		res.status(400).send({'error':"Bad Request"});
 		return;
 	}
 
@@ -59,6 +60,7 @@ app.delete('/deleteActivityImage', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
 	var params = url.parse(req.url, true).query;
 	if (params==null || params.image==null) {
+		res.status(400).send({'error':"Bad Request"});
 		return;
 	}
 
@@ -79,6 +81,7 @@ app.get('/getUser', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
 	var params = url.parse(req.url, true).query;
 	if (params==null || params.openid==null) {
+		res.status(400).send({'error':"Bad Request"});
 		return;
 	}
 
@@ -90,6 +93,7 @@ app.get('/getUser', function (req, res) {
 app.post('/addUser', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
 	if (req.body == null) {
+		res.status(400).send({'error':"Bad Request"});
 		return;
 	}
 
@@ -102,6 +106,7 @@ app.put('/updateUser', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
 	var params = url.parse(req.url, true).query;
 	if (params==null || params.uid==null) {
+		res.status(400).send({'error':"Bad Request"});
 		return;
 	}
 
@@ -114,6 +119,7 @@ app.delete('/deleteUser', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
 	var params = url.parse(req.url, true).query;
 	if (params==null || params.uid==null) {
+		res.status(400).send({'error':"Bad Request"});
 		return;
 	}
 
@@ -135,6 +141,7 @@ app.get('/getActivity', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
 	var params = url.parse(req.url, true).query;
 	if (params==null || params.aid==null) {
+		res.status(400).send({'error':"Bad Request"});
 		return;
 	}
 
@@ -146,6 +153,7 @@ app.get('/getActivity', function (req, res) {
 app.post('/addActivity', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
 	if (req.body == null) {
+		res.status(400).send({'error':"Bad Request"});
 		return;
 	}
 
@@ -158,6 +166,7 @@ app.put('/updateActivity', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
 	var params = url.parse(req.url, true).query;
 	if (params==null || params.aid==null) {
+		res.status(400).send({'error':"Bad Request"});
 		return;
 	}
 
@@ -170,6 +179,7 @@ app.delete('/deleteActivity', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
 	var params = url.parse(req.url, true).query;
 	if (params==null || params.aid==null) {
+		res.status(400).send({'error':"Bad Request"});
 		return;
 	}
 
@@ -190,6 +200,7 @@ app.get('/getActivityInfo', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
 	var params = url.parse(req.url, true).query;
 	if (params==null || params.aid==null) {
+		res.status(400).send({'error':"Bad Request"});
 		return;
 	}
 
@@ -201,6 +212,7 @@ app.get('/getActivityInfo', function (req, res) {
 app.post('/addActivityInfo', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
 	if (req.body == null) {
+		res.status(400).send({'error':"Bad Request"});
 		return;
 	}
 
@@ -213,6 +225,7 @@ app.put('/updateActivityInfo', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
 	var params = url.parse(req.url, true).query;
 	if (params==null || params.aid==null) {
+		res.status(400).send({'error':"Bad Request"});
 		return;
 	}
 
@@ -225,6 +238,7 @@ app.delete('/deleteActivityInfo', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
 	var params = url.parse(req.url, true).query;
 	if (params==null || params.aid==null) {
+		res.status(400).send({'error':"Bad Request"});
 		return;
 	}
 
@@ -245,6 +259,7 @@ app.get('/getAwards', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
 	var params = url.parse(req.url, true).query;
 	if (params==null || params.aid==null) {
+		res.status(400).send({'error':"Bad Request"});
 		return;
 	}
 
@@ -256,6 +271,7 @@ app.get('/getAwards', function (req, res) {
 app.post('/addAward', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
 	if (req.body == null) {
+		res.status(400).send({'error':"Bad Request"});
 		return;
 	}
 
@@ -268,6 +284,7 @@ app.put('/updateAward', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
 	var params = url.parse(req.url, true).query;
 	if (params==null || params.awid==null) {
+		res.status(400).send({'error':"Bad Request"});
 		return;
 	}
 
@@ -280,6 +297,7 @@ app.delete('/deleteAward', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
 	var params = url.parse(req.url, true).query;
 	if (params==null || params.awid==null) {
+		res.status(400).send({'error':"Bad Request"});
 		return;
 	}
 
@@ -300,6 +318,7 @@ app.get('/getProductions', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
 	var params = url.parse(req.url, true).query;
 	if (params==null || params.aid==null) {
+		res.status(400).send({'error':"Bad Request"});
 		return;
 	}
 
@@ -311,6 +330,7 @@ app.get('/getProductions', function (req, res) {
 app.post('/addProduction', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
 	if (req.body == null) {
+		res.status(400).send({'error':"Bad Request"});
 		return;
 	}
 
@@ -323,6 +343,7 @@ app.put('/updateProduction', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
 	var params = url.parse(req.url, true).query;
 	if (params==null || params.pid==null) {
+		res.status(400).send({'error':"Bad Request"});
 		return;
 	}
 
@@ -335,6 +356,7 @@ app.delete('/deleteProduction', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
 	var params = url.parse(req.url, true).query;
 	if (params==null || params.pid==null) {
+		res.status(400).send({'error':"Bad Request"});
 		return;
 	}
 
@@ -355,6 +377,7 @@ app.get('/getGift', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
 	var params = url.parse(req.url, true).query;
 	if (params==null || params.gid==null) {
+		res.status(400).send({'error':"Bad Request"});
 		return;
 	}
 
@@ -366,6 +389,7 @@ app.get('/getGift', function (req, res) {
 app.post('/addGift', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
 	if (req.body == null) {
+		res.status(400).send({'error':"Bad Request"});
 		return;
 	}
 
@@ -378,6 +402,7 @@ app.put('/updateGift', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
 	var params = url.parse(req.url, true).query;
 	if (params==null || params.gid==null) {
+		res.status(400).send({'error':"Bad Request"});
 		return;
 	}
 
@@ -390,6 +415,7 @@ app.delete('/deleteGift', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
 	var params = url.parse(req.url, true).query;
 	if (params==null || params.gid==null) {
+		res.status(400).send({'error':"Bad Request"});
 		return;
 	}
 
@@ -410,6 +436,7 @@ app.get('/getPresents', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
 	var params = url.parse(req.url, true).query;
 	if (params==null) {
+		res.status(400).send({'error':"Bad Request"});
 		return;
 	}
 
@@ -423,11 +450,16 @@ app.get('/getPresents', function (req, res) {
         	res.send(result);
     	});
 	}
+	else
+	{
+		res.status(400).send({'error':"Bad Request"});
+	}
 })
 
 app.post('/addPresent', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
 	if (req.body == null) {
+		res.status(400).send({'error':"Bad Request"});
 		return;
 	}
 
@@ -440,6 +472,7 @@ app.delete('/deletePresents', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
 	var params = url.parse(req.url, true).query;
 	if (params==null) {
+		res.status(400).send({'error':"Bad Request"});
 		return;
 	}
 
@@ -452,6 +485,10 @@ app.delete('/deletePresents', function (req, res) {
 		votePresent.delDataByPID(params.pid,function(result){
         	res.send(result);
     	});
+	}
+	else
+	{
+		res.status(400).send({'error':"Bad Request"});
 	}
 })
 
