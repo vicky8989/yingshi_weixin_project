@@ -7,6 +7,7 @@ var voteActivity = require('./db/activity');
 var voteActivityInfo = require('./db/activityInfo');
 var voteAwards = require('./db/awards');
 var voteProduction = require('./db/production');
+var voteGift = require('./db/gift');
 var file = require('./file/file');
 
 var app = express();
@@ -272,6 +273,61 @@ app.delete('/deleteProduction', function (req, res) {
 	}
 
 	voteProduction.delData(params.pid,function(result){
+      	res.send(result);
+  	});
+})
+
+//礼物接口
+app.get('/listGifts', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	voteGift.queryData("",function(result){
+        res.send(result);
+    });
+})
+
+app.get('/getGift', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	var params = url.parse(req.url, true).query;
+	if (params==null || params.gid==null) {
+		return;
+	}
+
+	voteGift.queryData(params.gid,function(result){
+        res.send(result);
+    });
+})
+
+app.post('/addGift', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	if (req.body == null) {
+		return;
+	}
+
+	voteGift.addData(req.body,function(result,aid){
+      	res.send(aid);
+  	});
+})
+
+app.put('/updateGift', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	var params = url.parse(req.url, true).query;
+	if (params==null || params.gid==null) {
+		return;
+	}
+
+	voteGift.updateData(params.gid,req.body,function(result){
+      	res.send(result);
+  	});
+})
+
+app.delete('/deleteGift', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	var params = url.parse(req.url, true).query;
+	if (params==null || params.gid==null) {
+		return;
+	}
+
+	voteGift.delData(params.gid,function(result){
       	res.send(result);
   	});
 })
