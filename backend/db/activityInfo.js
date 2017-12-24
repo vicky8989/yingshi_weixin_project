@@ -46,7 +46,7 @@ var ActivityInfo = function()
 
             var collection = db.collection('activityinfo');
 
-            var whereStr = {"aid":ObjectId(aid)};
+            var whereStr = {"aid":aid};
             var data = {$set:{
                 'enrolstart': userData.enrolStart,
                 'enrolend': userData.enrolEnd,

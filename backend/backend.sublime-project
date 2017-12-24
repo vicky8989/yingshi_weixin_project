@@ -19,6 +19,7 @@
 				"doc",
 				"examples",
 				"demos",
+				"production",
 				"jssdk-server-demo",
 				".*",
 				"tool"
