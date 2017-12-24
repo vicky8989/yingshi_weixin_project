@@ -12,11 +12,7 @@ const PRIZES = 'awards.json';
 
 const RANKING = 'userList.json';
 
-<<<<<<< Updated upstream
-const FINSIHTIME = '2017/12/11 17:39:10';
-=======
 const FINSIHTIME = '2017/12/17 17:39:10';
->>>>>>> Stashed changes
 
 const VueHttp = new Vue();
 
@@ -134,6 +130,16 @@ Mock.mock(RANKING, {
         }
 });
 
+function validTimeFinished(finishTime) {
+  let curTime_ = (new Date(finishTime)).getTime() / 1000 - (new Date()).getTime() / 1000;
+
+  if(curTime_ < 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 
 export default {
 	FINSIHTIME,
@@ -162,6 +168,9 @@ export default {
     return VueHttp.$http.post(TEST,
       qs.stringify(jsons)
     )
+  },
+  getFinishTime:()=> {
+    return validTimeFinished(FINSIHTIME);
   },
   httpUrl: HOST
 }

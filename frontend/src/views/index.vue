@@ -49,8 +49,7 @@
 				<h5>协办方：书画美术艺术竞赛平台官网</h5>
 				<span>大赛客服老师微信号：shuhuadasaiwang</span>
 			</div>
-		</div>
-		<BottomNav :isFinished='isVoteFinished'/>
+		</div>		
 	</div>
 </template>
 
@@ -61,7 +60,6 @@
 	} from 'mint-ui'
 	import Slider from './common/Slider.vue'
 	import conutDown from './common/conutDown.vue'
-	import BottomNav from './common/BottomNav.vue'
 	let testData = [{
 		id: 3,
 		num: 200,
@@ -74,9 +72,9 @@
 				return {
 					pics: [],
 					searchInfo: '',
-					listData: testData,
-					isVoteFinished:false,
+					listData: testData,					
 					finishTime: this.ApiSever.FINSIHTIME,
+					isVoteFinished:this.ApiSever.getFinishTime(),
 					playerList: {
 						totalCount: '', //总条数
 						pageNum: 1,
@@ -93,16 +91,10 @@
 				}
 			},
 			created() {
-				/*Toast({
-					message: '投票中...',
-					position: 'middle',
-					duration: 5000
-				});*/
 			},
 			components: {
 				Slider,
-				conutDown,
-				BottomNav
+				conutDown
 			},
 			methods: {
 				getBannerData() {
@@ -250,12 +242,8 @@
 							position: 'middle',
 							duration: 5000
 						});
-						this.isVoteFinished=true;
-					}else{
-						this.isVoteFinished=false;
 					}
 				}
-
 			},
 			beforeMount() {
 				this.getBannerData();
