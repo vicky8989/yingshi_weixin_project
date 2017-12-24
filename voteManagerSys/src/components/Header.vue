@@ -19,7 +19,7 @@
         data() {
             return {
                 name: 'linxin',
-                logo:require('../assets/img.jpg')
+                logo:'static/img/img.jpg'
             }
         },
         computed:{

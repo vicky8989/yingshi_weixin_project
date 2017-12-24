@@ -10,53 +10,23 @@ const HOST = HOST_CONFIG;
 
 const VueHttp = new Vue();
 
-/*测试的接口*/
-const prize = `${HOST}prize`;
+VueHttp.$http.options.emulateJSON = true;
+
+/*奖品接口*/
+const prize = `${HOST}getAwards`;
+const updatePrize = `${HOST}updateAward`;
+const delPrize = `${HOST}deleteAward`;
+const addPrize = `${HOST}addAward `;
+
 const activeList = `${HOST}listActivities`;
-const voterList =`${HOST}getVoter`;
-const paticilist=`${HOST}getPaticilist`;
-const signerList =`${HOST}getSignerlist`;
+const activityInfo = `${HOST}getActivityInfo`;
+const updateActivityInfo = `${HOST}updateActivityInfo`;
+const voterList = `${HOST}getVoter`;
+const paticilist = `${HOST}getPaticilist`;
+const signerList = `${HOST}getSignerlist`;
+const delActivityImg = `${HOST}deleteActivityImage`;
 
-// 生成奖品列数据
-Mock.mock(prize, {
-  code: 1,
-  msg: '查询成功',
-  data: {
-    "success": 'true',
-    "pageSize": 3,
-    "count": 30,
-    "value|3": [{
-      'id|+1': 1,
-      'prizeCount': '@natural(10, 100)',
-      'rankname': '@ctitle(6, 20)',
-      'prizename': '@ctitle(6, 20)',
-      'prizeimg': '@image(200x200,#50B347,#fff, nice)'
-    }]
-  }
-});
-
-// 生成奖品列数据
-// Mock.mock(activeList, {
-//   code: 1,
-//   msg: '查询成功',
-//   data: {
-//     "success": 'true',
-//     "pageSize": 1,
-//     "count": 1,
-//     "value|2": [{
-//       'id|+1': 1,
-//       'name': '@ctitle(10, 15)',
-//       'reName': '@ctitle(6, 20)',
-//       'starttime': "@date('yyyy-MM-dd')",
-//       'endtime': "@date('yyyy-MM-dd')",
-//       'votestarttime': "@date('yyyy-MM-dd')",
-//       'voteendtime': "@date('yyyy-MM-dd')",
-//       'status': '1'
-//     }]
-//   }
-// });
-
-Mock.mock(voterList,{
+Mock.mock(voterList, {
   code: 1,
   msg: '查询成功',
   data: {
@@ -67,15 +37,15 @@ Mock.mock(voterList,{
       'id|+1': 1,
       'name': '@ctitle(10, 15)',
       'votename': '@ctitle(6, 20)',
-      'tel':'13455673452',
+      'tel': '13455673452',
       'num': "100",
-      'curnum':"11",
+      'curnum': "11",
       'lasttime': "@date('yyyy-MM-dd')"
     }]
   }
 });
 
-Mock.mock(paticilist,{
+Mock.mock(paticilist, {
   code: 1,
   msg: '查询成功',
   data: {
@@ -86,16 +56,16 @@ Mock.mock(paticilist,{
       'id|+1': 1,
       'name': '@ctitle(10, 15)',
       'parName': '@ctitle(6, 10)',
-      'votenum':'123',
-      'voteno':'no.123',
-      'giftnum':'10',
-      'money':'200',
-      'status':'1'
+      'votenum': '123',
+      'voteno': 'no.123',
+      'giftnum': '10',
+      'money': '200',
+      'status': '1'
     }]
   }
 });
 
-Mock.mock(signerList,{
+Mock.mock(signerList, {
   code: 1,
   msg: '查询成功',
   data: {
@@ -106,28 +76,88 @@ Mock.mock(signerList,{
       'id|+1': 1,
       'name': '@ctitle(10, 15)',
       'imgPath': '@ctitle(6, 10)',
-      'tel':'12345567889',
-      'uploadtime':"@date('yyyy-MM-dd')",
-      'status':'1'
+      'tel': '12345567889',
+      'uploadtime': "@date('yyyy-MM-dd')",
+      'status': '1'
     }]
   }
 });
 
-export default {
-  getPrizes:()=>{
-    return VueHttp.$http.get(prize)
-  },
-  getActivities:()=>{
+/*function axiosRequest(method, url, data) {
+  if (data) {
+    return VueHttp.$http({
+      method: method,
+      url: url,
+      data: {
+        param: data
+      },
+      withCredentials:true,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      }
+    });
+  } else {
+    return VueHttp.$http({
+      method: method,
+      url: url,
+      withCredentials:true,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      }
+    });
+  }
+}*/
+
+export default {  
+  getActivities: () => {
     return VueHttp.$http.get(activeList)
   },
-  getVoterList:()=>{
+  //根据某一个aid请求活动详情
+  getActivityInfo: (id) => {
+    let getInfoUrl = `${activityInfo}?aid=${id}`;
+    return VueHttp.$http.get(getInfoUrl);
+  },
+  updateActivityInfo: (data) => {
+    return VueHttp.$http.put(updateActivityInfo, JSON.stringify(data));
+  },
+
+  //获取奖品
+  getPrizes: (aid) => {
+    let prizelistUrl = `${prize}?aid=${aid}`;
+    return VueHttp.$http.get(prizelistUrl)
+  },
+  //修改奖品
+  updatePrize: (data) => {    
+    return VueHttp.$http.put(updatePrize, JSON.stringify(data));
+  },
+  //删除奖品
+  delPrize: (id) => {
+    let url = `${delPrize}?awid=${id}`;
+    return VueHttp.$http.delete(url);
+  },
+
+  addPrize: (data) => {
+    return VueHttp.$http.post(addPrize, JSON.stringify(data));
+  },
+  //删除活动某一个照片
+  delActivityImg: (filename) => {
+    let delImgUrl = `${delActivityImg}?image=${filename}`;
+    return VueHttp.$http.delete('delete', delImgUrl);
+  },
+
+
+  getVoterList: () => {
     return VueHttp.$http.get(voterList)
   },
-  getPaticitesList:()=>{
+  getPaticitesList: () => {
     return VueHttp.$http.get(paticilist)
   },
-  getSignerList:()=>{
+  getSignerList: () => {
     return VueHttp.$http.get(signerList);
   },
-  httpUrl: HOST
+
+
+  httpUrl: HOST,
+  imgUrl: `${HOST}images/`,
+  uploadUrl: `${HOST}uploadActivityImage`
 }

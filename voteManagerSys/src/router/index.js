@@ -17,7 +17,7 @@ export default new Router({
         component: Index
       },
       {
-      	path:'/setting',
+      	path:'/setting/:id?',
       	component:resolve => require(['../views/VoteSetting.vue'], resolve)
       },{
         path:'/votes',
