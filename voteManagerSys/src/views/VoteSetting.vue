@@ -1,6 +1,5 @@
 <template>
 	<div>
-
 		  <div class="index_source">
         <el-breadcrumb separator-class="el-icon-arrow-right">
           <el-breadcrumb-item :to="{ path: '/index' }">首页</el-breadcrumb-item>
@@ -174,17 +173,16 @@ export default {
         contact:[{ required: true, message: '请输入客服微信号'}]
       },
       activity: {
-        "name": "第二个活动",
-        "aid":"5a36176371940c18d609268c",
-        "enrolStart": "2017-12-17T07:06:11.475Z",
-        "enrolEnd": "2017-12-17T07:06:11.475Z",
-        "voteStart": "2017-12-17T07:06:11.475Z",
-        "voteEnd": "2017-12-17T07:06:11.475Z",
-        "participation": "第一个活动的参与方式",
-        "process": "第一个活动的活动流程",
-        "contact": "第一个活动的主办联系方式",
-        "info": "第二个活动的详细信息",
-        "banner":["第二个活动的图URL0","第一个活动的图URL1","第一个活动的图URL2"],
+        "name": "",
+        "enrolStart": "",
+        "enrolEnd": "",
+        "voteStart": "",
+        "voteEnd": "",
+        "participation": "",
+        "process": "",
+        "contact": "",
+        "info": "",
+        "banner":[],
         "rule": "第二个活动的规则"
       },
       thumbPic: [],
@@ -216,7 +214,6 @@ export default {
     }
   }},
   methods: {
-
     //重置
     resetForm(formName) {
         this.$refs[formName].resetFields();
@@ -246,7 +243,24 @@ export default {
       this.$refs["activityForm"].validate((valid) => {
         if(valid) {
           console.log('submit!', self.activity);
-          self.activeName='second';
+          if(!this.activeId) {
+            //新增
+            self.ApiSever.addActivityInfo(self.activity).then(res => {
+               if(res.data) {
+                  this.$message('新增活动详情成功！');
+                  self.activeId = res.data;
+                  self.activeName='second';
+               }
+            });
+          } else {
+            //更新
+            self.ApiSever.updateActivityInfo(self.activity).then(res => {
+               if(res.data) {
+                  this.$message('更新活动详情成功！');
+                  self.activeName='second';
+               }
+            });
+          }          
         } else {
           console.log('error submit!!');
           return false;
@@ -436,8 +450,10 @@ export default {
   },
   mounted(){
     this.$nextTick(function () {
+      if(vueIns.activeId) {
         vueIns.getActivityInfo(vueIns.activeId);
         vueIns.getPrizes(vueIns.activeId); //请求奖品
+      }        
     });
 
   }

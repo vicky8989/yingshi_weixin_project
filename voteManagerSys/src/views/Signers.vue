@@ -20,28 +20,28 @@
   	<el-table :data="signerList" style="width: 1005px;">
 		<el-table-column
 	      fixed
-	      prop="name"
+	      prop="nickname"
 	      label="报名者"
 	      width="200">
 	    </el-table-column>
 	    <el-table-column
 	      fixed
-	      prop="imgPath"
+	      prop="headimgurl"
 	      label="缩略图"
 	      width="200">
 	    </el-table-column>
 	    <el-table-column
 	      fixed
-	      prop="tel"
+	      prop="phone"
 	      label="手机号"
 	      width="100">
 	    </el-table-column>
-	    <el-table-column
+	    <!-- <el-table-column
 	      fixed
 	      prop="uploadtime"
 	      label="上传时间"
 	      width="100">
-	    </el-table-column>
+	    </el-table-column> -->
 	    <el-table-column
 	      fixed
 	      label="审核状态"
@@ -85,7 +85,8 @@ export default {
   		let self = this;
         this.ApiSever.getSignerList().then(res => {
         	console.log(res);
-            self.signerList = res.data.data.value;
+        	if(res && res.data)
+            	self.signerList = res.data;
         });
   	}
   },

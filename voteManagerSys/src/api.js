@@ -21,9 +21,12 @@ const addPrize = `${HOST}addAward `;
 const activeList = `${HOST}listActivities`;
 const activityInfo = `${HOST}getActivityInfo`;
 const updateActivityInfo = `${HOST}updateActivityInfo`;
+const addActivity = `${HOST}addActivityInfo`;
 const voterList = `${HOST}getVoter`;
 const paticilist = `${HOST}getPaticilist`;
-const signerList = `${HOST}getSignerlist`;
+
+/*用户接口*/
+const signerList = `${HOST}listUsers`;
 const delActivityImg = `${HOST}deleteActivityImage`;
 
 Mock.mock(voterList, {
@@ -65,23 +68,23 @@ Mock.mock(paticilist, {
   }
 });
 
-Mock.mock(signerList, {
-  code: 1,
-  msg: '查询成功',
-  data: {
-    "success": 'true',
-    "pageSize": 1,
-    "count": 1,
-    "value|5": [{
-      'id|+1': 1,
-      'name': '@ctitle(10, 15)',
-      'imgPath': '@ctitle(6, 10)',
-      'tel': '12345567889',
-      'uploadtime': "@date('yyyy-MM-dd')",
-      'status': '1'
-    }]
-  }
-});
+// Mock.mock(signerList, {
+//   code: 1,
+//   msg: '查询成功',
+//   data: {
+//     "success": 'true',
+//     "pageSize": 1,
+//     "count": 1,
+//     "value|5": [{
+//       'id|+1': 1,
+//       'name': '@ctitle(10, 15)',
+//       'imgPath': '@ctitle(6, 10)',
+//       'tel': '12345567889',
+//       'uploadtime': "@date('yyyy-MM-dd')",
+//       'status': '1'
+//     }]
+//   }
+// });
 
 /*function axiosRequest(method, url, data) {
   if (data) {
@@ -108,7 +111,11 @@ Mock.mock(signerList, {
   }
 }*/
 
-export default {  
+export default {
+  //参与者列表
+  getUser:() => {
+    return VueHttp.$http.get(getUser);
+  },
   getActivities: () => {
     return VueHttp.$http.get(activeList)
   },
@@ -120,6 +127,9 @@ export default {
   updateActivityInfo: (data) => {
     return VueHttp.$http.put(updateActivityInfo, JSON.stringify(data));
   },
+  addActivityInfo:(data)=> {
+    return VueHttp.$http.post(addActivity, JSON.stringify(data));
+  },
 
   //获取奖品
   getPrizes: (aid) => {
@@ -127,7 +137,7 @@ export default {
     return VueHttp.$http.get(prizelistUrl)
   },
   //修改奖品
-  updatePrize: (data) => {    
+  updatePrize: (data) => {
     return VueHttp.$http.put(updatePrize, JSON.stringify(data));
   },
   //删除奖品
