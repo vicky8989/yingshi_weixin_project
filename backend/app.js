@@ -3,13 +3,12 @@ var url = require('url');
 var util = require('util');
 var bodyParser = require('body-parser');
 
+var dbLink = require('./db/dbLink');
+dbLink.link();
+
 var voteUser = require('./db/user');
 var voteActivity = require('./db/activity');
-var voteActivityInfo = require('./db/activityInfo');
-var voteAwards = require('./db/awards');
-var voteProduction = require('./db/production');
-var voteGift = require('./db/gift');
-var votePresent = require('./db/present');
+var voteSigner = require('./db/signer');
 var file = require('./file/file');
 
 var app = express();
@@ -80,12 +79,25 @@ app.get('/listUsers', function (req, res) {
 app.get('/getUser', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
 	var params = url.parse(req.url, true).query;
+	if (params==null || params.uid==null) {
+		res.status(400).send({'error':"Bad Request"});
+		return;
+	}
+
+	voteUser.queryData(params.uid,function(result){
+        res.send(result);
+    });
+})
+
+app.get('/getUserByOpenId', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	var params = url.parse(req.url, true).query;
 	if (params==null || params.openid==null) {
 		res.status(400).send({'error':"Bad Request"});
 		return;
 	}
 
-	voteUser.queryData(params.openid,function(result){
+	voteUser.queryDataByOpenId(params.openid,function(result){
         res.send(result);
     });
 })
@@ -128,11 +140,23 @@ app.delete('/deleteUser', function (req, res) {
   	});
 })
 
-
 //活动接口
 app.get('/listActivities', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
 	voteActivity.queryData("",function(result){
+        res.send(result);
+    });
+})
+
+app.get('/getActivities', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	var params = url.parse(req.url, true).query;
+	if (params==null || params.status==null) {
+		res.status(400).send({'error':"Bad Request"});
+		return;
+	}
+
+	voteActivity.queryDataByStatus(parseInt(params.status),function(result){
         res.send(result);
     });
 })
@@ -188,15 +212,15 @@ app.delete('/deleteActivity', function (req, res) {
   	});
 })
 
-//活动详情相关接口
-app.get('/listActivityInfos', function (req, res) {
+//参赛接口
+app.get('/listSigners', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
-	voteActivityInfo.queryData("",function(result){
+	voteSigner.queryData("",function(result){
         res.send(result);
     });
 })
 
-app.get('/getActivityInfo', function (req, res) {
+app.get('/getSigners', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
 	var params = url.parse(req.url, true).query;
 	if (params==null || params.aid==null) {
@@ -204,294 +228,64 @@ app.get('/getActivityInfo', function (req, res) {
 		return;
 	}
 
-	voteActivityInfo.queryData(params.aid,function(result){
+	voteSigner.queryDataByAid(params.aid,function(result){
         res.send(result);
     });
 })
 
-app.post('/addActivityInfo', function (req, res) {
+app.get('/getSigner', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	var params = url.parse(req.url, true).query;
+	if (params==null || params.sid==null) {
+		res.status(400).send({'error':"Bad Request"});
+		return;
+	}
+
+	voteSigner.queryData(params.sid,function(result){
+        res.send(result);
+    });
+})
+
+app.post('/addSigner', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
 	if (req.body == null) {
 		res.status(400).send({'error':"Bad Request"});
 		return;
 	}
 
-	voteActivityInfo.addData(req.body,function(result,aid){
-      	res.send(aid);
-  	});
-})
-
-app.put('/updateActivityInfo', function (req, res) {
-	res.header('Access-Control-Allow-Origin', '*');
-	var params = url.parse(req.url, true).query;
-	if (params==null || params.aid==null) {
-		res.status(400).send({'error':"Bad Request"});
-		return;
-	}
-
-	voteActivityInfo.updateData(params.aid,req.body,function(result){
+	voteSigner.addData(req.body,function(result,sid){
       	res.send(result);
   	});
 })
 
-app.delete('/deleteActivityInfo', function (req, res) {
+
+app.put('/updateSigner', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
 	var params = url.parse(req.url, true).query;
-	if (params==null || params.aid==null) {
+	if (params==null || params.sid==null) {
 		res.status(400).send({'error':"Bad Request"});
 		return;
 	}
 
-	voteActivityInfo.delData(params.aid,function(result){
+	voteSigner.updateData(params.sid,req.body,function(result){
       	res.send(result);
   	});
 })
 
-//奖品接口
-app.get('/listAwards', function (req, res) {
-	res.header('Access-Control-Allow-Origin', '*');
-	voteAwards.queryData("",function(result){
-        res.send(result);
-    });
-})
-
-app.get('/getAwards', function (req, res) {
+app.delete('/deleteSigner', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
 	var params = url.parse(req.url, true).query;
-	if (params==null || params.aid==null) {
+	if (params==null || params.sid==null) {
 		res.status(400).send({'error':"Bad Request"});
 		return;
 	}
 
-	voteAwards.queryData(params.aid,function(result){
-        res.send(result);
-    });
-})
-
-app.post('/addAward', function (req, res) {
-	res.header('Access-Control-Allow-Origin', '*');
-	if (req.body == null) {
-		res.status(400).send({'error':"Bad Request"});
-		return;
-	}
-
-	voteAwards.addData(req.body,function(result,aid){
-      	res.send(aid);
-  	});
-})
-
-app.put('/updateAward', function (req, res) {
-	res.header('Access-Control-Allow-Origin', '*');
-	var params = url.parse(req.url, true).query;
-	if (params==null || params.awid==null) {
-		res.status(400).send({'error':"Bad Request"});
-		return;
-	}
-
-	voteAwards.updateData(params.awid,req.body,function(result){
+	voteSigner.delData(params.sid,function(result){
       	res.send(result);
   	});
 })
 
-app.delete('/deleteAward', function (req, res) {
-	res.header('Access-Control-Allow-Origin', '*');
-	var params = url.parse(req.url, true).query;
-	if (params==null || params.awid==null) {
-		res.status(400).send({'error':"Bad Request"});
-		return;
-	}
-
-	voteAwards.delData(params.awid,function(result){
-      	res.send(result);
-  	});
-})
-
-//作品接口
-app.get('/listProductions', function (req, res) {
-	res.header('Access-Control-Allow-Origin', '*');
-	voteProduction.queryData("",function(result){
-        res.send(result);
-    });
-})
-
-app.get('/getProductions', function (req, res) {
-	res.header('Access-Control-Allow-Origin', '*');
-	var params = url.parse(req.url, true).query;
-	if (params==null || params.aid==null) {
-		res.status(400).send({'error':"Bad Request"});
-		return;
-	}
-
-	voteProduction.queryData(params.aid,function(result){
-        res.send(result);
-    });
-})
-
-app.post('/addProduction', function (req, res) {
-	res.header('Access-Control-Allow-Origin', '*');
-	if (req.body == null) {
-		res.status(400).send({'error':"Bad Request"});
-		return;
-	}
-
-	voteProduction.addData(req.body,function(result,aid){
-      	res.send(aid);
-  	});
-})
-
-app.put('/updateProduction', function (req, res) {
-	res.header('Access-Control-Allow-Origin', '*');
-	var params = url.parse(req.url, true).query;
-	if (params==null || params.pid==null) {
-		res.status(400).send({'error':"Bad Request"});
-		return;
-	}
-
-	voteProduction.updateData(params.pid,req.body,function(result){
-      	res.send(result);
-  	});
-})
-
-app.delete('/deleteProduction', function (req, res) {
-	res.header('Access-Control-Allow-Origin', '*');
-	var params = url.parse(req.url, true).query;
-	if (params==null || params.pid==null) {
-		res.status(400).send({'error':"Bad Request"});
-		return;
-	}
-
-	voteProduction.delData(params.pid,function(result){
-      	res.send(result);
-  	});
-})
-
-//礼物接口
-app.get('/listGifts', function (req, res) {
-	res.header('Access-Control-Allow-Origin', '*');
-	voteGift.queryData("",function(result){
-        res.send(result);
-    });
-})
-
-app.get('/getGift', function (req, res) {
-	res.header('Access-Control-Allow-Origin', '*');
-	var params = url.parse(req.url, true).query;
-	if (params==null || params.gid==null) {
-		res.status(400).send({'error':"Bad Request"});
-		return;
-	}
-
-	voteGift.queryData(params.gid,function(result){
-        res.send(result);
-    });
-})
-
-app.post('/addGift', function (req, res) {
-	res.header('Access-Control-Allow-Origin', '*');
-	if (req.body == null) {
-		res.status(400).send({'error':"Bad Request"});
-		return;
-	}
-
-	voteGift.addData(req.body,function(result,aid){
-      	res.send(aid);
-  	});
-})
-
-app.put('/updateGift', function (req, res) {
-	res.header('Access-Control-Allow-Origin', '*');
-	var params = url.parse(req.url, true).query;
-	if (params==null || params.gid==null) {
-		res.status(400).send({'error':"Bad Request"});
-		return;
-	}
-
-	voteGift.updateData(params.gid,req.body,function(result){
-      	res.send(result);
-  	});
-})
-
-app.delete('/deleteGift', function (req, res) {
-	res.header('Access-Control-Allow-Origin', '*');
-	var params = url.parse(req.url, true).query;
-	if (params==null || params.gid==null) {
-		res.status(400).send({'error':"Bad Request"});
-		return;
-	}
-
-	voteGift.delData(params.gid,function(result){
-      	res.send(result);
-  	});
-})
-
-//礼物接口
-app.get('/listPresents', function (req, res) {
-	res.header('Access-Control-Allow-Origin', '*');
-	votePresent.queryData("",function(result){
-        res.send(result);
-    });
-})
-
-app.get('/getPresents', function (req, res) {
-	res.header('Access-Control-Allow-Origin', '*');
-	var params = url.parse(req.url, true).query;
-	if (params==null) {
-		res.status(400).send({'error':"Bad Request"});
-		return;
-	}
-
-	if (params.aid!=null) {
-		votePresent.queryData(params.aid,function(result){
-        	res.send(result);
-    	});
-	}
-	else if (params.pid != null) {
-		votePresent.queryDataByPID(params.pid,function(result){
-        	res.send(result);
-    	});
-	}
-	else
-	{
-		res.status(400).send({'error':"Bad Request"});
-	}
-})
-
-app.post('/addPresent', function (req, res) {
-	res.header('Access-Control-Allow-Origin', '*');
-	if (req.body == null) {
-		res.status(400).send({'error':"Bad Request"});
-		return;
-	}
-
-	votePresent.addData(req.body,function(result,aid){
-      	res.send(aid);
-  	});
-})
-
-app.delete('/deletePresents', function (req, res) {
-	res.header('Access-Control-Allow-Origin', '*');
-	var params = url.parse(req.url, true).query;
-	if (params==null) {
-		res.status(400).send({'error':"Bad Request"});
-		return;
-	}
-
-	if (params.aid!=null) {
-		votePresent.delData(params.aid,function(result){
-        	res.send(result);
-    	});
-	}
-	else if (params.pid != null) {
-		votePresent.delDataByPID(params.pid,function(result){
-        	res.send(result);
-    	});
-	}
-	else
-	{
-		res.status(400).send({'error':"Bad Request"});
-	}
-})
-
+//创建服务
 var server = app.listen(8085,function () {
  
   var host = server.address().address

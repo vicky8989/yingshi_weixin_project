@@ -4,7 +4,9 @@ var File = function()
     var fs = require('fs');
     var mime = require('mime');
     var imageUrlPath = './production/';
+    // var imageUrlPath = 'C://vote//server//production';
     var imageDest = imageUrlPath + 'images/';
+
 
     var storage = multer.diskStorage({
         //设置上传后文件路径，uploads文件夹会自动创建。

@@ -14,4 +14,3 @@ npm install multer --save
 #mongodb启动
 cd /Users/CastingJ/mongodb/bin 
 ./mongod --dbpath=../data/db
-

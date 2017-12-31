@@ -3,13 +3,13 @@ var dbLink = require('./dblink');
 var User = function()
 {
     var ObjectId = require('mongodb').ObjectID;
-    var user = null;
-    
+    var codeMap = require('../common/map');
     var collection = null;
+    
     this.collection = function(){
 
         if (collection == null) {
-            collection = dbLink.collection('user');
+            collection = dbLink.collection('signer');
             if (collection == null) {
                 return false;
             }
@@ -18,23 +18,62 @@ var User = function()
         return true;
     }
 
+    this.calcCode = function(aid){
+        if (this.collection() == false) {
+            return;
+        }
+
+        if (codeMap.isEmpty()) {
+
+            var signers = collection.find().toArray();
+            for (var i=0 ; i<signers.length; i++) {
+
+                var signer = signers[i]
+                if (codeMap.get(signer.aid) != null) {
+                    if(codeMap.get(signer.aid)<signer.code){
+                        codeMap.get(signer.aid) = signer.code;
+                    }
+                }
+                else{
+                    codeMap.put(signer.aid, 1);
+                }
+            }
+        }
+
+        if (codeMap.get(aid) != null) {
+            codeMap.get(aid) ++;
+            return codeMap.get(aid);
+        }
+        else{
+            codeMap.put(aid, 1);
+            return 1;
+        }
+    }
+
     this.addData = function(userData,callback)
     {
         if (this.collection() == false) {
             return;
         }
 
+        if (userData.aid == null) {
+            return;
+        }
+
         var data = {
-            'openid': userData.openid,
-            'nickname': userData.nickname,
-            'headimgurl': userData.headimgurl ,
-            'sex': userData.sex,
-            'language': userData.language,
-            'city': userData.city,
-            'province': userData.province,
-            'country': userData.country
+            'aid':userData.aid,
+            'uid': userData.uid,
+            'name': userData.name ,
+            'phone': userData.phone,
+            'address': userData.address,
+            'words': userData.words,
+            'hot': userData.hot,
+            'votenum': userData.voteNum,
+            'pics': userData.pics,
+            'status':userData.status
         };
 
+        data.code = this.calcCode(data.aid);
         collection.insert(data, function(err, result) { 
             if(err)
             {
@@ -46,28 +85,30 @@ var User = function()
         });
     }
 
-    this.updateData = function(uid,userData,callback)
+    this.updateData = function(sid,userData,callback)
     {
         if (this.collection() == false) {
             return;
         }
 
-        if (uid == null) {
+        if (sid == null) {
             return;
         }
 
-        var whereStr = {"_id":ObjectId(uid)};
+        var whereStr = {"_id":ObjectId(sid)};
         var data = {$set:{
-            'openid': userData.openid,
-            'nickname': userData.nickname,
-            'headimgurl': userData.headimgurl ,
-            'sex': userData.sex,
-            'language': userData.language,
-            'city': userData.city,
-            'province': userData.province,
-            'country': userData.country}};
+            'aid':userData.aid,
+            'uid': userData.uid,
+            'name': userData.name ,
+            'phone': userData.phone,
+            'address': userData.address,
+            'words': userData.words,
+            'hot': userData.hot,
+            'votenum': userData.voteNum,
+            'pics': userData.pics,
+            'status':userData.status}};
 
-        collection.update(whereStr,data, function(err, result) { 
+        collection.update(whereStr,data,function(err, result) { 
             if(err)
             {
               console.log('Error:'+ err);
@@ -78,17 +119,17 @@ var User = function()
         });
     }
 
-    this.queryData = function(uid,callback)
+    this.queryData = function(sid,callback)
     {
         if (this.collection() == false) {
             return;
         }
 
-        if (uid==null) {
+        if (sid==null) {
             return;
         }
 
-        if (uid=="") {
+        if (sid=="") {
             collection.find().toArray(function(err, result) {
                 if(err)
                 {
@@ -101,7 +142,7 @@ var User = function()
         }
         else
         {
-            var whereStr = {"_id":ObjectId(uid)};
+            var whereStr = {"_id":ObjectId(sid)};
             collection.find(whereStr).toArray(function(err, result) {
                 if(err)
                 {
@@ -114,17 +155,17 @@ var User = function()
         }
     }
 
-    this.queryDataByOpenId = function(openid)
+    this.queryDataByAid = function(aid)
     {
         if (this.collection() == false) {
             return;
         }
 
-        if (openid == null) {
+        if (aid == null) {
             return;
         }
 
-        var whereStr = {"openid":openid};
+        var whereStr = {"aid":aid};
         collection.find(whereStr).toArray(function(err, result) {
             if(err)
             {
@@ -136,17 +177,17 @@ var User = function()
         });
     }
 
-    this.delData = function(uid,callback)
+    this.delData = function(sid,callback)
     {
         if (this.collection() == false) {
             return;
         }
 
-        if (uid == null) {
+        if (sid == null) {
             return;
         }
 
-        var whereStr = {"_id":ObjectId(uid)};
+        var whereStr = {"_id":ObjectId(sid)};
         collection.remove(whereStr, function(err, result) {
             if(err)
             {
