@@ -9,6 +9,7 @@ dbLink.link();
 var voteUser = require('./db/user');
 var voteActivity = require('./db/activity');
 var voteSigner = require('./db/signer');
+var voteAward = require('./db/award');
 var file = require('./file/file');
 
 var app = express();
@@ -257,6 +258,64 @@ app.delete('/deleteSigner', function (req, res) {
 	}
 
 	voteSigner.delData(params.sid,function(result){
+      	res.send(result);
+  	});
+})
+
+//奖品接口
+app.get('/listAwards', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	voteAward.queryData("",function(result){
+        res.send(result);
+    });
+})
+
+app.get('/getAwards', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	var params = url.parse(req.url, true).query;
+	if (params==null || params.aid==null) {
+		return;
+	}
+
+	voteAward.queryData(params.aid,function(result){
+        res.send(result);
+    });
+})
+
+app.post('/addAward', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	if (req.body == null) {
+		res.status(400).send({'error':"Bad Request"});
+		return;
+	}
+
+	voteAward.addData(req.body,function(result,aid){
+      	res.send(aid);
+  	});
+})
+
+app.put('/updateAward', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	var params = url.parse(req.url, true).query;
+	if (params==null || params.awid==null) {
+		res.status(400).send({'error':"Bad Request"});
+		return;
+	}
+
+	voteAward.updateData(params.awid,req.body,function(result){
+      	res.send(result);
+  	});
+})
+
+app.delete('/deleteAward', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	var params = url.parse(req.url, true).query;
+	if (params==null || params.awid==null) {
+		res.status(400).send({'error':"Bad Request"});
+		return;
+	}
+
+	voteAward.delData(params.awid,function(result){
       	res.send(result);
   	});
 })

@@ -18,7 +18,12 @@
 		"445692f9-9e88-fde5-b440-16131dd40a30",
 		"d8b6b1d9-ec7e-1074-0ad3-597885d41f9e",
 		"d77dc897-4073-b272-409e-df1ccfcc5a21",
-		"fb977387-2146-7295-371a-17cd17d7ee4b"
+		"fb977387-2146-7295-371a-17cd17d7ee4b",
+		"891643e6-a186-39f2-1faf-20e74a32b002",
+		"46d48ec1-350e-bc32-d021-be9a1094578e",
+		"457ab8d1-4453-c5dc-e372-3181e4ec819f",
+		"fa3fa83e-3206-6eb3-80b5-f01d377933fa",
+		"e113f738-a0c2-6cf6-6529-f259fe3047ae"
 	],
 	"folders": [],
 	"folders_order": [],
@@ -216,6 +221,35 @@
 			"helperAttributes": null
 		},
 		{
+			"id": "457ab8d1-4453-c5dc-e372-3181e4ec819f",
+			"headers": "",
+			"headerData": [],
+			"url": "http://127.0.0.1:8085/deleteAward?awid=5a4a14a52e59672f20241573",
+			"queryParams": [
+				{
+					"key": "awid",
+					"value": "5a4a14a52e59672f20241573",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"events": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "DELETE",
+			"data": null,
+			"dataMode": "params",
+			"auth": null,
+			"time": 1514804405896,
+			"name": "deleteAward",
+			"description": "",
+			"collectionId": "9eb183d7-9922-a706-cc87-62b289bdee11",
+			"responses": [],
+			"currentHelper": null,
+			"helperAttributes": null
+		},
+		{
 			"id": "466a5cbf-1251-91de-c12a-5c648729fffb",
 			"headers": "",
 			"headerData": [],
@@ -233,6 +267,29 @@
 			"description": "",
 			"descriptionFormat": "html",
 			"time": 1514802224669,
+			"version": 2,
+			"responses": [],
+			"currentHelper": null,
+			"helperAttributes": null
+		},
+		{
+			"id": "46d48ec1-350e-bc32-d021-be9a1094578e",
+			"headers": "",
+			"headerData": [],
+			"url": "http://127.0.0.1:8085/listAwards",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"events": [],
+			"auth": null,
+			"method": "GET",
+			"collectionId": "9eb183d7-9922-a706-cc87-62b289bdee11",
+			"data": null,
+			"dataMode": "params",
+			"name": "listAwards",
+			"description": "listAwards",
+			"descriptionFormat": "html",
+			"time": 1514804351773,
 			"version": 2,
 			"responses": [],
 			"currentHelper": null,
@@ -298,6 +355,36 @@
 			"responses": [],
 			"currentHelper": null,
 			"helperAttributes": null
+		},
+		{
+			"id": "891643e6-a186-39f2-1faf-20e74a32b002",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://127.0.0.1:8085/addAward",
+			"queryParams": [],
+			"events": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"auth": null,
+			"time": 1514804397082,
+			"name": "addAward",
+			"description": "",
+			"collectionId": "9eb183d7-9922-a706-cc87-62b289bdee11",
+			"responses": [],
+			"currentHelper": null,
+			"helperAttributes": null,
+			"rawModeData": "{\n\t\"aid\":\"5a490327900f371dde360d99\",\n    \"name\": \"一等奖\",\n    \"num\": 1,\n    \"prizeInfo\": \"文房四宝一套\" ,\n    \"prizeImg\": \"奖品图片URL\",\n    \"info\": \"得了一等奖才能拿到呦\"\n}"
 		},
 		{
 			"id": "bfe3aa81-a2b4-8e26-762b-d987b29d0469",
@@ -412,6 +499,43 @@
 			"helperAttributes": null
 		},
 		{
+			"id": "e113f738-a0c2-6cf6-6529-f259fe3047ae",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://127.0.0.1:8085/updateAward?awid=5a4a13ef2e59672f20241570",
+			"queryParams": [
+				{
+					"key": "awid",
+					"value": "5a4a13ef2e59672f20241570",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"events": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "PUT",
+			"data": [],
+			"dataMode": "raw",
+			"auth": null,
+			"time": 1514804520105,
+			"name": "updateAward",
+			"description": "",
+			"collectionId": "9eb183d7-9922-a706-cc87-62b289bdee11",
+			"responses": [],
+			"currentHelper": null,
+			"helperAttributes": null,
+			"rawModeData": "{\n\t\"aid\":\"5a36176371940c18d609268c\",\n    \"name\": \"四等奖\",\n    \"num\": 7,\n    \"prizeInfo\": \"文房四宝八套xxx\" ,\n    \"prizeImg\": \"奖品图片URL232323\",\n    \"info\": \"得了四等奖才能拿到呦\"\n}"
+		},
+		{
 			"id": "e333a52b-a5c8-62cb-f477-90a8a98e3247",
 			"headers": "Content-Type: application/json\n",
 			"headerData": [
@@ -475,6 +599,36 @@
 			"descriptionFormat": "html",
 			"time": 1514802809603,
 			"version": 2,
+			"responses": [],
+			"currentHelper": null,
+			"helperAttributes": null
+		},
+		{
+			"id": "fa3fa83e-3206-6eb3-80b5-f01d377933fa",
+			"headers": "",
+			"headerData": [],
+			"url": "http://127.0.0.1:8085/getAwards?aid=5a490327900f371dde360d99",
+			"queryParams": [
+				{
+					"key": "aid",
+					"value": "5a490327900f371dde360d99",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"events": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"auth": null,
+			"time": 1514804453602,
+			"name": "getAwards",
+			"description": "",
+			"collectionId": "9eb183d7-9922-a706-cc87-62b289bdee11",
 			"responses": [],
 			"currentHelper": null,
 			"helperAttributes": null

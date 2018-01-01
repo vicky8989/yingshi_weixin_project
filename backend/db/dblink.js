@@ -21,6 +21,7 @@ var DBLink = function()
 				collectionMap.put('user', mongoDB.collection('user'));
 				collectionMap.put('activity', mongoDB.collection('activity'));
 				collectionMap.put('signer', mongoDB.collection('signer'));
+				collectionMap.put('awards', mongoDB.collection('awards'));
 
 				return mongoDB;
 			}
