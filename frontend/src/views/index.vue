@@ -42,14 +42,14 @@
 		<div class="activity_rules">
 			<div class="rules_title"><i class="iconfont icon_font">&#xe685;</i>活动规则</div>
 			<div class="content">
-				<strong>所有获奖作品汇编《世纪华人书画精品传世典藏》一书。对于传播中华文化，推动艺术交流鉴赏以及提升艺术家的知名度都是极具重大意义和收藏价值。（所有获奖作品选手 ，人均可获得一本）。</strong>
-				<p>大赛奖品丰厚，设有特等奖，一，二，三等奖，优秀奖。前50名都有大赛奖杯，大赛荣誉证书，大赛奖牌，大赛荣誉牌匾，这些奖品不仅仅是物质上的奖励，更是对您取得的艺术成就的肯定，所以具有非常重要的收藏意义！前50名以后的参赛者只要满500票，同时满150点礼物积分，也会颁发大赛荣誉证书，大赛荣誉牌匾，豪华精装笔墨纸砚套装礼盒，紫砂纪念杯。欢迎广大书画艺术爱好者踊跃报名参赛！</p>
+				<strong>{{activity.rule}}</strong>
+				<p>{{activity.info}}</p>
 				<img src="./../assets/images/IMG_0117.png" />
-				<h1>2017世界华人书画大赛</h1>
-				<h5>协办方：书画美术艺术竞赛平台官网</h5>
-				<span>大赛客服老师微信号：shuhuadasaiwang</span>
+				<h1>{{activity.name}}</h1>
+				<h5>协办方：{{activity.sponsor}}</h5>
+				<span>大赛客服老师微信号：{{activity.contact}}</span>
 			</div>
-		</div>		
+		</div>
 	</div>
 </template>
 
@@ -60,200 +60,207 @@
 	} from 'mint-ui'
 	import Slider from './common/Slider.vue'
 	import conutDown from './common/conutDown.vue'
-	let testData = [{
-		id: 3,
-		num: 200,
-		name: '吉祥象',
-		src: 'http://www.artrondata.com/hml/view/93、苍空独立图.jpg'
-	}];
 
 	export default {
 		data() {
-				return {
-					pics: [],
-					searchInfo: '',
-					listData: testData,					
-					finishTime: this.ApiSever.FINSIHTIME,
-					isVoteFinished:this.ApiSever.getFinishTime(),
-					playerList: {
-						totalCount: '', //总条数
-						pageNum: 1,
-						pageSize: 10,
-						value: []
-					},
-					allLoaded: false, //是否可以加载更多，false可以，true为禁止
-					userData: {
-						voteNum: 12,
-						hot: 12,
-						gift: 12,
-						id: 12
-					},
-				}
-			},
-			created() {
-			},
-			components: {
-				Slider,
-				conutDown
-			},
-			methods: {
-				getBannerData() {
-					let self = this;
-					this.ApiSever.getBanners().then(res => {
-						console.log(res);
-						let result = res.body.data;
-						if(result.success) {
-							self.pics = result.value;
-						}
-					});
+			return {
+				pics: [],
+				activity:{},
+				searchInfo: '',
+				perPageNum:this.ApiSever.PERPAGENUM,
+				curPage:0,
+				originData:[],
+				listData: [],
+				finishTime: this.ApiSever.FINSIHTIME,
+				isVoteFinished:this.ApiSever.getFinishTime(),
+				playerList: {
+					totalCount: 0, //总条数
+					pageSize: 10,
+					value: []
 				},
-				//获取列表
-				getListData() {
-					//				Indicator.open('加载中...');
-					let self = this;
-					let param = {
-						pageNumber: self.playerList.pageNumber,
-						pageSize: self.playerList.pageSize
-					};
-					this.appendLi();
-
-					this.ApiSever.getListData(param).then(res => {
-						Indicator.close();
-						console.log(res)
-						let result = res.body.data;
-						if(result.success) {
-							self.playerList.value = result.value;
-							self.playerList.totalCount = result.count;
-							self.listData = self.listData.concat(result.value);
-							self.isHaveMore();
-							self.appendLi();
-						}
-					});
+				allLoaded: false, //是否可以加载更多，false可以，true为禁止
+				userData: {
+					voteNum: 12,
+					hot: 12,
+					gift: 12,
+					id: 12
 				},
-
-				//是否可以点击加载更多事件
-				isHaveMore() {
-					this.allLoaded = false;
-					let currentNum = parseInt(this.playerList.pageSize);
-					if(currentNum == this.playerList.totalCount || currentNum > this.playerList.totalCount) {
-						this.allLoaded = true;
-					} else this.allLoaded = false;
-				},
-
-				//点击加载更多
-				handleMore() {
-					if(this.allLoaded) return false;
-
-					if((this.playerList.totalCount) / (this.playerList.pageSize) <= 1) {
-						this.playerList.pageNumber = 1;
-						this.allLoaded = true;
-					} else {
-						this.playerList.pageSize = parseInt(this.playerList.pageSize) + 10;
-						this.allLoaded = false;
-					}
-					this.getListData();
-				},
-
-				//点击搜索按钮事件
-				handleSearch() {
-					if(!this.searchInfo) {
-						alert('请输入搜索内容!');
-					}
-				},
-
-				//创建Li
-				createLi(data) {
-					let this_ = this;
-					var oLi = document.createElement('li');
-					var oSpan = document.createElement('span');
-					var oP = document.createElement('p');
-					var oDiv = document.createElement('div');
-					oDiv.className = 'vote_btn';
-					oDiv.innerHTML = '投票';
-					oSpan.className = 'votes';
-					oSpan.innerHTML = data.id + '号, ' + data.num + '票';
-					oP.innerHTML = data.name;
-					var oImg = new Image();
-					oImg.src = data.src + '?t=' + Math.random();
-
-					if(!oImg.width || !oImg.height) {
-						var img = new Image();
-						img.src = data.src;
-						oImg = img;
-					}
-
-					//点击跳转到投票界面
-					oDiv.onclick = function() {
-						console.log('给' + data.id + '投票');
-						this_.$router.push({
-							path: '/votes/' + data.id,
-							params: {
-								id: data
-							},
-							query:{
-								isFinished: this_.isVoteFinished
-							}
-						});
-					}
-					oLi.appendChild(oImg);
-					oLi.appendChild(oSpan);
-					oLi.appendChild(oP);
-					oLi.appendChild(oDiv);
-
-					return oLi;
-				},
-
-				//通过排序实现瀑布流效果
-				appendLi() {
-					let oAaterfallFlow = document.getElementById('waterfallFlow');
-					let aUl = oAaterfallFlow.getElementsByTagName('ul');
-					aUl[0].innerHTML = '';
-					aUl[1].innerHTML = '';
-
-					let resultData = this.listData;
-					if(!resultData || resultData.length < 1) return false;
-
-					for(var i = 0, ilen = resultData.length; i < ilen; i++) {
-						var oLi = this.createLi(resultData[i]);
-						var arr = [];
-						for(var j = 0, len = aUl.length; j < len; j++) {
-							arr.push(aUl[j]);
-						}
-
-						arr.sort(function(u1, u2) {
-							return u1.scrollHeight - u2.scrollHeight;
-						});
-						arr[0].appendChild(oLi);
-					}
-
-				},
-
-				//我要报名点击事件
-				handleSignin() {
-					this.$router.push({
-						path: '/recruit'
-						
-					});
-				},
-				validCurTime(curtime) {
-					if(curtime <= 0) {
-						Toast({
-							message: '活动已结束',
-							position: 'middle',
-							duration: 5000
-						});
-					}
-				}
-			},
-			beforeMount() {
-				this.getBannerData();
-			},
-			mounted() {
-				this.getListData();
-			},
-			destroyed() {
-				Indicator.close();
+				imgURL: this.ApiSever.imgUrl
 			}
+		},
+		components: {
+			Slider,
+			conutDown
+		},
+		methods: {
+			getActivity() {
+				let self = this;
+				this.ApiSever.getActivity().then(res => {
+					if(res && res.data && res.data.length >0) {
+						let result = res.data[0];
+						self.activity = result;
+						self.pics = result.banner;
+						self.ApiSever.FINSIHTIME = result.voteend;
+						self.ApiSever.AID = result._id;
+						self.getListData(result._id);
+						self.$emit('finishTimeChanged', result.voteend);
+					}
+				});
+			},
+			//获取列表
+			getListData(aid) {
+				//Indicator.open('加载中...');
+				let self = this;
+				// let param = {
+				// 	pageNumber: self.playerList.pageNumber,
+				// 	pageSize: self.playerList.pageSize
+				// };
+				this.appendLi();
+
+				this.ApiSever.getListSigners(aid).then(res => {
+					Indicator.close();
+					//console.log(res)
+					let result = res.body;
+					if(result && result.length > 0) {
+						self.playerList.value = result;
+						self.playerList.totalCount = result.length;
+						self.playerList.pageSize =Math.ceil(self.playerList.totalCount / self.perPageNum);
+						self.getPageData();
+						self.isHaveMore();
+						self.appendLi();
+					}
+				});
+			},
+
+			getPageData() {
+				let start =0,
+				end = this.curPage*this.perPageNum + this.perPageNum;
+				if(end > this.playerList.totalCount) end = this.playerList.totalCount;
+
+				this.listData = this.playerList.value.slice(start,end);
+				//console.log('page data',this.listData);
+			},
+
+			//是否可以点击加载更多事件
+			isHaveMore() {
+				this.allLoaded = false;
+				let currentNum = (this.curPage+1)*this.perPageNum;
+				if(currentNum == this.playerList.totalCount || currentNum > this.playerList.totalCount) {
+					this.allLoaded = true;
+				} else this.allLoaded = false;
+			},
+
+			//点击加载更多
+			handleMore() {
+				this.curPage++;
+				this.getPageData();
+				this.isHaveMore();
+				this.appendLi();
+			},
+
+			//点击搜索按钮事件
+			handleSearch() {
+				if(this.searchInfo != '') {
+					let data = [],searchTxt = this.searchInfo;
+					this.listData = [];
+					for(var i=0,ilen = this.playerList.value.length; i < ilen;i++) {
+						let item = this.playerList.value[i];
+						if(item.code.toString().indexOf(searchTxt)>=0 || item.name.indexOf(searchTxt)>=0) {
+							this.listData.push(item);
+						}
+					}
+
+				}	else {
+					this.getPageData();
+				}
+				console.log('search',this.listData);
+				this.appendLi();
+				this.isHaveMore();
+			},
+
+			//创建Li
+			createLi(data) {
+				let this_ = this;
+				var oLi = document.createElement('li');
+				var oSpan = document.createElement('span');
+				var oP = document.createElement('p');
+				var oDiv = document.createElement('div');
+				oDiv.className = 'vote_btn';
+				oDiv.innerHTML = '投票';
+				oSpan.className = 'votes';
+				oSpan.innerHTML = data.code + '号, ' + data.votenum + '票';
+				oP.innerHTML = data.name;
+				var oImg = new Image();
+				oImg.src = this_.imgURL+data.pics[0];
+
+				//点击跳转到投票界面
+				oDiv.onclick = function() {
+					console.log('给' + data._id + '投票');
+					this_.$router.push({
+						path: '/votes/' + data._id,
+						params: {
+							id: data
+						},
+						query:{
+							isFinished: this_.isVoteFinished
+						}
+					});
+				}
+				oLi.appendChild(oImg);
+				oLi.appendChild(oSpan);
+				oLi.appendChild(oP);
+				oLi.appendChild(oDiv);
+
+				return oLi;
+			},
+
+			//通过排序实现瀑布流效果
+			appendLi() {
+				let oAaterfallFlow = document.getElementById('waterfallFlow');
+				let aUl = oAaterfallFlow.getElementsByTagName('ul');
+				aUl[0].innerHTML = '';
+				aUl[1].innerHTML = '';
+
+				let resultData = this.listData;
+				if(!resultData || resultData.length < 1) return false;
+
+				for(var i = 0, ilen = resultData.length; i < ilen; i++) {
+					var oLi = this.createLi(resultData[i]);
+					var arr = [];
+					for(var j = 0, len = aUl.length; j < len; j++) {
+						arr.push(aUl[j]);
+					}
+
+					arr.sort(function(u1, u2) {
+						return u1.scrollHeight - u2.scrollHeight;
+					});
+					arr[0].appendChild(oLi);
+				}
+			},
+
+			//我要报名点击事件
+			handleSignin() {
+				this.$router.push({
+					path: '/recruit'
+
+				});
+			},
+			validCurTime(curtime) {
+				if(curtime <= 0) {
+					Toast({
+						message: '活动已结束',
+						position: 'middle',
+						duration: 5000
+					});
+				}
+			}
+		},
+		created() {
+			this.getActivity();
+		},
+		destroyed() {
+			Indicator.close();
+		}
 	}
 </script>
 

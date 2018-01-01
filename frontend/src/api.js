@@ -12,14 +12,20 @@ const PRIZES = 'awards.json';
 
 const RANKING = 'userList.json';
 
-const FINSIHTIME = '2017/12/17 17:39:10';
+let FINSIHTIME = '2018/12/29 17:39:10';
+let AID=null;
+const PERPAGENUM = 3; //首页显示几条作品
 
 const VueHttp = new Vue();
+
+const ACTIVITY = `${HOST}getActivities?status=0`;
+const ADDSIGNER = `${HOST}addSigner`;
+const GETSIGNERS= `${HOST}getSigners`;
 
 /*测试的接口*/
 const TEST = `${HOST}test`;
 const GIFTS = `${HOST}gifts`;
-const BANNERS = `${HOST}banners`;
+//const BANNERS = `${HOST}banners`;
 const USERDATA = `${HOST}userData`;
 
 // 生成商品列数据
@@ -99,17 +105,17 @@ Mock.mock('awards.json', {
 });
 
 //模拟礼物列表数据
-Mock.mock(BANNERS, {
-  code: 1,
-  msg: '查询成功',
-  data: {
-    "success": 'true',
-    "value|3": [{
-      'id|+1': 1,
-      'src':'@image(200x200,#50B347,#fff, nice)'
-    }]
-  }
-});
+// Mock.mock(BANNERS, {
+//   code: 1,
+//   msg: '查询成功',
+//   data: {
+//     "success": 'true',
+//     "value|3": [{
+//       'id|+1': 1,
+//       'src':'@image(200x200,#50B347,#fff, nice)'
+//     }]
+//   }
+// });
 // 生成商品列数据
 Mock.mock(RANKING, {
         code: 1,
@@ -143,8 +149,13 @@ function validTimeFinished(finishTime) {
 
 export default {
 	FINSIHTIME,
-  getBanners:()=>{
-    return VueHttp.$http.get(BANNERS)
+  AID,
+  PERPAGENUM,
+  getActivity:() => {
+    return VueHttp.$http.get(ACTIVITY)
+  },
+  addRecruit:(data) => {
+    return VueHttp.$http.post(ADDSIGNER,JSON.stringify(data))
   },
   //获取奖品数据
   getPrizes: (jsons) => {
@@ -155,8 +166,10 @@ export default {
     return VueHttp.$http.get(RANKING)
   },
 
-  getListData: (jsons) => {
-    return VueHttp.$http.get(TEST)
+  //根据活动获取
+  getListSigners: (aid) => {
+    let url = `${GETSIGNERS}?aid=${aid}`;
+    return VueHttp.$http.get(url)
   },
   getUserDataByID:(jsons)=>{
     return VueHttp.$http.get(USERDATA)
@@ -172,5 +185,7 @@ export default {
   getFinishTime:()=> {
     return validTimeFinished(FINSIHTIME);
   },
-  httpUrl: HOST
+  httpUrl: HOST,
+  imgUrl: `${HOST}images/`,
+  uploadUrl: `${HOST}uploadActivityImage`
 }

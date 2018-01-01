@@ -1,10 +1,10 @@
 <template>
 	<div id="app">
-		<Marquee tips="投票时间截至到2017-11-11日"></Marquee>
+		<Marquee :tips="mtip"></Marquee>
 		<!--   <images src="./assets/logo.png">-->
 		<div class="wrap">
 			<transition enter-active-class="next-enter">
-				<router-view class="full-h"></router-view>
+				<router-view class="full-h" @finishTimeChanged="finishTimeChanged"></router-view>
 			</transition>
 		</div>
 		<BottomNav v-if="isVotePage == false" :isFinished='isVoteFinished'></BottomNav>
@@ -16,9 +16,11 @@
 	import BottomNav from './views/common/BottomNav.vue'
 	export default {
 		data() {
+			let day = this.$moment(this.ApiSever.FINSIHTIME).format('YYYY-MM-DD');
 			return {
 				isVoteFinished:this.ApiSever.getFinishTime(),
-				isVotePage:false
+				isVotePage:false,
+				mtip:`投票时间截至到${day}日`
 			}
 		},
 		name: 'app',
@@ -28,18 +30,17 @@
 		},
 		watch: {
 			'$route' (to, from) {
-			    this.isVotePage = to.path.indexOf('votes')>=0;			    
+			    this.isVotePage = to.path.indexOf('votes')>=0;
 			  }
-		},		
-		methods:{
-			getRouteName(){
-				debugger;
-				console.log(this.$route.path);
-				return (this.$route.path.indexOf('votes') >= 0);
-			}		
+		},
+		methods: {
+			finishTimeChanged(finishTime) {
+				let day = this.$moment(this.ApiSever.FINSIHTIME).format('YYYY-MM-DD');
+				this.mtip = `投票时间截至到${day}日`;
+			}
 		},
 		mounted() {
-			
+
 		}
 	}
 </script>

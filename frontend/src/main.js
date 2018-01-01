@@ -14,6 +14,9 @@ Vue.use(VueResource)
 Vue.config.productionTip = false
 import ApiSever from './api.js';
 
+import moment from 'moment';
+Object.defineProperty(Vue.prototype, '$moment', { value: moment });
+
 
 Vue.use(ApiSever);
 Vue.prototype.ApiSever=ApiSever;

@@ -3,16 +3,16 @@
 		<div class="recruit-detail">
 			<form action="" class="recruit-form">
 				<div><label>选手姓名</label>
-					<input type="text" placeholder="请输入姓名" v-model="userInfo.name" name="name" @blur="handleBlur" ref="name" />
+					<input type="text" placeholder="请输入姓名" v-model="user.name" name="name" @blur="handleBlur" ref="name" />
 					<span class="hiden" ref="name_span">请输入姓名</span>
 				</div>
 				<!--<div><label>参赛宣言</label>-->
 				<div><label>参赛宣言</label>
-					<textarea placeholder="请输入备注" v-model="userInfo.declaration" name="declaration" @blur="handleBlur" ref="declaration"></textarea>
+					<textarea placeholder="请输入备注" v-model="user.words" name="declaration" @blur="handleBlur" ref="declaration"></textarea>
 					<span class="hiden" ref="declaration_span">请输入联系电话</span>
 				</div>
 				<div><label>联系电话</label>
-					<input type="tel" placeholder="请输入联系电话" v-model="userInfo.phone" name="phone" @blur="handleBlur" ref="phone" />
+					<input type="tel" placeholder="请输入联系电话" v-model="user.phone" name="phone" @blur="handleBlur" ref="phone" />
 					<span class="hiden" ref="phone_span">请输入联系电话</span>
 				</div>
 				<div>
@@ -29,14 +29,11 @@
 						</div>
 					</div>
 				</div>
-
 			</form>
-
 			<div class="purchasing">
 				<p>请如实填写报名信息 获取参赛资格！</p>
 				<span href="javascript:;" class="purchasing_btn" @click="submitData">提交报名</span>
 			</div>
-
 		</div>
 	</div>
 </template>
@@ -55,22 +52,30 @@
 
 	export default {
 		data() {
-			
+
 			return {
-				userInfo: {
-					name: '',
-					declaration: '',
-					phone: '',
-					thumbPic: '',
-					thumbPic2: '',
-					thumbPic3: ''
+				user:{
+					aid: this.ApiSever.AID,
+				    openid: "0xadcbf2324460caddeff",
+				    name: "",
+				    phone: "",
+					words: "",
+					hot: 0,
+				    voteNum: 0,
+				    pics: [],
+				    status: 0
 				},
-				thumbPic: [],
-				imgURL: 'http://hanml.artup.com/data'
+				imgURL: this.ApiSever.imgUrl,
+      			uploadURL:this.ApiSever.uploadUrl,
+				thumbPic: []
 			}
 		},
 		created() {
-			console.log(this.$route.query)
+			if(!this.aid) {
+				this.$router.push({
+					path: '/index'
+				});
+			}
 		},
 		components: {
 		},
@@ -99,21 +104,20 @@
 				let bOk = true;
 				for(let name in rejson) {
 					if(name == 'phone') {
-						if(rejson[name].test(this.userInfo[name]) || isMob.test(this.userInfo[name])) {
+						if(rejson[name].test(this.user[name]) || isMob.test(this.user[name])) {
 							this.$refs[name + '_span'].className = 'hiden';
 						} else {
 							this.$refs[name + '_span'].className = 'errShow';
 							bOk = false;
 						}
 					} else {
-						if(!rejson[name].test(this.userInfo[name])) {
+						if(!rejson[name].test(this.user[name])) {
 							this.$refs[name + '_span'].className = 'errShow';
 							bOk = false;
 						} else {
 							this.$refs[name + '_span'].className = 'hiden';
 						}
 					}
-
 				}
 				let resultPhoto = [...this.thumbPic];
 				if(resultPhoto.length < 1) {
@@ -123,43 +127,34 @@
 					if(this.$refs['regPhoto'] && this.$refs['regPhoto'].classList.contains('error_photo')) {
 						this.$refs['regPhoto'].classList.remove('error_photo');
 					}
-					if(resultPhoto.length == 1) {
-						this.userInfo.thumbPic = resultPhoto[0];
-					} else if(resultPhoto.length == 2) {
-						this.userInfo.thumbPic = resultPhoto[0];
-						this.userInfo.thumbPic2 = resultPhoto[1];
-
-					} else if(resultPhoto.length == 3) {
-						this.userInfo.thumbPic = resultPhoto[0];
-						this.userInfo.thumbPic2 = resultPhoto[1];
-						this.userInfo.thumbPic3 = resultPhoto[2];
-					}
+					this.user.pics = resultPhoto;
 				}
 
 				if(!bOk) {
 					return false;
 				}
-				let param = Object.assign({}, this.userInfo);
-
-				this.ApiSever.service.addRecruit(param).then(res => {
+				let param = Object.assign({}, this.user);
+				let this_ = this;
+				this.ApiSever.addRecruit(param).then(res => {
 					let result = res.data;
 
-					if(result.success) {
-						this.$toast({
+					if(result) {
+						this_.$toast({
 							message: '提交成功！',
 							iconClass: 'icon icon-success'
 						});
-						this.userInfo.name = '';
-						this.userInfo.declaration = '';
-						this.userInfo.phone = '';
-						this.userInfo.thumbPic = '';
-						this.userInfo.thumbPic2 = '';
-						this.userInfo.thumbPic3 = '';
-						this.thumbPic = [];
+						this_.user.name = '';
+						this_.user.words = '';
+						this_.user.phone = '';
+						this_.user.pics = [];
+						this_.thumbPic = [];
+
+						this_.$router.push({
+							path: '/index'
+						});
 					}
 				});
 			},
-
 			updataOne() {
 				var vm = this;
 				if($('.imgOne').get(0).files[0].type.indexOf("image") != -1) {
@@ -169,9 +164,9 @@
 					fd.onload = function() {
 						if(fd.result) {
 							var formData = new FormData();
-							formData.append("file", $('.imgOne').get(0).files[0]);
+							formData.append("image", $('.imgOne').get(0).files[0]);
 							$.ajax({
-								url: 'http://hanml.artup.com/hanml-cms/webservice/file/upFile',
+								url: vm.uploadURL,
 								type: 'POST',
 								data: formData,
 								processData: false,
@@ -179,16 +174,11 @@
 								success: function(responseStr) {
 									var result = responseStr;
 									Indicator.close();
-									if(result.success) {
-										$('.imgOne').val("");
-										vm.thumbPic.push(result.imagePath);
+									$('.imgOne').val("");
+									vm.thumbPic.push(result.filename);
 
-										if(vm.$refs['regPhoto'] && vm.$refs['regPhoto'].classList.contains('error_photo')) {
-											vm.$refs['regPhoto'].classList.remove('error_photo');
-										}
-									} else {
-										$('.imgOne').val("");
-										MessageBox.alert('上传失败')
+									if(vm.$refs['regPhoto'] && vm.$refs['regPhoto'].classList.contains('error_photo')) {
+										vm.$refs['regPhoto'].classList.remove('error_photo');
 									}
 								},
 								error: function(responseStr) {
@@ -222,7 +212,7 @@
 	.mint-tab-container {
 		background: #fff;
 	}
-	
+
 	.promptData {
 		width: 100%;
 		padding-left: 5rem;
@@ -231,11 +221,11 @@
 		color: red;
 		clear: both;
 	}
-	
+
 	.input_div .errShow {
 		padding-left: 0 !important;
 	}
-	
+
 	.errShow {
 		width: 100%;
 		height: 0.8rem;
@@ -246,17 +236,17 @@
 		box-sizing: border-box;
 		text-align: left;
 	}
-	
+
 	.hiden {
 		display: none;
 	}
-	
+
 	.change_photo {
 		width: 100%;
 		height: 1.2rem !important;
 		display: block;
 	}
-	
+
 	.input_photo {
 		position: relative;
 		margin-top: 0.2rem;
@@ -265,7 +255,7 @@
 		height: 2.6rem;
 		float: left;
 	}
-	
+
 	.input_photo .close {
 		position: absolute;
 		top: 0;
@@ -283,7 +273,7 @@
 		font-size: 1rem !important;
 		font-weight: 600;
 	}
-	
+
 	.input_photo img {
 		position: absolute;
 		left: 0;
@@ -294,15 +284,15 @@
 		max-width: 100%;
 		margin: auto auto;
 	}
-	
+
 	.vertical {
 		vertical-align: top;
 	}
-	
+
 	.photo_div {
 		height: 3rem !important;
 	}
-	
+
 	.imgOne {
 		position: absolute;
 		top: 0;
@@ -311,7 +301,7 @@
 		height: 2.6rem;
 		overflow: hidden;
 	}
-	
+
 	.error_photo {
 		border: 1px solid red;
 	}
