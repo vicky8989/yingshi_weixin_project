@@ -8,7 +8,7 @@ var Award = function()
     this.collection = function(){
 
         if (collection == null) {
-            collection = dbLink.collection('awards');
+            collection = dbLink.collection('award');
             if (collection == null) {
                 return false;
             }

@@ -10,6 +10,7 @@ var voteUser = require('./db/user');
 var voteActivity = require('./db/activity');
 var voteSigner = require('./db/signer');
 var voteAward = require('./db/award');
+var voteSetting = require('./db/setting');
 var file = require('./file/file');
 
 var app = express();
@@ -329,6 +330,27 @@ app.delete('/deleteAward', function (req, res) {
 	}
 
 	voteAward.delData(params.awid,function(result){
+      	res.send(result);
+  	});
+})
+
+//点数接口
+app.put('/updatePrize', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	if (req.body==null) {
+		res.status(400).send({'error':"Bad Request"});
+		return;
+	}
+
+	voteSetting.updatePrize(req.body,function(result){
+      	res.send(result);
+  	});
+})
+
+app.get('/getPrize', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+
+	voteSetting.queryPrize(function(result){
       	res.send(result);
   	});
 })

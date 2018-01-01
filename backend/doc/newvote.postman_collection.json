@@ -24,7 +24,9 @@
 		"46d48ec1-350e-bc32-d021-be9a1094578e",
 		"457ab8d1-4453-c5dc-e372-3181e4ec819f",
 		"fa3fa83e-3206-6eb3-80b5-f01d377933fa",
-		"e113f738-a0c2-6cf6-6529-f259fe3047ae"
+		"e113f738-a0c2-6cf6-6529-f259fe3047ae",
+		"29d906fc-a985-d3ce-493e-85fd4ebd2b10",
+		"9b37dcf8-b2df-b259-c983-2d8ff98a22e3"
 	],
 	"folders": [],
 	"folders_order": [],
@@ -169,6 +171,29 @@
 			"currentHelper": null,
 			"helperAttributes": null,
 			"rawModeData": "{\n    \"nickname\": \"u_哈哈哈\",\n    \"headimgurl\": \"u_img/develop/js/js_ban@2x.png\",\n    \"sex\": \"u_male\",\n    \"language\": \"u_CHS\",\n    \"city\": \"u_beijing\",\n    \"province\": \"u_userData.province\",\n    \"country\": \"u_userData.country\",\n    \"name\":\"u_userData.name\",\n    \"phone\":\"u_userData.phone\",\n    \"adress\":\"u_userData.adress\"\n}"
+		},
+		{
+			"id": "29d906fc-a985-d3ce-493e-85fd4ebd2b10",
+			"headers": "",
+			"headerData": [],
+			"url": "http://127.0.0.1:8085/getPrize",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"events": [],
+			"auth": null,
+			"method": "GET",
+			"collectionId": "9eb183d7-9922-a706-cc87-62b289bdee11",
+			"data": null,
+			"dataMode": "params",
+			"name": "getPrize",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1514812874585,
+			"version": 2,
+			"responses": [],
+			"currentHelper": null,
+			"helperAttributes": null
 		},
 		{
 			"id": "3a804852-3b3d-0c4a-1df9-9f72016eba27",
@@ -386,6 +411,35 @@
 			"currentHelper": null,
 			"helperAttributes": null,
 			"rawModeData": "{\n\t\"aid\":\"5a490327900f371dde360d99\",\n    \"name\": \"一等奖\",\n    \"num\": 1,\n    \"prizeInfo\": \"文房四宝一套\" ,\n    \"prizeImg\": \"奖品图片URL\",\n    \"info\": \"得了一等奖才能拿到呦\"\n}"
+		},
+		{
+			"id": "9b37dcf8-b2df-b259-c983-2d8ff98a22e3",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://127.0.0.1:8085/updatePrize",
+			"queryParams": [],
+			"events": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "PUT",
+			"data": [],
+			"dataMode": "raw",
+			"auth": null,
+			"time": 1514813406345,
+			"name": "updatePrize",
+			"description": "",
+			"collectionId": "9eb183d7-9922-a706-cc87-62b289bdee11",
+			"responses": [],
+			"currentHelper": null,
+			"helperAttributes": null,
+			"rawModeData": "{\n\t\"prize\":100\n}"
 		},
 		{
 			"id": "bfe3aa81-a2b4-8e26-762b-d987b29d0469",
