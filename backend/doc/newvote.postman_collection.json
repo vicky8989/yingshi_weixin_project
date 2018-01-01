@@ -1,0 +1,512 @@
+{
+	"id": "9eb183d7-9922-a706-cc87-62b289bdee11",
+	"name": "newvote",
+	"description": "",
+	"order": [
+		"2977f3ac-e56d-b1e2-d14f-d1b0fd3a8e87",
+		"466a5cbf-1251-91de-c12a-5c648729fffb",
+		"0e76fcfd-2c65-7b92-ece2-6c3624489810",
+		"26a113e0-0eb2-3608-2491-af862aea46d9",
+		"3a804852-3b3d-0c4a-1df9-9f72016eba27",
+		"bfe3aa81-a2b4-8e26-762b-d987b29d0469",
+		"f2d6d911-3d4e-17ff-3353-24f84551c3e3",
+		"700cb3ea-835b-c5ed-1485-89dbaa207da7",
+		"1f0f6072-f027-f0cf-83d1-562325f33e39",
+		"87814785-8862-b65f-42f2-9cf027cdd1a1",
+		"cb4aa8f4-51c7-9d7c-6498-d005c8a4fa46",
+		"e333a52b-a5c8-62cb-f477-90a8a98e3247",
+		"445692f9-9e88-fde5-b440-16131dd40a30",
+		"d8b6b1d9-ec7e-1074-0ad3-597885d41f9e",
+		"d77dc897-4073-b272-409e-df1ccfcc5a21",
+		"fb977387-2146-7295-371a-17cd17d7ee4b"
+	],
+	"folders": [],
+	"folders_order": [],
+	"timestamp": 1514716386943,
+	"owner": 0,
+	"public": false,
+	"events": [],
+	"variables": [],
+	"auth": null,
+	"requests": [
+		{
+			"id": "0e76fcfd-2c65-7b92-ece2-6c3624489810",
+			"headers": "",
+			"headerData": [],
+			"url": "    http://127.0.0.1:8085/getUser?openid=0xadcbf2324460caddefe",
+			"queryParams": [
+				{
+					"key": "openid",
+					"value": "0xadcbf2324460caddefe",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"events": [],
+			"auth": null,
+			"method": "GET",
+			"collectionId": "9eb183d7-9922-a706-cc87-62b289bdee11",
+			"data": null,
+			"dataMode": "params",
+			"name": "getUser",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1514802352575,
+			"version": 2,
+			"responses": [],
+			"currentHelper": null,
+			"helperAttributes": null
+		},
+		{
+			"id": "1f0f6072-f027-f0cf-83d1-562325f33e39",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://127.0.0.1:8085/updateSigner?sid=5a4a0de481d3d12cf5819811",
+			"queryParams": [
+				{
+					"key": "sid",
+					"value": "5a4a0de481d3d12cf5819811",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"events": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "PUT",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"auth": null,
+			"time": 1514803104228,
+			"name": "updateSigner",
+			"description": "",
+			"collectionId": "9eb183d7-9922-a706-cc87-62b289bdee11",
+			"responses": [],
+			"currentHelper": null,
+			"helperAttributes": null,
+			"rawModeData": "{\n    \"aid\": \"5a491a46a7a338241eef7572\",\n    \"openid\": \"0xadcbf2324460caddeff\",\n    \"name\": \"u_tony\",\n    \"phone\": \"u_18920180101\",\n    \"address\": \"u_user.address\",\n\t\"words\": \"u_user.words\",\n\t\"hot\": 200,\n    \"voteNum\": 220,\n    \"pics\": [\"u_第一个作品的3张活动图1\",\"u_第一个作品的3张活动图2\",\"u_第一个作品的3张活动图3\"],\n    \"status\": 1\n}"
+		},
+		{
+			"id": "26a113e0-0eb2-3608-2491-af862aea46d9",
+			"headers": "",
+			"headerData": [],
+			"url": "    http://127.0.0.1:8085/deleteUser?openid=0xadcbf2324460caddeff",
+			"queryParams": [
+				{
+					"key": "openid",
+					"value": "0xadcbf2324460caddeff",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"events": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "DELETE",
+			"data": null,
+			"dataMode": "params",
+			"auth": null,
+			"time": 1514802288757,
+			"name": "deleteUser",
+			"description": "",
+			"collectionId": "9eb183d7-9922-a706-cc87-62b289bdee11",
+			"responses": [],
+			"currentHelper": null,
+			"helperAttributes": null
+		},
+		{
+			"id": "2977f3ac-e56d-b1e2-d14f-d1b0fd3a8e87",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "    http://127.0.0.1:8085/addOrUpdateUser?openid=0xadcbf2324460caddeff",
+			"queryParams": [
+				{
+					"key": "openid",
+					"value": "0xadcbf2324460caddeff",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"events": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"auth": null,
+			"time": 1514802209403,
+			"name": "addOrUpdateUser 添加或者更新",
+			"description": "",
+			"collectionId": "9eb183d7-9922-a706-cc87-62b289bdee11",
+			"responses": [],
+			"currentHelper": null,
+			"helperAttributes": null,
+			"rawModeData": "{\n    \"nickname\": \"u_哈哈哈\",\n    \"headimgurl\": \"u_img/develop/js/js_ban@2x.png\",\n    \"sex\": \"u_male\",\n    \"language\": \"u_CHS\",\n    \"city\": \"u_beijing\",\n    \"province\": \"u_userData.province\",\n    \"country\": \"u_userData.country\",\n    \"name\":\"u_userData.name\",\n    \"phone\":\"u_userData.phone\",\n    \"adress\":\"u_userData.adress\"\n}"
+		},
+		{
+			"id": "3a804852-3b3d-0c4a-1df9-9f72016eba27",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://127.0.0.1:8085/addSigner",
+			"queryParams": [],
+			"events": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"auth": null,
+			"time": 1514802658143,
+			"name": "addSigner",
+			"description": "",
+			"collectionId": "9eb183d7-9922-a706-cc87-62b289bdee11",
+			"responses": [],
+			"currentHelper": null,
+			"helperAttributes": null,
+			"rawModeData": "{\n    \"aid\": \"5a491a46a7a338241eef7572\",\n    \"openid\": \"0xadcbf2324460caddeff\",\n    \"name\": \"tony\",\n    \"phone\": \"18920180101\",\n    \"address\": \"user.address\",\n\t\"words\": \"user.words\",\n\t\"hot\": 100,\n    \"voteNum\": 120,\n    \"pics\": [\"第一个作品的3张活动图1\",\"第一个作品的3张活动图2\",\"第一个作品的3张活动图3\"],\n    \"status\": 0\n}"
+		},
+		{
+			"id": "445692f9-9e88-fde5-b440-16131dd40a30",
+			"headers": "",
+			"headerData": [],
+			"url": "http://127.0.0.1:8085/listActivities",
+			"queryParams": [],
+			"events": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"auth": null,
+			"time": 1514734445061,
+			"name": "listActivities",
+			"description": "",
+			"collectionId": "9eb183d7-9922-a706-cc87-62b289bdee11",
+			"responses": [],
+			"currentHelper": null,
+			"helperAttributes": null
+		},
+		{
+			"id": "466a5cbf-1251-91de-c12a-5c648729fffb",
+			"headers": "",
+			"headerData": [],
+			"url": "    http://127.0.0.1:8085/listUsers",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"events": [],
+			"auth": null,
+			"method": "GET",
+			"collectionId": "9eb183d7-9922-a706-cc87-62b289bdee11",
+			"data": null,
+			"dataMode": "params",
+			"name": "listUsers",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1514802224669,
+			"version": 2,
+			"responses": [],
+			"currentHelper": null,
+			"helperAttributes": null
+		},
+		{
+			"id": "700cb3ea-835b-c5ed-1485-89dbaa207da7",
+			"headers": "",
+			"headerData": [],
+			"url": "http://127.0.0.1:8085/getSigner?sid=5a4a0de481d3d12cf5819811",
+			"queryParams": [
+				{
+					"key": "sid",
+					"value": "5a4a0de481d3d12cf5819811",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"events": [],
+			"auth": null,
+			"method": "GET",
+			"collectionId": "9eb183d7-9922-a706-cc87-62b289bdee11",
+			"data": null,
+			"dataMode": "params",
+			"name": "getSigner 按照sid获取",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1514802948997,
+			"version": 2,
+			"responses": [],
+			"currentHelper": null,
+			"helperAttributes": null
+		},
+		{
+			"id": "87814785-8862-b65f-42f2-9cf027cdd1a1",
+			"headers": "",
+			"headerData": [],
+			"url": "http://127.0.0.1:8085/deleteSigner?sid=5a4a0de481d3d12cf5819811",
+			"queryParams": [
+				{
+					"key": "sid",
+					"value": "5a4a0de481d3d12cf5819811",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"events": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "DELETE",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"auth": null,
+			"time": 1514803181993,
+			"name": "deleteSigner",
+			"description": "",
+			"collectionId": "9eb183d7-9922-a706-cc87-62b289bdee11",
+			"responses": [],
+			"currentHelper": null,
+			"helperAttributes": null
+		},
+		{
+			"id": "bfe3aa81-a2b4-8e26-762b-d987b29d0469",
+			"headers": "",
+			"headerData": [],
+			"url": "http://127.0.0.1:8085/listSigners",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"events": [],
+			"auth": null,
+			"method": "GET",
+			"collectionId": "9eb183d7-9922-a706-cc87-62b289bdee11",
+			"data": null,
+			"dataMode": "params",
+			"name": "listSigners",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1514799691373,
+			"version": 2,
+			"responses": [],
+			"currentHelper": null,
+			"helperAttributes": null
+		},
+		{
+			"id": "cb4aa8f4-51c7-9d7c-6498-d005c8a4fa46",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://127.0.0.1:8085/addActivity",
+			"queryParams": [],
+			"events": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"auth": null,
+			"time": 1514740293416,
+			"name": "addActivity",
+			"description": "",
+			"collectionId": "9eb183d7-9922-a706-cc87-62b289bdee11",
+			"responses": [],
+			"currentHelper": null,
+			"helperAttributes": null,
+			"rawModeData": "{\n    \"name\": \"第四个活动\",\n    \"status\": 0,\n    \"sponsor\":\"书画协会\",\n    \"enrolStart\": \"2017-12-17T07:06:11.475Z\",\n    \"enrolEnd\": \"2017-12-18T07:06:11.475Z\",\n    \"voteStart\": \"2017-12-19T07:06:11.475Z\",\n\t\"voteEnd\": \"2017-12-30T07:06:11.475Z\",\n\t\"info\": \"第四个活动信息\",\n    \"participation\": \"第四个活动的如何参与\",\n    \"process\": \"第四个活动的流程介绍\",\n    \"contact\": \"第四个活动的联系方式\",\n    \"banner\": [\"第四个活动的3张活动图1\",\"第四个活动的3张活动图2\",\"第四个活动的3张活动图3\"],\n    \"rule\": \"第四个活动的活动规则\"\n}"
+		},
+		{
+			"id": "d77dc897-4073-b272-409e-df1ccfcc5a21",
+			"headers": "",
+			"headerData": [],
+			"url": "http://127.0.0.1:8085/getActivity?aid=5a490310900f371dde360d98",
+			"queryParams": [
+				{
+					"key": "aid",
+					"value": "5a490310900f371dde360d98",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"events": [],
+			"auth": null,
+			"method": "GET",
+			"collectionId": "9eb183d7-9922-a706-cc87-62b289bdee11",
+			"data": null,
+			"dataMode": "params",
+			"name": "getActivity",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1514735363851,
+			"version": 2,
+			"responses": [],
+			"currentHelper": null,
+			"helperAttributes": null
+		},
+		{
+			"id": "d8b6b1d9-ec7e-1074-0ad3-597885d41f9e",
+			"headers": "",
+			"headerData": [],
+			"url": "http://127.0.0.1:8085/getActivities?status=0",
+			"queryParams": [
+				{
+					"key": "status",
+					"value": "0",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"events": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"auth": null,
+			"time": 1514735278382,
+			"name": "getActivities",
+			"description": "",
+			"collectionId": "9eb183d7-9922-a706-cc87-62b289bdee11",
+			"responses": [],
+			"currentHelper": null,
+			"helperAttributes": null
+		},
+		{
+			"id": "e333a52b-a5c8-62cb-f477-90a8a98e3247",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://127.0.0.1:8085/updateActivity?aid=5a49018a900f371dde360d96",
+			"queryParams": [
+				{
+					"key": "aid",
+					"value": "5a49018a900f371dde360d96",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"events": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "PUT",
+			"data": [],
+			"dataMode": "raw",
+			"auth": null,
+			"time": 1514734143885,
+			"name": "updateActivity",
+			"description": "",
+			"collectionId": "9eb183d7-9922-a706-cc87-62b289bdee11",
+			"responses": [],
+			"currentHelper": null,
+			"helperAttributes": null,
+			"rawModeData": "{\n    \"name\": \"第二个活动\",\n    \"status\": 1,\n    \"sponsor\":\"作家协会\",\n    \"enrolStart\": \"2018-12-17T07:06:11.475Z\",\n    \"enrolEnd\": \"2018-12-18T07:06:11.475Z\",\n    \"voteStart\": \"2018-12-19T07:06:11.475Z\",\n\t\"voteEnd\": \"2018-12-30T07:06:11.475Z\",\n\t\"info\": \"第二个活动信息\",\n    \"participation\": \"第二个活动的如何参与\",\n    \"process\": \"第二个活动的流程介绍\",\n    \"contact\": \"第二个活动的联系方式\",\n    \"banner\": [\"第二个活动的3张活动图1\",\"第二个活动的3张活动图2\",\"第二个活动的3张活动图3\"],\n    \"rule\": \"第二个活动的活动规则\"\n}"
+		},
+		{
+			"id": "f2d6d911-3d4e-17ff-3353-24f84551c3e3",
+			"headers": "",
+			"headerData": [],
+			"url": "http://127.0.0.1:8085/getSigners?aid=5a491a46a7a338241eef7572",
+			"queryParams": [
+				{
+					"key": "aid",
+					"value": "5a491a46a7a338241eef7572",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"events": [],
+			"auth": null,
+			"method": "GET",
+			"collectionId": "9eb183d7-9922-a706-cc87-62b289bdee11",
+			"data": null,
+			"dataMode": "params",
+			"name": "getSigners 按照aid获取列表",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1514802809603,
+			"version": 2,
+			"responses": [],
+			"currentHelper": null,
+			"helperAttributes": null
+		},
+		{
+			"id": "fb977387-2146-7295-371a-17cd17d7ee4b",
+			"headers": "",
+			"headerData": [],
+			"url": "http://127.0.0.1:8085/deleteActivity?aid=5a490310900f371dde360d98",
+			"queryParams": [
+				{
+					"key": "aid",
+					"value": "5a490310900f371dde360d98",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"events": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "DELETE",
+			"data": null,
+			"dataMode": "params",
+			"auth": null,
+			"time": 1514735396900,
+			"name": "deleteActivity",
+			"description": "",
+			"collectionId": "9eb183d7-9922-a706-cc87-62b289bdee11",
+			"responses": [],
+			"currentHelper": null,
+			"helperAttributes": null
+		}
+	]
+}

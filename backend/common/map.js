@@ -95,4 +95,4 @@ var Map = function() {
     };
 }
 
-module.exports = new Map();
+module.exports = Map;

@@ -1,9 +1,10 @@
 var dbLink = require('./dblink');
+var Map = require('../common/map');
 
 var User = function()
 {
     var ObjectId = require('mongodb').ObjectID;
-    var codeMap = require('../common/map');
+    var codeMap = new Map;
     var collection = null;
     
     this.collection = function(){
@@ -19,6 +20,8 @@ var User = function()
     }
 
     this.calcCode = function(aid){
+        console.log(aid);
+
         if (this.collection() == false) {
             return;
         }
@@ -40,8 +43,12 @@ var User = function()
             }
         }
 
-        if (codeMap.get(aid) != null) {
-            codeMap.get(aid) ++;
+        console.log(codeMap);
+        var code = codeMap.get(aid);
+        if (code != null) {
+            code ++;
+            codeMap.put(aid,code);
+            console.log(code);
             return codeMap.get(aid);
         }
         else{
@@ -62,7 +69,7 @@ var User = function()
 
         var data = {
             'aid':userData.aid,
-            'uid': userData.uid,
+            'openid': userData.openid,
             'name': userData.name ,
             'phone': userData.phone,
             'address': userData.address,
@@ -98,7 +105,7 @@ var User = function()
         var whereStr = {"_id":ObjectId(sid)};
         var data = {$set:{
             'aid':userData.aid,
-            'uid': userData.uid,
+            'openid': userData.openid,
             'name': userData.name ,
             'phone': userData.phone,
             'address': userData.address,
@@ -155,7 +162,7 @@ var User = function()
         }
     }
 
-    this.queryDataByAid = function(aid)
+    this.queryDataByAid = function(aid,callback)
     {
         if (this.collection() == false) {
             return;

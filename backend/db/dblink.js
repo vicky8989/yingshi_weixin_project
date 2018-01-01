@@ -1,7 +1,9 @@
+var Map = require('../common/map');
+
 var DBLink = function()
 {
 	var mongoClient = require('mongodb').MongoClient;
-	var collectionMap = require('../common/map');
+	var collectionMap = new Map;
 	var LinkURL = 'mongodb://localhost:27017/vote';
 	var LinkError = null;
 	var mongoDB = null;

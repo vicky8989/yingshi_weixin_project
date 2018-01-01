@@ -79,17 +79,31 @@ app.get('/listUsers', function (req, res) {
 app.get('/getUser', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
 	var params = url.parse(req.url, true).query;
-	if (params==null || params.uid==null) {
+	if (params==null || params.openid==null) {
 		res.status(400).send({'error':"Bad Request"});
 		return;
 	}
 
-	voteUser.queryData(params.uid,function(result){
+	voteUser.queryData(params.openid,function(result){
         res.send(result);
     });
 })
 
-app.get('/getUserByOpenId', function (req, res) {
+app.post('/addOrUpdateUser', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+
+	var params = url.parse(req.url, true).query;
+	if (req.body==null || params.openid==null || params.openid=="") {
+		res.status(400).send({'error':"Bad Request"});
+		return;
+	}
+
+	voteUser.addOrUpdateData(params.openid,req.body,function(result,openid){
+      	res.send(openid);
+  	});
+})
+
+app.delete('/deleteUser', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
 	var params = url.parse(req.url, true).query;
 	if (params==null || params.openid==null) {
@@ -97,45 +111,7 @@ app.get('/getUserByOpenId', function (req, res) {
 		return;
 	}
 
-	voteUser.queryDataByOpenId(params.openid,function(result){
-        res.send(result);
-    });
-})
-
-app.post('/addUser', function (req, res) {
-	res.header('Access-Control-Allow-Origin', '*');
-	if (req.body == null) {
-		res.status(400).send({'error':"Bad Request"});
-		return;
-	}
-
-	voteUser.addData(req.body,function(result,aid){
-      	res.send(aid);
-  	});
-})
-
-app.put('/updateUser', function (req, res) {
-	res.header('Access-Control-Allow-Origin', '*');
-	var params = url.parse(req.url, true).query;
-	if (params==null || params.uid==null) {
-		res.status(400).send({'error':"Bad Request"});
-		return;
-	}
-
-	voteUser.updateData(params.uid,req.body,function(result){
-      	res.send(result);
-  	});
-})
-
-app.delete('/deleteUser', function (req, res) {
-	res.header('Access-Control-Allow-Origin', '*');
-	var params = url.parse(req.url, true).query;
-	if (params==null || params.uid==null) {
-		res.status(400).send({'error':"Bad Request"});
-		return;
-	}
-
-	voteUser.delData(params.uid,function(result){
+	voteUser.delData(params.openid,function(result){
       	res.send(result);
   	});
 })

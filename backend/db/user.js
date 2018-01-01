@@ -2,9 +2,6 @@ var dbLink = require('./dblink');
 
 var User = function()
 {
-    var ObjectId = require('mongodb').ObjectID;
-    var user = null;
-    
     var collection = null;
     this.collection = function(){
 
@@ -16,6 +13,37 @@ var User = function()
         }
 
         return true;
+    }
+
+    this.addOrUpdateData = function(openid,userData,callback)
+    {
+        if (this.collection() == false) {
+            return;
+        }
+
+        if (openid == null) {
+            return;
+        }
+
+        var whereStr = {"openid":openid};
+        var data = {$set:{
+            'nickname': userData.nickname,
+            'headimgurl': userData.headimgurl ,
+            'sex': userData.sex,
+            'language': userData.language,
+            'city': userData.city,
+            'province': userData.province,
+            'country': userData.country}};
+
+        collection.update(whereStr,data,{upsert:true,multi:false},function(err, result) { 
+            if(err)
+            {
+              console.log('Error:'+ err);
+              return;
+            }
+
+            callback(result,openid);
+        });
     }
 
     this.addData = function(userData,callback)
@@ -46,19 +74,18 @@ var User = function()
         });
     }
 
-    this.updateData = function(uid,userData,callback)
+    this.updateData = function(openid,userData,callback)
     {
         if (this.collection() == false) {
             return;
         }
 
-        if (uid == null) {
+        if (openid == null) {
             return;
         }
 
-        var whereStr = {"_id":ObjectId(uid)};
+        var whereStr = {"openid":openid};
         var data = {$set:{
-            'openid': userData.openid,
             'nickname': userData.nickname,
             'headimgurl': userData.headimgurl ,
             'sex': userData.sex,
@@ -67,7 +94,7 @@ var User = function()
             'province': userData.province,
             'country': userData.country}};
 
-        collection.update(whereStr,data, function(err, result) { 
+        collection.update(whereStr,data,function(err, result) { 
             if(err)
             {
               console.log('Error:'+ err);
@@ -77,18 +104,19 @@ var User = function()
             callback(result);
         });
     }
+    
 
-    this.queryData = function(uid,callback)
+    this.queryData = function(openid,callback)
     {
         if (this.collection() == false) {
             return;
         }
 
-        if (uid==null) {
+        if (openid==null) {
             return;
         }
 
-        if (uid=="") {
+        if (openid=="") {
             collection.find().toArray(function(err, result) {
                 if(err)
                 {
@@ -101,7 +129,7 @@ var User = function()
         }
         else
         {
-            var whereStr = {"_id":ObjectId(uid)};
+            var whereStr = {"openid":openid};
             collection.find(whereStr).toArray(function(err, result) {
                 if(err)
                 {
@@ -114,7 +142,7 @@ var User = function()
         }
     }
 
-    this.queryDataByOpenId = function(openid)
+    this.delData = function(openid,callback)
     {
         if (this.collection() == false) {
             return;
@@ -125,28 +153,6 @@ var User = function()
         }
 
         var whereStr = {"openid":openid};
-        collection.find(whereStr).toArray(function(err, result) {
-            if(err)
-            {
-              console.log('Error:'+ err);
-              return;
-            }
-
-            callback(result);
-        });
-    }
-
-    this.delData = function(uid,callback)
-    {
-        if (this.collection() == false) {
-            return;
-        }
-
-        if (uid == null) {
-            return;
-        }
-
-        var whereStr = {"_id":ObjectId(uid)};
         collection.remove(whereStr, function(err, result) {
             if(err)
             {
