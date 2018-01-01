@@ -15,6 +15,7 @@
 		"87814785-8862-b65f-42f2-9cf027cdd1a1",
 		"cb4aa8f4-51c7-9d7c-6498-d005c8a4fa46",
 		"e333a52b-a5c8-62cb-f477-90a8a98e3247",
+		"cc233551-dd89-31bb-14bf-077146cb4619",
 		"445692f9-9e88-fde5-b440-16131dd40a30",
 		"d8b6b1d9-ec7e-1074-0ad3-597885d41f9e",
 		"d77dc897-4073-b272-409e-df1ccfcc5a21",
@@ -212,7 +213,7 @@
 			"data": null,
 			"dataMode": "params",
 			"auth": null,
-			"time": 1514734445061,
+			"time": 1514807646735,
 			"name": "listActivities",
 			"description": "",
 			"collectionId": "9eb183d7-9922-a706-cc87-62b289bdee11",
@@ -429,14 +430,51 @@
 			"data": [],
 			"dataMode": "raw",
 			"auth": null,
-			"time": 1514740293416,
+			"time": 1514807467436,
 			"name": "addActivity",
 			"description": "",
 			"collectionId": "9eb183d7-9922-a706-cc87-62b289bdee11",
 			"responses": [],
 			"currentHelper": null,
 			"helperAttributes": null,
-			"rawModeData": "{\n    \"name\": \"第四个活动\",\n    \"status\": 0,\n    \"sponsor\":\"书画协会\",\n    \"enrolStart\": \"2017-12-17T07:06:11.475Z\",\n    \"enrolEnd\": \"2017-12-18T07:06:11.475Z\",\n    \"voteStart\": \"2017-12-19T07:06:11.475Z\",\n\t\"voteEnd\": \"2017-12-30T07:06:11.475Z\",\n\t\"info\": \"第四个活动信息\",\n    \"participation\": \"第四个活动的如何参与\",\n    \"process\": \"第四个活动的流程介绍\",\n    \"contact\": \"第四个活动的联系方式\",\n    \"banner\": [\"第四个活动的3张活动图1\",\"第四个活动的3张活动图2\",\"第四个活动的3张活动图3\"],\n    \"rule\": \"第四个活动的活动规则\"\n}"
+			"rawModeData": "{\n    \"name\": \"第四个活动\",\n    \"status\": 0,\n    \"sponsor\":\"书画协会\",\n    \"enrolStart\": \"2017-12-17T07:06:11.475Z\",\n    \"enrolEnd\": \"2017-12-18T07:06:11.475Z\",\n    \"voteStart\": \"2017-12-19T07:06:11.475Z\",\n\t\"voteEnd\": \"2017-12-30T07:06:11.475Z\",\n\t\"info\": \"第四个活动信息\",\n\t\"infoImg\": \"第四个活动信息图片\",\n    \"participation\": \"第四个活动的如何参与\",\n    \"process\": \"第四个活动的流程介绍\",\n    \"contact\": \"第四个活动的联系方式\",\n    \"banner\": [\"第四个活动的3张活动图1\",\"第四个活动的3张活动图2\",\"第四个活动的3张活动图3\"],\n    \"rule\": \"第四个活动的活动规则\",\n    \"pv\":0\n}"
+		},
+		{
+			"id": "cc233551-dd89-31bb-14bf-077146cb4619",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://127.0.0.1:8085/updateActivityPV?aid=5a4a20addc681a3017280b66",
+			"queryParams": [
+				{
+					"key": "aid",
+					"value": "5a4a20addc681a3017280b66",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"events": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "PUT",
+			"data": [],
+			"dataMode": "raw",
+			"auth": null,
+			"time": 1514807617381,
+			"name": "updateActivityPV",
+			"description": "",
+			"collectionId": "9eb183d7-9922-a706-cc87-62b289bdee11",
+			"responses": [],
+			"currentHelper": null,
+			"helperAttributes": null,
+			"rawModeData": "{\n\t\"pv\":100\n}"
 		},
 		{
 			"id": "d77dc897-4073-b272-409e-df1ccfcc5a21",
@@ -546,11 +584,11 @@
 					"enabled": true
 				}
 			],
-			"url": "http://127.0.0.1:8085/updateActivity?aid=5a49018a900f371dde360d96",
+			"url": "http://127.0.0.1:8085/updateActivity?aid=5a4a20addc681a3017280b66",
 			"queryParams": [
 				{
 					"key": "aid",
-					"value": "5a49018a900f371dde360d96",
+					"value": "5a4a20addc681a3017280b66",
 					"equals": true,
 					"description": "",
 					"enabled": true
@@ -563,14 +601,14 @@
 			"data": [],
 			"dataMode": "raw",
 			"auth": null,
-			"time": 1514734143885,
+			"time": 1514807552213,
 			"name": "updateActivity",
 			"description": "",
 			"collectionId": "9eb183d7-9922-a706-cc87-62b289bdee11",
 			"responses": [],
 			"currentHelper": null,
 			"helperAttributes": null,
-			"rawModeData": "{\n    \"name\": \"第二个活动\",\n    \"status\": 1,\n    \"sponsor\":\"作家协会\",\n    \"enrolStart\": \"2018-12-17T07:06:11.475Z\",\n    \"enrolEnd\": \"2018-12-18T07:06:11.475Z\",\n    \"voteStart\": \"2018-12-19T07:06:11.475Z\",\n\t\"voteEnd\": \"2018-12-30T07:06:11.475Z\",\n\t\"info\": \"第二个活动信息\",\n    \"participation\": \"第二个活动的如何参与\",\n    \"process\": \"第二个活动的流程介绍\",\n    \"contact\": \"第二个活动的联系方式\",\n    \"banner\": [\"第二个活动的3张活动图1\",\"第二个活动的3张活动图2\",\"第二个活动的3张活动图3\"],\n    \"rule\": \"第二个活动的活动规则\"\n}"
+			"rawModeData": "{\n    \"name\": \"第二个活动\",\n    \"status\": 1,\n    \"sponsor\":\"作家协会\",\n    \"enrolStart\": \"2018-12-17T07:06:11.475Z\",\n    \"enrolEnd\": \"2018-12-18T07:06:11.475Z\",\n    \"voteStart\": \"2018-12-19T07:06:11.475Z\",\n\t\"voteEnd\": \"2018-12-30T07:06:11.475Z\",\n\t\"info\": \"第二个活动信息\",\n\t\"infoImg\": \"第二个活动信息图片URL\",\n    \"participation\": \"第二个活动的如何参与\",\n    \"process\": \"第二个活动的流程介绍\",\n    \"contact\": \"第二个活动的联系方式\",\n    \"banner\": [\"第二个活动的3张活动图1\",\"第二个活动的3张活动图2\",\"第二个活动的3张活动图3\"],\n    \"rule\": \"第二个活动的活动规则\",\n    \"pv\":1\n}"
 		},
 		{
 			"id": "f2d6d911-3d4e-17ff-3353-24f84551c3e3",

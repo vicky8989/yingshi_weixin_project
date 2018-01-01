@@ -176,6 +176,19 @@ app.put('/updateActivity', function (req, res) {
   	});
 })
 
+app.put('/updateActivityPV', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	var params = url.parse(req.url, true).query;
+	if (params==null || params.aid==null) {
+		res.status(400).send({'error':"Bad Request"});
+		return;
+	}
+
+	voteActivity.updateDataPV(params.aid,req.body,function(result){
+      	res.send(result);
+  	});
+})
+
 app.delete('/deleteActivity', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
 	var params = url.parse(req.url, true).query;

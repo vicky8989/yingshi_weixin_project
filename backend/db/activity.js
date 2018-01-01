@@ -34,11 +34,13 @@ var Activity = function(collection)
             'votestart': userData.voteStart,
             'voteend': userData.voteEnd,
             'info': userData.info,
+            'infoimg': userData.infoImg,
             'participation':userData.participation,
             'process':userData.process,
             'contact':userData.contact,
             'banner':userData.banner,
-            'rule':userData.rule
+            'rule':userData.rule,
+            'pv':userData.pv
         };
 
         console.log(data);
@@ -75,11 +77,38 @@ var Activity = function(collection)
             'votestart': userData.voteStart,
             'voteend': userData.voteEnd,
             'info': userData.info,
+            'infoimg': userData.infoImg,
             'participation':userData.participation,
             'process':userData.process,
             'contact':userData.contact,
             'banner':userData.banner,
-            'rule':userData.rule}};
+            'rule':userData.rule,
+            'pv':userData.pv}};
+
+        collection.update(whereStr,data, function(err, result) { 
+            if(err)
+            {
+              console.log('Error:'+ err);
+              return;
+            }
+
+            callback(result);
+        });
+    }
+
+    this.updateDataPV = function(aid,userData,callback)
+    {
+        if (this.collection() == false) {
+            return;
+        }
+
+        if (aid == null) {
+            return;
+        }
+
+        var whereStr = {"_id":ObjectId(aid)};
+        var data = {$set:{
+            'pv':userData.pv}};
 
         collection.update(whereStr,data, function(err, result) { 
             if(err)
