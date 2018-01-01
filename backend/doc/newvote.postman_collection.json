@@ -31,7 +31,13 @@
 		"a7267d61-3f44-8e5d-46a2-a17454d0ee69",
 		"81518ba9-1901-de04-2826-0d5d13daa59a",
 		"98f39470-265f-d142-2406-c1b8ac58e1d4",
-		"c57f2968-c9ad-5483-200d-c7013b7590a3"
+		"c57f2968-c9ad-5483-200d-c7013b7590a3",
+		"67dc2bb5-2f0f-6a2d-a3dc-4977870b8c7e",
+		"e518f7dc-cbd6-cf8d-f019-011dc1e4ca97",
+		"583d5d6c-950c-ba17-4679-ce577ef40b6e",
+		"559130f4-cde7-e6e0-e82f-f0ac0829c1bd",
+		"fad656e3-b3aa-665e-aaf6-2bb07a09010a",
+		"77ef2357-fad5-14d4-a6b5-5f5b992bfc9b"
 	],
 	"folders": [],
 	"folders_order": [],
@@ -357,6 +363,88 @@
 			"rawModeData": "{\n\t\"name\":\"圣诞帽\",\n\t\"giftImg\":\"礼物的icon\",\n\t\"num\":100\n}"
 		},
 		{
+			"id": "559130f4-cde7-e6e0-e82f-f0ac0829c1bd",
+			"headers": "",
+			"headerData": [],
+			"url": "http://127.0.0.1:8085/deletePresent?pid=5a4a496fedbc82390fe72679",
+			"queryParams": [
+				{
+					"key": "pid",
+					"value": "5a4a496fedbc82390fe72679",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"events": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "DELETE",
+			"data": null,
+			"dataMode": "params",
+			"auth": null,
+			"time": 1514818160696,
+			"name": "deletePresent",
+			"description": "",
+			"collectionId": "9eb183d7-9922-a706-cc87-62b289bdee11",
+			"responses": [],
+			"currentHelper": null,
+			"helperAttributes": null
+		},
+		{
+			"id": "583d5d6c-950c-ba17-4679-ce577ef40b6e",
+			"headers": "",
+			"headerData": [],
+			"url": "http://127.0.0.1:8085/listPresents",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"events": [],
+			"auth": null,
+			"method": "GET",
+			"collectionId": "9eb183d7-9922-a706-cc87-62b289bdee11",
+			"data": null,
+			"dataMode": "params",
+			"name": "listPresents",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1514818113163,
+			"version": 2,
+			"responses": [],
+			"currentHelper": null,
+			"helperAttributes": null
+		},
+		{
+			"id": "67dc2bb5-2f0f-6a2d-a3dc-4977870b8c7e",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://127.0.0.1:8085/addPresent",
+			"queryParams": [],
+			"events": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"auth": null,
+			"time": 1514818196514,
+			"name": "addPresent",
+			"description": "",
+			"collectionId": "9eb183d7-9922-a706-cc87-62b289bdee11",
+			"responses": [],
+			"currentHelper": null,
+			"helperAttributes": null,
+			"rawModeData": "{\n\t\"sid\": \"693e33a4901a5d1406f2c1cb\",\n    \"openid\": \"0xadcbf2324460caddeff\",\n    \"nickname\": \"海问香\",\n    \"headimgurl\": \"海问香的头像URL\",\n    \"num\": 1,\n    \"gid\": \"753e24b91fdd04110cd981ac\",\n    \"giftName\": \"游艇\",\n    \"time\": \"2017-12-17T07:06:11.475Z\"\n}"
+		},
+		{
 			"id": "700cb3ea-835b-c5ed-1485-89dbaa207da7",
 			"headers": "",
 			"headerData": [],
@@ -383,6 +471,35 @@
 			"descriptionFormat": "html",
 			"time": 1514802948997,
 			"version": 2,
+			"responses": [],
+			"currentHelper": null,
+			"helperAttributes": null
+		},
+		{
+			"id": "77ef2357-fad5-14d4-a6b5-5f5b992bfc9b",
+			"headers": "",
+			"headerData": [],
+			"url": "http://127.0.0.1:8085/getPresentsTotal?sid=693e33a4901a5d1406f2c1cb",
+			"queryParams": [
+				{
+					"key": "sid",
+					"value": "693e33a4901a5d1406f2c1cb",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"events": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"auth": null,
+			"time": 1514818905142,
+			"name": "getPresentsTotal",
+			"description": "",
+			"collectionId": "9eb183d7-9922-a706-cc87-62b289bdee11",
 			"responses": [],
 			"currentHelper": null,
 			"helperAttributes": null
@@ -821,6 +938,43 @@
 			"rawModeData": "{\n    \"name\": \"第二个活动\",\n    \"status\": 1,\n    \"sponsor\":\"作家协会\",\n    \"enrolStart\": \"2018-12-17T07:06:11.475Z\",\n    \"enrolEnd\": \"2018-12-18T07:06:11.475Z\",\n    \"voteStart\": \"2018-12-19T07:06:11.475Z\",\n\t\"voteEnd\": \"2018-12-30T07:06:11.475Z\",\n\t\"info\": \"第二个活动信息\",\n\t\"infoImg\": \"第二个活动信息图片URL\",\n    \"participation\": \"第二个活动的如何参与\",\n    \"process\": \"第二个活动的流程介绍\",\n    \"contact\": \"第二个活动的联系方式\",\n    \"banner\": [\"第二个活动的3张活动图1\",\"第二个活动的3张活动图2\",\"第二个活动的3张活动图3\"],\n    \"rule\": \"第二个活动的活动规则\",\n    \"pv\":1\n}"
 		},
 		{
+			"id": "e518f7dc-cbd6-cf8d-f019-011dc1e4ca97",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://127.0.0.1:8085/updatePresent?pid=5a4a496fedbc82390fe72679",
+			"queryParams": [
+				{
+					"key": "pid",
+					"value": "5a4a496fedbc82390fe72679",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"events": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "PUT",
+			"data": [],
+			"dataMode": "raw",
+			"auth": null,
+			"time": 1514818043953,
+			"name": "updatePresent",
+			"description": "",
+			"collectionId": "9eb183d7-9922-a706-cc87-62b289bdee11",
+			"responses": [],
+			"currentHelper": null,
+			"helperAttributes": null,
+			"rawModeData": "{\n\t\"sid\": \"u_5a3e33a4901a5d1406f2c1ff\",\n    \"openid\": \"0xadcbf2324460caddeaa\",\n    \"nickname\": \"u_海问香\",\n    \"headimgurl\": \"u_海问香的头像URL\",\n    \"num\": 9,\n    \"gid\": \"u_753e24b91fdd04110cd981ac\",\n    \"giftName\": \"u_游艇\",\n    \"time\": \"u_2017-12-17T07:06:11.475Z\"\n}"
+		},
+		{
 			"id": "f2d6d911-3d4e-17ff-3353-24f84551c3e3",
 			"headers": "",
 			"headerData": [],
@@ -875,6 +1029,35 @@
 			"auth": null,
 			"time": 1514804453602,
 			"name": "getAwards",
+			"description": "",
+			"collectionId": "9eb183d7-9922-a706-cc87-62b289bdee11",
+			"responses": [],
+			"currentHelper": null,
+			"helperAttributes": null
+		},
+		{
+			"id": "fad656e3-b3aa-665e-aaf6-2bb07a09010a",
+			"headers": "",
+			"headerData": [],
+			"url": "http://127.0.0.1:8085/getPresentsDetail?sid=5a3e33a4901a5d1406f2c1ff",
+			"queryParams": [
+				{
+					"key": "sid",
+					"value": "5a3e33a4901a5d1406f2c1ff",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"events": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"auth": null,
+			"time": 1514818260794,
+			"name": "getPresentsDetail",
 			"description": "",
 			"collectionId": "9eb183d7-9922-a706-cc87-62b289bdee11",
 			"responses": [],

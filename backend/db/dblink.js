@@ -24,6 +24,7 @@ var DBLink = function()
 				collectionMap.put('award', mongoDB.collection('award'));
 				collectionMap.put('setting', mongoDB.collection('setting'));
 				collectionMap.put('gift', mongoDB.collection('gift'));
+				collectionMap.put('present', mongoDB.collection('present'));
 
 				return mongoDB;
 			}

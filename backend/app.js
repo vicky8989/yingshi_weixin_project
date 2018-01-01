@@ -11,6 +11,7 @@ var voteActivity = require('./db/activity');
 var voteSigner = require('./db/signer');
 var voteAward = require('./db/award');
 var voteGift = require('./db/gift');
+var votePresent = require('./db/present');
 var voteSetting = require('./db/setting');
 
 var file = require('./file/file');
@@ -336,7 +337,6 @@ app.delete('/deleteAward', function (req, res) {
   	});
 })
 
-
 //礼物接口
 app.get('/listGifts', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
@@ -396,6 +396,78 @@ app.delete('/deleteGift', function (req, res) {
   	});
 })
 
+//赠送接口
+app.get('/listPresents', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	votePresent.queryData("",function(result){
+        res.send(result);
+    });
+})
+
+app.get('/getPresentsDetail', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	var params = url.parse(req.url, true).query;
+	if (params==null || params.sid==null) {
+		res.status(400).send({'error':"Bad Request"});
+		return;
+	}
+
+	votePresent.queryDataBySidDetail(params.sid,function(result){
+        res.send(result);
+    });
+})
+
+app.get('/getPresentsTotal', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	var params = url.parse(req.url, true).query;
+	if (params==null || params.sid==null) {
+		res.status(400).send({'error':"Bad Request"});
+		return;
+	}
+
+	votePresent.queryDataBySidTotal(params.sid,function(result){
+        res.send(result);
+    });
+})
+
+app.post('/addPresent', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	if (req.body == null) {
+		res.status(400).send({'error':"Bad Request"});
+		return;
+	}
+
+	votePresent.addData(req.body,function(result,aid){
+      	res.send(aid);
+  	});
+})
+
+app.put('/updatePresent', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	var params = url.parse(req.url, true).query;
+	if (params==null || params.pid==null) {
+		res.status(400).send({'error':"Bad Request"});
+		return;
+	}
+
+	votePresent.updateData(params.pid,req.body,function(result){
+      	res.send(result);
+  	});
+})
+
+app.delete('/deletePresent', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	var params = url.parse(req.url, true).query;
+	if (params==null || params.pid==null) {
+		res.status(400).send({'error':"Bad Request"});
+		return;
+	}
+
+	votePresent.delData(params.pid,function(result){
+      	res.send(result);
+  	});
+})
+
 //点数接口
 app.put('/updatePrize', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
@@ -416,6 +488,7 @@ app.get('/getPrize', function (req, res) {
       	res.send(result);
   	});
 })
+
 
 //创建服务
 var server = app.listen(8085,function () {
