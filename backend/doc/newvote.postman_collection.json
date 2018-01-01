@@ -26,7 +26,12 @@
 		"fa3fa83e-3206-6eb3-80b5-f01d377933fa",
 		"e113f738-a0c2-6cf6-6529-f259fe3047ae",
 		"29d906fc-a985-d3ce-493e-85fd4ebd2b10",
-		"9b37dcf8-b2df-b259-c983-2d8ff98a22e3"
+		"9b37dcf8-b2df-b259-c983-2d8ff98a22e3",
+		"5292164c-df03-251b-1024-65d316096741",
+		"a7267d61-3f44-8e5d-46a2-a17454d0ee69",
+		"81518ba9-1901-de04-2826-0d5d13daa59a",
+		"98f39470-265f-d142-2406-c1b8ac58e1d4",
+		"c57f2968-c9ad-5483-200d-c7013b7590a3"
 	],
 	"folders": [],
 	"folders_order": [],
@@ -322,6 +327,36 @@
 			"helperAttributes": null
 		},
 		{
+			"id": "5292164c-df03-251b-1024-65d316096741",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://127.0.0.1:8085/addGift",
+			"queryParams": [],
+			"events": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"auth": null,
+			"time": 1514814296176,
+			"name": "addGift",
+			"description": "",
+			"collectionId": "9eb183d7-9922-a706-cc87-62b289bdee11",
+			"responses": [],
+			"currentHelper": null,
+			"helperAttributes": null,
+			"rawModeData": "{\n\t\"name\":\"圣诞帽\",\n\t\"giftImg\":\"礼物的icon\",\n\t\"num\":100\n}"
+		},
+		{
 			"id": "700cb3ea-835b-c5ed-1485-89dbaa207da7",
 			"headers": "",
 			"headerData": [],
@@ -348,6 +383,36 @@
 			"descriptionFormat": "html",
 			"time": 1514802948997,
 			"version": 2,
+			"responses": [],
+			"currentHelper": null,
+			"helperAttributes": null
+		},
+		{
+			"id": "81518ba9-1901-de04-2826-0d5d13daa59a",
+			"headers": "",
+			"headerData": [],
+			"url": "http://127.0.0.1:8085/getGift?gid=5a4a3b4bc5e0003598b433ed",
+			"queryParams": [
+				{
+					"key": "gid",
+					"value": "5a4a3b4bc5e0003598b433ed",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"events": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"auth": null,
+			"time": 1514814310232,
+			"name": "getGift",
+			"description": "",
+			"collectionId": "9eb183d7-9922-a706-cc87-62b289bdee11",
 			"responses": [],
 			"currentHelper": null,
 			"helperAttributes": null
@@ -413,6 +478,44 @@
 			"rawModeData": "{\n\t\"aid\":\"5a490327900f371dde360d99\",\n    \"name\": \"一等奖\",\n    \"num\": 1,\n    \"prizeInfo\": \"文房四宝一套\" ,\n    \"prizeImg\": \"奖品图片URL\",\n    \"info\": \"得了一等奖才能拿到呦\"\n}"
 		},
 		{
+			"id": "98f39470-265f-d142-2406-c1b8ac58e1d4",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://127.0.0.1:8085/updateGift?gid=5a4a3b4bc5e0003598b433ed",
+			"queryParams": [
+				{
+					"key": "gid",
+					"value": "5a4a3b4bc5e0003598b433ed",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"events": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "PUT",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"auth": null,
+			"time": 1514814392998,
+			"name": "updateGift",
+			"description": "",
+			"collectionId": "9eb183d7-9922-a706-cc87-62b289bdee11",
+			"responses": [],
+			"currentHelper": null,
+			"helperAttributes": null,
+			"rawModeData": "{\n\t\"name\":\"圣诞袜\",\n\t\"giftImg\":\"礼物的iconxxxx\",\n\t\"num\":200\n}"
+		},
+		{
 			"id": "9b37dcf8-b2df-b259-c983-2d8ff98a22e3",
 			"headers": "Content-Type: application/json\n",
 			"headerData": [
@@ -442,6 +545,29 @@
 			"rawModeData": "{\n\t\"prize\":100\n}"
 		},
 		{
+			"id": "a7267d61-3f44-8e5d-46a2-a17454d0ee69",
+			"headers": "",
+			"headerData": [],
+			"url": "http://127.0.0.1:8085/listGifts",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"events": [],
+			"auth": null,
+			"method": "GET",
+			"collectionId": "9eb183d7-9922-a706-cc87-62b289bdee11",
+			"data": null,
+			"dataMode": "params",
+			"name": "listGifts",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1514814214852,
+			"version": 2,
+			"responses": [],
+			"currentHelper": null,
+			"helperAttributes": null
+		},
+		{
 			"id": "bfe3aa81-a2b4-8e26-762b-d987b29d0469",
 			"headers": "",
 			"headerData": [],
@@ -460,6 +586,36 @@
 			"descriptionFormat": "html",
 			"time": 1514799691373,
 			"version": 2,
+			"responses": [],
+			"currentHelper": null,
+			"helperAttributes": null
+		},
+		{
+			"id": "c57f2968-c9ad-5483-200d-c7013b7590a3",
+			"headers": "",
+			"headerData": [],
+			"url": "http://127.0.0.1:8085/deleteGift?gid=5a4a3b58c5e0003598b433ee",
+			"queryParams": [
+				{
+					"key": "gid",
+					"value": "5a4a3b58c5e0003598b433ee",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"events": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "DELETE",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"auth": null,
+			"time": 1514814341284,
+			"name": "deleteGift",
+			"description": "",
+			"collectionId": "9eb183d7-9922-a706-cc87-62b289bdee11",
 			"responses": [],
 			"currentHelper": null,
 			"helperAttributes": null

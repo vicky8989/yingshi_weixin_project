@@ -10,7 +10,9 @@ var voteUser = require('./db/user');
 var voteActivity = require('./db/activity');
 var voteSigner = require('./db/signer');
 var voteAward = require('./db/award');
+var voteGift = require('./db/gift');
 var voteSetting = require('./db/setting');
+
 var file = require('./file/file');
 
 var app = express();
@@ -330,6 +332,66 @@ app.delete('/deleteAward', function (req, res) {
 	}
 
 	voteAward.delData(params.awid,function(result){
+      	res.send(result);
+  	});
+})
+
+
+//礼物接口
+app.get('/listGifts', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	voteGift.queryData("",function(result){
+        res.send(result);
+    });
+})
+
+app.get('/getGift', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	var params = url.parse(req.url, true).query;
+	if (params==null || params.gid==null) {
+		res.status(400).send({'error':"Bad Request"});
+		return;
+	}
+
+	voteGift.queryData(params.gid,function(result){
+        res.send(result);
+    });
+})
+
+app.post('/addGift', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	if (req.body == null) {
+		res.status(400).send({'error':"Bad Request"});
+		return;
+	}
+
+	voteGift.addData(req.body,function(result,aid){
+      	res.send(aid);
+  	});
+})
+
+app.put('/updateGift', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	var params = url.parse(req.url, true).query;
+	if (params==null || params.gid==null) {
+		res.status(400).send({'error':"Bad Request"});
+		return;
+	}
+
+	voteGift.updateData(params.gid,req.body,function(result){
+      	res.send(result);
+  	});
+})
+
+app.delete('/deleteGift', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	var params = url.parse(req.url, true).query;
+	if (params==null || params.gid==null) {
+		res.status(400).send({'error':"Bad Request"});
+		return;
+	}
+
+	voteGift.delData(params.gid,function(result){
       	res.send(result);
   	});
 })
