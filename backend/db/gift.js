@@ -1,6 +1,6 @@
 var dbLink = require('./dblink');
 
-var Award = function()
+var Gift = function()
 {
     var ObjectId = require('mongodb').ObjectID;
 
@@ -8,7 +8,7 @@ var Award = function()
     this.collection = function(){
 
         if (collection == null) {
-            collection = dbLink.collection('award');
+            collection = dbLink.collection('gift');
             if (collection == null) {
                 return false;
             }
@@ -16,7 +16,7 @@ var Award = function()
 
         return true;
     }
-   
+
     this.addData = function(userData,callback)
     {
         if (this.collection() == false) {
@@ -24,12 +24,9 @@ var Award = function()
         }
 
         var data = {
-            'aid':userData.aid,
             'name': userData.name,
-            'num': userData.num,
-            'prizeinfo': userData.prizeInfo ,
-            'prizeimg': userData.prizeImg,
-            'info': userData.info
+            'giftimg': userData.giftImg,
+            'num': userData.num
         };
 
         collection.insert(data, function(err, result) { 
@@ -43,24 +40,21 @@ var Award = function()
         });
     }
 
-    this.updateData = function(awid,userData,callback)
+    this.updateData = function(gid,userData,callback)
     {
         if (this.collection() == false) {
             return;
         }
 
-        if (awid == null) {
+        if (gid == null) {
             return;
         }
 
-        var whereStr = {"_id":ObjectId(awid)};
+        var whereStr = {"_id":ObjectId(gid)};
         var data = {$set:{
-            'aid':userData.aid,
             'name': userData.name,
-            'num': userData.num,
-            'prizeinfo': userData.prizeInfo ,
-            'prizeimg': userData.prizeImg,
-            'info': userData.info}};
+            'giftimg': userData.giftImg,
+            'num': userData.num}};
 
         collection.update(whereStr,data, function(err, result) { 
             if(err)
@@ -73,30 +67,17 @@ var Award = function()
         });
     }
 
-    this.queryData = function(aid,callback)
+    this.queryData = function(gid,callback)
     {
         if (this.collection() == false) {
             return;
         }
 
-        if (aid == null) {
+        if (gid==null) {
             return;
         }
 
-        if (aid != ""){
-            var whereStr = {"aid":aid};
-
-            collection.find(whereStr).toArray(function(err, result) {
-                if(err)
-                {
-                  console.log('Error:'+ err);
-                  return;
-                }
-
-                callback(result);
-            });
-        }else{
-
+        if (gid=="") {
             collection.find().toArray(function(err, result) {
                 if(err)
                 {
@@ -107,20 +88,32 @@ var Award = function()
                 callback(result);
             });
         }
+        else
+        {
+            var whereStr = {"_id":ObjectId(gid)};
+            collection.find(whereStr).toArray(function(err, result) {
+                if(err)
+                {
+                  console.log('Error:'+ err);
+                  return;
+                }
+
+                callback(result);
+            });
+        }
     }
 
-    this.delData = function(awid,callback)
+    this.delData = function(gid,callback)
     {
         if (this.collection() == false) {
             return;
         }
 
-        if (awid == null) {
+        if (gid == null) {
             return;
         }
 
-        var whereStr = {"_id":ObjectId(awid)};
-
+        var whereStr = {"_id":ObjectId(gid)};
         collection.remove(whereStr, function(err, result) {
             if(err)
             {
@@ -131,6 +124,7 @@ var Award = function()
             callback(result);
         });
     }
+
 };
 
-module.exports = new Award();
+module.exports = new Gift();

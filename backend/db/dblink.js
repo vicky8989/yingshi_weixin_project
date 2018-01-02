@@ -21,7 +21,10 @@ var DBLink = function()
 				collectionMap.put('user', mongoDB.collection('user'));
 				collectionMap.put('activity', mongoDB.collection('activity'));
 				collectionMap.put('signer', mongoDB.collection('signer'));
-				collectionMap.put('awards', mongoDB.collection('awards'));
+				collectionMap.put('award', mongoDB.collection('award'));
+				collectionMap.put('setting', mongoDB.collection('setting'));
+				collectionMap.put('gift', mongoDB.collection('gift'));
+				collectionMap.put('present', mongoDB.collection('present'));
 
 				return mongoDB;
 			}

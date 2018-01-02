@@ -1,16 +1,15 @@
 var dbLink = require('./dblink');
 var Map = require('../common/map');
 
-var User = function()
+var Present = function()
 {
     var ObjectId = require('mongodb').ObjectID;
-    var codeMap = new Map;
+
     var collection = null;
-    
     this.collection = function(){
 
         if (collection == null) {
-            collection = dbLink.collection('signer');
+            collection = dbLink.collection('present');
             if (collection == null) {
                 return false;
             }
@@ -19,65 +18,23 @@ var User = function()
         return true;
     }
 
-    this.calcCode = function(aid){
-
-        if (this.collection() == false) {
-            return;
-        }
-
-        if (codeMap.isEmpty()) {
-
-            var signers = collection.find().toArray();
-            for (var i=0 ; i<signers.length; i++) {
-
-                var signer = signers[i]
-                if (codeMap.get(signer.aid) != null) {
-                    if(codeMap.get(signer.aid)<signer.code){
-                        codeMap.get(signer.aid) = signer.code;
-                    }
-                }
-                else{
-                    codeMap.put(signer.aid, 1);
-                }
-            }
-        }
-
-        var code = codeMap.get(aid);
-        if (code != null) {
-            code ++;
-            codeMap.put(aid,code);
-            return codeMap.get(aid);
-        }
-        else{
-            codeMap.put(aid, 1);
-            return 1;
-        }
-    }
-
     this.addData = function(userData,callback)
     {
         if (this.collection() == false) {
             return;
         }
 
-        if (userData.aid == null) {
-            return;
-        }
-
         var data = {
-            'aid':userData.aid,
+            'sid': userData.sid,
             'openid': userData.openid,
-            'name': userData.name ,
-            'phone': userData.phone,
-            'address': userData.address,
-            'words': userData.words,
-            'hot': userData.hot,
-            'votenum': userData.voteNum,
-            'pics': userData.pics,
-            'status':userData.status
+            'nickname': userData.nickname,
+            'headimgurl': userData.headimgurl,
+            'num': userData.num,
+            'gid': userData.gid,
+            'giftname': userData.giftName,
+            'time': userData.time
         };
 
-        data.code = this.calcCode(data.aid);
         collection.insert(data, function(err, result) { 
             if(err)
             {
@@ -89,30 +46,28 @@ var User = function()
         });
     }
 
-    this.updateData = function(sid,userData,callback)
+    this.updateData = function(pid,userData,callback)
     {
         if (this.collection() == false) {
             return;
         }
 
-        if (sid == null) {
+        if (pid == null) {
             return;
         }
 
-        var whereStr = {"_id":ObjectId(sid)};
+        var whereStr = {"_id":ObjectId(pid)};
         var data = {$set:{
-            'aid':userData.aid,
+            'sid': userData.sid,
             'openid': userData.openid,
-            'name': userData.name ,
-            'phone': userData.phone,
-            'address': userData.address,
-            'words': userData.words,
-            'hot': userData.hot,
-            'votenum': userData.voteNum,
-            'pics': userData.pics,
-            'status':userData.status}};
+            'nickname': userData.nickname,
+            'headimgurl': userData.headimgurl,
+            'num': userData.num,
+            'gid': userData.gid,
+            'giftname': userData.giftName,
+            'time': userData.time}};
 
-        collection.update(whereStr,data,function(err, result) { 
+        collection.update(whereStr,data, function(err, result) { 
             if(err)
             {
               console.log('Error:'+ err);
@@ -123,17 +78,17 @@ var User = function()
         });
     }
 
-    this.queryData = function(sid,callback)
+    this.queryData = function(pid,callback)
     {
         if (this.collection() == false) {
             return;
         }
 
-        if (sid==null) {
+        if (pid==null) {
             return;
         }
 
-        if (sid=="") {
+        if (pid=="") {
             collection.find().toArray(function(err, result) {
                 if(err)
                 {
@@ -146,7 +101,7 @@ var User = function()
         }
         else
         {
-            var whereStr = {"_id":ObjectId(sid)};
+            var whereStr = {"_id":ObjectId(pid)};
             collection.find(whereStr).toArray(function(err, result) {
                 if(err)
                 {
@@ -159,17 +114,17 @@ var User = function()
         }
     }
 
-    this.queryDataByAid = function(aid,callback)
+    this.queryDataBySidDetail = function(sid,callback)
     {
         if (this.collection() == false) {
             return;
         }
 
-        if (aid == null) {
+        if (sid==null) {
             return;
         }
 
-        var whereStr = {"aid":aid};
+        var whereStr = {"sid":sid};
         collection.find(whereStr).toArray(function(err, result) {
             if(err)
             {
@@ -181,17 +136,71 @@ var User = function()
         });
     }
 
-    this.delData = function(sid,callback)
+    this.queryDataBySidTotal = function(sid,callback)
     {
         if (this.collection() == false) {
             return;
         }
 
-        if (sid == null) {
+        if (sid==null) {
             return;
         }
 
-        var whereStr = {"_id":ObjectId(sid)};
+        var whereStr = {"sid":sid};
+        collection.find(whereStr).toArray(function(err, result) {
+            if(err)
+            {
+              console.log('Error:'+ err);
+              return;
+            }
+
+            if (result.length == 0) {
+                callback([]);
+                return;
+            }
+
+            var giftMap = new Map;
+            for (var i=0 ; i<result.length; i++)
+            {
+                var present = result[i];
+
+                var num = giftMap.get(present.gid);
+                if (num == null) 
+                {
+                    num = present.num;
+                }
+                else
+                {
+                    num += present.num;
+                }
+
+                giftMap.put(present.gid,num);
+            }
+
+            console.log(giftMap);
+            
+            if (giftMap.isEmpty()) {
+                callback([]);
+            }
+            else
+            {
+                callback(giftMap.entrys());
+            }
+
+        });
+    }
+
+    this.delData = function(pid,callback)
+    {
+        if (this.collection() == false) {
+            return;
+        }
+
+        if (pid == null) {
+            return;
+        }
+
+        var whereStr = {"_id":ObjectId(pid)};
         collection.remove(whereStr, function(err, result) {
             if(err)
             {
@@ -205,4 +214,4 @@ var User = function()
 
 };
 
-module.exports = new User();
+module.exports = new Present();

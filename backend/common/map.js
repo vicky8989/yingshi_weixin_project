@@ -61,7 +61,7 @@ var Map = function() {
         for (var i = 0; i < len; i++) {
             entrys[i] = {
                 key : this.keys[i],
-                value : this.data[i]
+                value : this.data[this.keys[i]]
             };
         }
         return entrys;
