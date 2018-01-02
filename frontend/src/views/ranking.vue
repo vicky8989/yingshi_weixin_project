@@ -7,19 +7,19 @@
 		</mt-navbar>
 		<mt-tab-container v-model="currentSelected">
 			<mt-tab-container-item id="votes">
-				<ul class="ranking_list" v-for="(list, index) in listData.value">
-					<router-link :to="{path:'votes',query:{id:list.id}}" :key="list.id">
+				<ul class="ranking_list" v-for="(list, index) in listData">
+					<router-link :to="{path:'votes',query:{id:list._id}}" :key="list._id">
 					<li  key="index">
 						<div class="ranking_lf">
 							<div class="crown" v-if="index<3"></div>
 							<div class="poho">
-								<img :src="list.pic" />
+								<img :src="imgURL+list.user.headimgurl" />
 							</div>
 						</div>
 						<div class="ranking_center">
-							<h5>{{list.name}}  {{list.number}}号</h5>
-							<span><label for="">票数:</label>{{list.voteNum}}<label for="">礼物:</label>{{list.present}}点</span>
-							<span>{{list.title}}</span>
+							<h5>{{list.name}}  {{list.code}}号</h5>
+							<span><label for="">票数:</label>{{list.votenum}}<label for="">礼物:</label>{{list.present}}点</span>
+							<span>{{list.words}}</span>
 						</div>
 						<div class="ranking_rg" :class="{'ok':index<3}">
 							{{index+1}}
@@ -29,19 +29,19 @@
 				</ul>
 			</mt-tab-container-item>
 			<mt-tab-container-item id="gift">
-				<ul class="ranking_list" v-for="(list, index) in listData.value" >
-				<router-link :to="{path:'votes',query:{id:list.id}}" :key="list.id">
+				<ul class="ranking_list" v-for="(list, index) in listData" >
+				<router-link :to="{path:'votes',query:{id:list._id}}" :key="list._id">
 					<li key="index">
 						<div class="ranking_lf">
 							<div class="crown" v-if="index<3"></div>
 							<div class="poho">
-								<img :src="list.pic" />
+								<img :src="imgURL+list.user.headimgurl" />
 							</div>
 						</div>
 						<div class="ranking_center">
-							<h5>{{list.name}}  {{list.number}}号</h5>
-							<span><label for="">礼物:</label>{{list.present}}点<label for="">票数:</label>{{list.voteNum}}</span>
-							<span>{{list.title}}</span>
+							<h5>{{list.name}}  {{list.code}}号</h5>
+							<span><label for="">礼物:</label>{{list.present}}点<label for="">票数:</label>{{list.votenum}}</span>
+							<span>{{list.words}}</span>
 						</div>
 						<div class="ranking_rg" :class="{'ok':index<3}">
 							{{index+1}}
@@ -65,40 +65,58 @@
 	export default {
 		data() {
 			return {
+				imgURL: this.ApiSever.imgUrl,
 				isVoteFinished:false,
 				endTime: this.ApiSever.FINSIHTIME,
-				listData: {
-					totalCount: 0, // 总条数
-					pageNumber: 1, // 当前显示页号
-					pageSize: 10, // 每页显示数据条数
-					value: [], // 显示数据
-				},
+				listData: [],
 				currentSelected: 'votes'
 			}
 		},
-		created() {},
 		components: {
 			conutDown,
 			BottomNav
 		},
 		methods: {
-			getListData() {
+			getListData(aid) {
 				let self = this;
-				this.ApiSever.getRanking(null).then(res => {
-					let result = res.body.data;
-					console.log('result.data.rows', result.rows);
-					self.listData.value = result.rows;
+				this.ApiSever.getListSigners(aid).then(res => {
+					let result = res.body;
+					console.log('result.data.rows', result);
+					self.listData = result;
+					let userIndex =0,presentIndex = 0;
+					for(var i=0,ilen = result.length; i <ilen; i++){
+						self.listData[i].present = 0;
+
+						//请求用户信息						
+						self.ApiSever.getUserInfo(result[i].openid).then(info => {
+							let userInfo = info.data;
+							console.log('user i',userInfo,userIndex);
+							self.listData[userIndex].user = userInfo[0];
+							userIndex++;
+
+							if(userIndex == i) self.$forceUpdate();
+						});
+
+						//请求礼物信息
+						self.ApiSever.getPresentsTotal(result[i]._id).then(giftNum => {
+							let num = giftNum.data.length||0;
+							console.log('giftNum i',num,presentIndex);
+							self.listData[presentIndex].present = num;
+							presentIndex++;
+							if(presentIndex == i) self.$forceUpdate();
+						});
+					}
 				})
 			},
 			//根据投票数或礼物数排序
 			sortUsers(type) {
 				let self = this;
 				if(type == 1) {
-					self.listData.value.sort((a,b)=>{
-		              return a.voteNum < b.voteNum;
+					self.listData.sort((a,b)=>{
+		              return a.votenum < b.votenum;
 		            })
 				} else {
-					self.listData.value.sort((a,b)=>{
+					self.listData.sort((a,b)=>{
 		              return a.present < b.present;
 		            })
 				}
@@ -117,8 +135,12 @@
 					}
 				}
 		},
-		mounted() {
-			this.getListData();
+		created() {
+			let aid = this.ApiSever.AID;
+			if(!aid){
+				this.$router.push({path:'/index'});
+			}
+			this.getListData(aid);
 		}
 	}
 </script>

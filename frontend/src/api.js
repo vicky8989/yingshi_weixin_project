@@ -21,6 +21,9 @@ const VueHttp = new Vue();
 const ACTIVITY = `${HOST}getActivities?status=0`;
 const ADDSIGNER = `${HOST}addSigner`;
 const GETSIGNERS= `${HOST}getSigners`;
+const GETUSER = `${HOST}getUser`;
+const GETAWARDS=`${HOST}getAwards`;
+const GETPRESENTNUM = `${HOST}getPresentsTotal`; //获得某人得到的礼物总数
 
 /*测试的接口*/
 const TEST = `${HOST}test`;
@@ -116,25 +119,25 @@ Mock.mock('awards.json', {
 //     }]
 //   }
 // });
-// 生成商品列数据
-Mock.mock(RANKING, {
-        code: 1,
-        msg: '查询成功',
-        data: {
-            'total': 20,
-            'records': 10,
-            'page': 1,
-            'rows|10': [{
-                'id|+1': 1,
-                'voteNum': '@natural(10, 100)',
-                'number': '@natural(1, 100)',
-                'name':'@cword(2, 5)',
-                'present':'@natural(1, 100)',
-                'title': '@ctitle(6,20)',
-                'pic': '@image(200x200,#50B347,#fff, nice)'
-            }]
-        }
-});
+// // 生成商品列数据
+// Mock.mock(RANKING, {
+//         code: 1,
+//         msg: '查询成功',
+//         data: {
+//             'total': 20,
+//             'records': 10,
+//             'page': 1,
+//             'rows|10': [{
+//                 'id|+1': 1,
+//                 'voteNum': '@natural(10, 100)',
+//                 'number': '@natural(1, 100)',
+//                 'name':'@cword(2, 5)',
+//                 'present':'@natural(1, 100)',
+//                 'title': '@ctitle(6,20)',
+//                 'pic': '@image(200x200,#50B347,#fff, nice)'
+//             }]
+//         }
+// });
 
 function validTimeFinished(finishTime) {
   let curTime_ = (new Date(finishTime)).getTime() / 1000 - (new Date()).getTime() / 1000;
@@ -158,17 +161,27 @@ export default {
     return VueHttp.$http.post(ADDSIGNER,JSON.stringify(data))
   },
   //获取奖品数据
-  getPrizes: (jsons) => {
-    return VueHttp.$http.get(PRIZES)
+  getPrizes: (aid) => {
+    let url = `${GETAWARDS}?aid=${aid}`;
+    return VueHttp.$http.get(url)
   },
 
-  getRanking: (jsons) => {
+  getRanking: (aid) => {
+    let url = `${GETAWARDS}?aid=${aid}`;
     return VueHttp.$http.get(RANKING)
   },
 
   //根据活动获取
   getListSigners: (aid) => {
     let url = `${GETSIGNERS}?aid=${aid}`;
+    return VueHttp.$http.get(url)
+  },
+  getUserInfo:(openid)=>{
+    let url = `${GETUSER}?openid=${openid}`;
+    return VueHttp.$http.get(url)
+  },
+  getPresentsTotal:(sid)=>{
+    let url = `${GETPRESENTNUM}?sid=${sid}`;
     return VueHttp.$http.get(url)
   },
   getUserDataByID:(jsons)=>{

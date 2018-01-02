@@ -1,10 +1,9 @@
 <template>
 	<div id="prizes">
 		<div class="prizes_list" v-for="(list,index) in prizesList.value">
-			<h5>{{list.name}} {{list.number}}</h5>
-			<div class="prizes_detail" v-for="(detail,item) in list.details">
-				<label for="">{{detail.name}}:</label>
-				<span>{{detail.subname}}</span>
+			<h5>{{list.name}}: {{list.prizeinfo}} {{list.num}}名</h5>
+			<div class="prizes_detail">
+				<img :src="imgURL+list.prizeimg"/>
 			</div>
 		</div>
 	</div>
@@ -15,6 +14,7 @@
 	export default {
 		data() {
 			return {
+				imgURL: this.ApiSever.imgUrl,
 				prizesList: {
 					totalCount: 0, // 总条数
 					pageNumber: 1, // 当前显示页号
@@ -27,17 +27,20 @@
 		components: {
 		},
 		methods: {
-			getListData() {
-				this.ApiSever.getPrizes(null).then(res => {
+			getPrizesList(aid) {
+				if(!aid) {
+					this_.$router.push({path:'/index'});
+				}
+				this.ApiSever.getPrizes(aid).then(res => {
 					let result = res.data;
-					if(result.code == 1) {
-						this.prizesList.value = result.data.rows;
+					if(result) {
+						this.prizesList.value = result;
 					}
 				})
 			}
 		},
 		mounted() {
-			this.getListData();
+			this.getPrizesList(this.ApiSever.AID);
 		}
 	}
 </script>
