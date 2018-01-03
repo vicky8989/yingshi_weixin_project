@@ -21,9 +21,12 @@ const VueHttp = new Vue();
 const ACTIVITY = `${HOST}getActivities?status=0`;
 const ADDSIGNER = `${HOST}addSigner`;
 const GETSIGNERS= `${HOST}getSigners`;
+const GETSIGNERBYID=`${HOST}getSigner`;
 const GETUSER = `${HOST}getUser`;
 const GETAWARDS=`${HOST}getAwards`;
 const GETPRESENTNUM = `${HOST}getPresentsTotal`; //获得某人得到的礼物总数
+const GETPRESENTINFO = `${HOST}getPresentsDetail`; //获得某人得到的礼物总数
+const LISTGIFTS = `${HOST}listGifts`;
 
 /*测试的接口*/
 const TEST = `${HOST}test`;
@@ -184,12 +187,19 @@ export default {
     let url = `${GETPRESENTNUM}?sid=${sid}`;
     return VueHttp.$http.get(url)
   },
-  getUserDataByID:(jsons)=>{
-    return VueHttp.$http.get(USERDATA)
+  getPresentsDetail:(sid)=> {
+    let url = `${GETPRESENTINFO}?sid=${sid}`;
+    return VueHttp.$http.get(url);
+  },
+  getUserDataByID:(sid)=>{
+    let url = `${GETSIGNERBYID}?sid=${sid}`;
+    return VueHttp.$http.get(url)
   },
   getGiftsList: (jsons) => {
-    return VueHttp.$http.get(GIFTS)
+    return VueHttp.$http.get(LISTGIFTS)
   },
+
+  
   add: (jsons) => {
     return VueHttp.$http.post(TEST,
       qs.stringify(jsons)

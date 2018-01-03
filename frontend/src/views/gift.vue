@@ -5,7 +5,7 @@
 				<img src="./../assets/images/IMG_0117.png" />
 			</div>
 			<div class="div_msg">
-				<div class="div_name">测试</div>
+				<div class="div_name">{{userData.name}}</div>
 				<span>给他送一份礼物吧</span>
 			</div>
 			<i class="iconfont">&#xe686;</i>
@@ -13,11 +13,11 @@
 		<ul class="user_vote">
 			<li>
 				<i class="iconfont icon-ren"></i>编号
-				<p>{{userData.id}}</p>
+				<p>{{userData.code}}</p>
 			</li>
 			<li>
 				<i class="iconfont icon-piao"></i>票数
-				<p>{{userData.voteNum}}</p>
+				<p>{{userData.votenum}}</p>
 			</li>
 			<li>
 				<i class="iconfont icon-redu"></i>热度
@@ -25,12 +25,12 @@
 			</li>
 			<li>
 				<i class="iconfont icon-liwu"></i>礼物
-				<p>{{userData.gift}}点</p>
+				<p>{{userData.giftnum}}点</p>
 			</li>
 		</ul>
 		<ul class="gift_list">
-			<li v-for="(list, index) in giftList" key="index" @click="handleCheckgift(list.id)">
-				<div class="div_box" :class="{'active':list.id==currentId}">
+			<li v-for="(list, index) in giftList" key="index" @click="handleCheckgift(list._id)">
+				<div class="div_box" :class="{'active':list._id==currentId}">
 					<div class="div_img">
 						<img src="./../assets/images/gift.jpg" />
 					</div>
@@ -101,8 +101,8 @@
 				userData: {
 					voteNum: 12,
 					hot: 12,
-					gift: 12,
-					id: 12
+					giftnum: 12,
+					code: 12
 				}
 			}
 		},
@@ -110,15 +110,31 @@
 		components: {
 		},
 		methods: {
-			getGiftsList() {
-				let param = {
-					id: this.userId
-				};
+			//通过id获取本个人的信息			
+			getUserInfo() {
+				console.log(this.$route.query)
+				let sid = this.$route.params.id;
 
 				let self = this;
-				this.ApiSever.getGiftsList(param).then(res => {
+
+				this.ApiSever.getUserDataByID(sid).then(res => {
 					console.log(res);
-					self.giftList = res.body.data.value;
+					let result = res.body;
+					self.userData = result[0];
+					//请求用户信息
+					self.ApiSever.getPresentsTotal(sid).then(giftNum => {
+						let num = giftNum.body&& giftNum.body.length>0?giftNum.body[0].value:0;						
+						self.userData.giftnum = num;
+						self.$forceUpdate();
+					});
+				});
+			},
+
+			getGiftsList() {
+				let self = this;
+				this.ApiSever.getGiftsList().then(res => {
+					console.log(res);
+					self.giftList = res.body;
 				});
 
 			},
@@ -150,7 +166,8 @@
 		},
 
 		mounted() {
-			//console.log('idid',this.$route.params.id);
+			if(!this.$route.params.id) this.handleJump();
+			this.getUserInfo();
 			this.getGiftsList();
 		}
 	}

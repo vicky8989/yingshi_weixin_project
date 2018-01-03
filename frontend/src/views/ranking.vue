@@ -8,7 +8,7 @@
 		<mt-tab-container v-model="currentSelected">
 			<mt-tab-container-item id="votes">
 				<ul class="ranking_list" v-for="(list, index) in listData">
-					<router-link :to="{path:'votes',query:{id:list._id}}" :key="list._id">
+					<router-link :to="{path:'votes/'+list._id}" :key="list._id">
 					<li  key="index">
 						<div class="ranking_lf">
 							<div class="crown" v-if="index<3"></div>
@@ -30,7 +30,7 @@
 			</mt-tab-container-item>
 			<mt-tab-container-item id="gift">
 				<ul class="ranking_list" v-for="(list, index) in listData" >
-				<router-link :to="{path:'votes',query:{id:list._id}}" :key="list._id">
+				<router-link :to="{path:'votes/'+list._id,params:{id: list._id}}" :key="list._id">
 					<li key="index">
 						<div class="ranking_lf">
 							<div class="crown" v-if="index<3"></div>
@@ -99,9 +99,10 @@
 
 						//请求礼物信息
 						self.ApiSever.getPresentsTotal(result[i]._id).then(giftNum => {
-							let num = giftNum.data.length||0;
-							console.log('giftNum i',num,presentIndex);
-							self.listData[presentIndex].present = num;
+							console.log('giftNum i',giftNum,presentIndex);
+							let num = giftNum.body&& giftNum.body.length>0?giftNum.body[0].value:0;
+							
+							self.listData[presentIndex].present = parseInt(num);
 							presentIndex++;
 							if(presentIndex == i) self.$forceUpdate();
 						});
