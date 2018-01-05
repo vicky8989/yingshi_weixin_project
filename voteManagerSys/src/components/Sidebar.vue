@@ -10,10 +10,12 @@
 					</el-submenu>
 				</template>
 				<template v-else>
+					<router-link :to="{path:item.path}" >
 					<el-menu-item :index="item.index">
 						<i :class="item.icon"></i>
 						<span slot="title">{{ item.title }}</span>
 					</el-menu-item>
+				</router-link>
 				</template>
 			</template>
 		</el-menu>
@@ -28,7 +30,15 @@
 				items: [{
 						icon: 'el-icon-location',
 						index: '1',
-						title: '我的活动'
+						title: '我的活动',
+						path:'/index'
+
+					},
+					{
+						icon: 'el-icon-location',
+						index: '2',
+						title: '活动礼物',
+						path:'/present'
 					}
 				]
 			}

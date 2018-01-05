@@ -20,11 +20,14 @@ export default new Router({
       	path:'/setting/:id?',
       	component:resolve => require(['../views/VoteSetting.vue'], resolve)
       },{
-        path:'/votes',
+        path:'/votes/:id?',
         component:resolve => require(['../views/votesPage.vue'], resolve)
       },{
-        path:'/signer',
+        path:'/signer/:id?',
         component:resolve => require(['../views/Signers.vue'], resolve)
+      },{
+        path:'/present',
+        component:resolve => require(['../views/Present.vue'], resolve)
       }]
     },
     {

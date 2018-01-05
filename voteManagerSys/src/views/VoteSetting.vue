@@ -57,10 +57,10 @@
               { type: 'number', message: '限制每天投票数必须为数字值'}
             ]">
           <el-input type="text" v-model.number="activity.confineVoteNum" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="协办方单位名称:" prop="partner">
-          <el-input v-model="activity.rule"></el-input>
         </el-form-item>-->
+        <el-form-item label="协办方单位名称:" prop="partner">
+          <el-input v-model="activity.sponsor"></el-input>
+        </el-form-item>
         <el-form-item label="客服微信号:" prop="contact">
           <el-input v-model="activity.contact"></el-input>
         </el-form-item>
@@ -92,19 +92,7 @@
                 <template scope="scope">
                     <el-input size="small" class="input_prizeimg" v-model="scope.row.prizeimg" placeholder="图片"></el-input>
                     <input type="file" placeholder="请选择" name="awardPic" ref="awardPic" class="awardPic" @change="updataAwardPic(scope.$index,scope.row)" />
-                    <!-- <el-upload
-                      width='100'
-                      class="upload-prizeimg"
-                      v-model="scope.row.prizeimg"
-                      :multiple="noMulti"
-                      :show-file-list="nofilelist"
-                      :action="uploadURL"
-                      name="image"
-                      :on-success="uploadPizeImgSuccess"
-                      :on-error="handleUploadError"
-                      >
-                      <el-button size="small" type="primary">点击上传</el-button>
-                    </el-upload> -->
+                    <el-button type="text" @click="previewImg(scope.row.prizeimg)">预览</el-button>
                 </template>
             </el-table-column>
             <el-table-column label="奖品数量" width="80">
@@ -119,6 +107,12 @@
                 </template>
             </el-table-column>
         </el-table>
+        <el-dialog
+        title="预览"
+        :visible.sync="dialogVisible"
+        :before-close="handleClose">
+        <img :src="imgURL+previewImgURL" style="max-width:600px;" />        
+      </el-dialog>
           <!-- <v-table
             is-horizontal-resize
             style="width:100%;font-size:14px;"
@@ -157,6 +151,8 @@ export default {
       activeId:this.$route.params.id,
       activeName: 'first',
       awards:[],
+      dialogVisible:false,
+      previewImgURL:'',
       rules:{
         name: [
             { required: true, message: '请输入活动名称', trigger: 'blur' },
@@ -221,7 +217,16 @@ export default {
     handleClick(tab, event) {
         console.log(tab, event);
     },
-
+    handleClose() {
+      this.dialogVisible = false;
+    },
+    //预览奖品图片
+    previewImg(imgurl) {
+      if(imgurl!=''){
+        this.previewImgURL = imgurl;
+        this.dialogVisible = true;
+      }
+    },
     successLoadImg() {
 
     },

@@ -18,23 +18,29 @@
 		  </el-form-item>
 		</el-form>
 		<el-table :data="voteList" v-if="this.isVote == true" style="width: 1005px;">
-			<el-table-column
+			<!-- <el-table-column
+					      fixed
+					      prop="name"
+					      label="活动名称"
+					      width="200">
+					    </el-table-column> -->
+		    <el-table-column
 		      fixed
-		      prop="name"
-		      label="活动名称"
+		      prop="votename"
+		      label="投票者名称"
 		      width="200">
 		    </el-table-column>
 		    <el-table-column
 		      fixed
-		      prop="votename"
-		      label="投票者"
-		      width="200">
+		      prop=""
+		      label="地区"
+		      width="100">
 		    </el-table-column>
 		    <el-table-column
 		      fixed
 		      prop="tel"
-		      label="投票者"
-		      width="100">
+		      label="电话"
+		      width="200">
 		    </el-table-column>
 		    <el-table-column
 		      fixed
@@ -47,7 +53,7 @@
 		      prop="curnum"
 		      label="今日投票数"
 		      width="100">
-		    </el-table-column>
+		    </el-table-column>		    
 		    <el-table-column
 		      fixed
 		      prop="lasttime"
@@ -56,24 +62,30 @@
 		    </el-table-column>
 		</el-table>
 		<el-table :data="paticitesList" v-else style="width: 1005px;">
-			<el-table-column
+			<!-- <el-table-column
+					      fixed
+					      prop="name"
+					      label="活动名称"
+					      width="200">
+					    </el-table-column> -->
+		    <el-table-column
 		      fixed
 		      prop="name"
-		      label="活动名称"
+		      label="参与者昵称"
 		      width="200">
 		    </el-table-column>
 		    <el-table-column
 		      fixed
-		      prop="parName"
-		      label="参与者"
-		      width="200">
-		    </el-table-column>
-		    <el-table-column
-		      fixed
-		      prop="voteno"
+		      prop="code"
 		      label="编号"
 		      width="100">
-		    </el-table-column>	   
+		    </el-table-column>
+		    <el-table-column
+		      fixed
+		      prop="phone"
+		      label="手机号"
+		      width="200">
+		    </el-table-column>
 		    <el-table-column
 		      fixed
 		      prop="votenum"
@@ -91,7 +103,7 @@
 		      prop="money"
 		      label="礼物总额"
 		      width="300">
-		    </el-table-column>		    
+		    </el-table-column>
 		</el-table>
 	</div>
 </template>
@@ -102,6 +114,7 @@ export default {
   name: 'votes',
   data () {
     return {
+    	activeId:this.$route.params.id,
     	voteList:[],
     	paticitesList:[],
     	isVote:true
@@ -126,16 +139,36 @@ export default {
             self.voteList = res.data.data.value;
         });
   	},
-  	getPaticiesList(){
+  	getPaticiesList(aid){
   		let self = this;
-        this.ApiSever.getPaticitesList().then(res => {
-            self.paticitesList = res.data.data.value;
+        this.ApiSever.getPaticitesList(aid).then(res => {
+        	if(res && res.data && res.data.length >0)
+        		self.paticitesList = res.data;
+        	let presentIndex = 0;
+        	for(var i=0,ilen = res.data.length; i <ilen; i++){
+	        	//请求礼物信息
+				self.ApiSever.getPresentsDetail(res.data[i]._id).then(gifts => {
+					let giftsInfo = gifts.data;
+					console.log('giftNum i',giftsInfo,presentIndex);
+					self.paticitesList[presentIndex].giftnum = 0;
+					giftsInfo.map((item)=>{
+						self.paticitesList[presentIndex].giftnum+=item.num;
+					})
+
+					self.paticitesList[presentIndex].money = self.paticitesList[presentIndex].giftnum;
+					presentIndex++;
+					if(presentIndex == i) self.$forceUpdate();
+				});
+			}
         });
   	}
   },
   mounted() {
+  	// if(this.activeId) {
+  	// 	this.$router.push('/index');
+  	// }
     this.getVoterList();
-    this.getPaticiesList();
+    this.getPaticiesList(this.activeId);
  }
 }
 </script>

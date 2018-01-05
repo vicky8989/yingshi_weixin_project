@@ -77,13 +77,17 @@ export default {
       let time = this.$moment(date).format("YYYY-MM-DD");
       return time;
     },
-    handleShowSigner() {
-      this.$router.push('/signer');
+    handleShowSigner(row) {
+      this.$router.push({
+        path:'/signer/'+row._id,
+        param:{
+          id:row._id
+        }
+      });
     },
   	handleShow() {
-      this.$router.push('/setting');
+      this.$router.push('/setting')
     },
-
     editDetials(row) {
       this.$router.push({
         path:'/setting/'+row._id,
@@ -93,8 +97,13 @@ export default {
       })
     },
 
-    handleShowActive() {
-      this.$router.push('/votes');
+    handleShowActive(row) {
+      this.$router.push({
+        path:'/votes/'+row._id,
+        param:{
+          id:row._id
+        }
+      });
     },
 
     getActivity(){
