@@ -50,7 +50,7 @@
         <el-button @click="handleShowActive(scope.row)">投票选项</el-button>
         <el-button @click="handleShowSigner(scope.row)">报名管理</el-button>
         <el-button @click="handleShowActive(scope.row)">投票记录</el-button>
-        <el-button>删除</el-button>
+        <el-button @click="handleDelActive(scope.row,scope.$index)">删除</el-button>
         <el-button>活动二维码</el-button>
       </template>
     </el-table-column>
@@ -95,6 +95,17 @@ export default {
           id:row._id
         }
       })
+    },
+
+    //删除活动
+    handleDelActive(row,index) {
+      let self = this;
+        this.ApiSever.delActivitieInfo(row._id).then(res => {
+          if(res && res.data){
+            self.activityList.splice(index,1);
+            self.$message('删除活动成功！');
+          }
+        });
     },
 
     handleShowActive(row) {

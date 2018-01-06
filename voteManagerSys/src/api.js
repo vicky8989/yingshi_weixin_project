@@ -10,11 +10,15 @@ const HOST = HOST_CONFIG;
 
 const VueHttp = new Vue();
 
-VueHttp.$http.options.emulateJSON = true;
+//VueHttp.$http.options.emulateJSON = true;
+//VueHttp.$http.defaults.headers.common['Authorization'] = AUTH_TOKEN;
+VueHttp.$http.options.headers = {
+  'Content-Type': 'application/json'
+};
 
 /*奖品接口*/
 const prize = `${HOST}getAwards`;
-const updatePrize = `${HOST}updateAward`;
+const updatePrizes = `${HOST}updateAward`;
 const delPrize = `${HOST}deleteAward`;
 const addPrize = `${HOST}addAward `;
 
@@ -22,6 +26,7 @@ const activeList = `${HOST}listActivities`;
 const activityInfo = `${HOST}getActivity`;
 const updateActivityInfo = `${HOST}updateActivity`;
 const addActivity = `${HOST}addActivity`;
+const delActivity = `${HOST}deleteActivity`;
 const voterList = `${HOST}getVoter`;
 const paticilist = `${HOST}getSigners`;
 const GETPRESENTINFO = `${HOST}getPresentsDetail`; //获得某人得到的礼物总数
@@ -37,24 +42,24 @@ const DELGIFT = `${HOST}deleteGift`;
 const signerList = `${HOST}listUsers`;
 const delActivityImg = `${HOST}deleteActivityImage`;
 
-Mock.mock(voterList, {
-  code: 1,
-  msg: '查询成功',
-  data: {
-    "success": 'true',
-    "pageSize": 1,
-    "count": 1,
-    "value|2": [{
-      'id|+1': 1,
-      'name': '@ctitle(10, 15)',
-      'votename': '@ctitle(6, 20)',
-      'tel': '13455673452',
-      'num': "100",
-      'curnum': "11",
-      'lasttime': "@date('yyyy-MM-dd')"
-    }]
-  }
-});
+// Mock.mock(voterList, {
+//   code: 1,
+//   msg: '查询成功',
+//   data: {
+//     "success": 'true',
+//     "pageSize": 1,
+//     "count": 1,
+//     "value|2": [{
+//       'id|+1': 1,
+//       'name': '@ctitle(10, 15)',
+//       'votename': '@ctitle(6, 20)',
+//       'tel': '13455673452',
+//       'num': "100",
+//       'curnum': "11",
+//       'lasttime': "@date('yyyy-MM-dd')"
+//     }]
+//   }
+// });
 
 // Mock.mock(paticilist, {
 //   code: 1,
@@ -94,17 +99,15 @@ Mock.mock(voterList, {
 //   }
 // });
 
-/*function axiosRequest(method, url, data) {
+function axiosRequest(method, url, data) {
   if (data) {
     return VueHttp.$http({
       method: method,
       url: url,
-      data: {
-        param: data
-      },
+      data: JSON.stringify(data),
       withCredentials:true,
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
       }
     });
   } else {
@@ -113,11 +116,11 @@ Mock.mock(voterList, {
       url: url,
       withCredentials:true,
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
       }
     });
   }
-}*/
+}
 
 export default {
   //参与者列表
@@ -133,12 +136,15 @@ export default {
     return VueHttp.$http.get(getInfoUrl);
   },
   updateActivityInfo: (data) => {
-    return VueHttp.$http.put(updateActivityInfo, JSON.stringify(data));
+    return axiosRequest('put',updateActivityInfo, data);
   },
   addActivityInfo:(data)=> {
     return VueHttp.$http.post(addActivity, JSON.stringify(data));
   },
-
+  delActivitieInfo:(aid)=>{
+    let url = `${delActivity}?aid=${aid}`;
+    return VueHttp.$http.delete(url);
+  },
   //获取奖品
   getPrizes: (aid) => {
     let prizelistUrl = `${prize}?aid=${aid}`;
@@ -146,21 +152,21 @@ export default {
   },
   //修改奖品
   updatePrize: (data) => {
-    return VueHttp.$http.put(updatePrize, JSON.stringify(data));
+    return axiosRequest('put',updatePrizes, data);
+    //return VueHttp.$http.put(updatePrizes, JSON.stringify(data));
   },
   //删除奖品
   delPrize: (id) => {
     let url = `${delPrize}?awid=${id}`;
     return VueHttp.$http.delete(url);
   },
-
   addPrize: (data) => {
     return VueHttp.$http.post(addPrize, JSON.stringify(data));
   },
   //删除活动某一个照片
   delActivityImg: (filename) => {
     let delImgUrl = `${delActivityImg}?image=${filename}`;
-    return VueHttp.$http.delete('delete', delImgUrl);
+    return VueHttp.$http.delete(delImgUrl);
   },
 
 
@@ -179,7 +185,8 @@ export default {
   },
   updateSinger:(sid,data) => {
       let url = `${UPDATESIGNER}?sid=${sid}`;
-      return VueHttp.$http.put(url,JSON.stringify(data));
+      return axiosRequest('put',url,data)
+      //return VueHttp.$http.put(url,JSON.stringify(data));
   },
   getPresentList:() => {
     return VueHttp.$http.get(LISTGIFTS);
@@ -189,7 +196,8 @@ export default {
   },
   updatePresent:(data)=> {
     let url = `${UPDATEGIFT}?gid=${data._id}`;
-    return VueHttp.$http.put(url,JSON.stringify(data))
+    return axiosRequest('put',url,data)
+    //return VueHttp.$http.put(url,JSON.stringify(data))
   },
   delPresent:(id)=> {
     let url = `${DELGIFT}?gid=${id}`;
@@ -199,7 +207,8 @@ export default {
     return VueHttp.$http.get(GIFTMONEY);
   },
   updateMoney:(prize) => {
-    return VueHttp.$http.put(UPDATEMONEY,JSON.stringify(prize))
+    return axiosRequest('put',UPDATEMONEY,prize)
+    //return VueHttp.$http.put(UPDATEMONEY,JSON.stringify(prize))
   },
   httpUrl: HOST,
   imgUrl: `${HOST}images/`,

@@ -34,6 +34,9 @@
         <el-form-item label="奖品介绍:" prop="process">
           <el-input type="textarea" v-model="activity.process"></el-input>
         </el-form-item>
+        <el-form-item label="默认活动浏览量:" prop="pv">
+          <el-input v-model.number="activity.pv"></el-input>
+        </el-form-item>
         <el-form-item label="报名时间:" prop="date">
           <el-col :span="11">
             <el-date-picker type="date" placeholder="选择日期" v-model="activity.enrolstart" style="width: 100%;" :picker-options="pickerOptions1" value-format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
@@ -58,7 +61,7 @@
             ]">
           <el-input type="text" v-model.number="activity.confineVoteNum" auto-complete="off"></el-input>
         </el-form-item>-->
-        <el-form-item label="协办方单位名称:" prop="partner">
+        <el-form-item label="协办方单位名称:" prop="sponsor">
           <el-input v-model="activity.sponsor"></el-input>
         </el-form-item>
         <el-form-item label="客服微信号:" prop="contact">
@@ -165,20 +168,26 @@ export default {
         info:[{ required: true, message: '请输入活动介绍'}],
         participation:[{ required: true, message: '请输入如何参与'}],
         process:[{ required: true, message: '请输入奖项介绍'}],
-        partner:[{ required: true, message: '请输入协办方单位名称'}],
-        contact:[{ required: true, message: '请输入客服微信号'}]
+        sponsor:[{ required: true, message: '请输入协办方单位名称'}],
+        contact:[{ required: true, message: '请输入客服微信号'}],
+        pv:[{ required: true, message: '请输入默认活动浏览量'},
+        { type: 'number', message: '年龄必须为数字值'}]
       },
       activity: {
         "name": "",
-        "enrolStart": "",
-        "enrolEnd": "",
-        "voteStart": "",
-        "voteEnd": "",
+        "status": 0,
+        "enrolstart": "",
+        "enrolend": "",
+        "votestart": "",
+        "voteend": "",
         "participation": "",
         "process": "",
         "contact": "",
         "info": "",
+        "infoImg": "",
+        "sponsor":"",
         "banner":[],
+        "pv":0,
         "rule": "第二个活动的规则"
       },
       thumbPic: [],
@@ -233,10 +242,12 @@ export default {
     //删除某个banner图片
     deletePhoto(index) {
       let filename = this.activity.banner[index];
+      self.activity.banner.splice(index,1);
       let self = this;
       this.ApiSever.delActivityImg(filename).then(res => {
-        if(res)
-          self.activity.banner.splice(index,1);
+        if(res){          
+          self.$forceUpdate();
+        }
       });
     },
     errorLoadImg() {
@@ -282,33 +293,6 @@ export default {
     handlePictureCardPreview(imgUrl) {
       this.dialogImageUrl = this.imgURL + imgUrl;
       this.dialogVisible = true;
-    },
-
-    //监听富文本框
-    onEditorChange({
-      editor,
-      html,
-      text
-    }) {
-      this.activity.contentDec = html;
-    },
-
-    //如何参与监听富文本框
-    onJoinEditorChange({
-      joinEditor,
-      html,
-      text
-    }) {
-      this.activity.contentJoin = html;
-    },
-
-    //流程介绍监听富文本框
-    onFlowEditorChange({
-      flowEditor,
-      html,
-      text
-    }) {
-      this.activity.contentFlow = html;
     },
 
     delPrize(index,rows) {
@@ -386,6 +370,8 @@ export default {
            }
         });
     },
+
+    //新增奖品图片
     updataAwardPic(rowindex,row) {
       var vm = this;
       if($('.awardPic').get(rowindex).files[0].type.indexOf("image") != -1) {

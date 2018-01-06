@@ -5,15 +5,14 @@
       <label>1元钱对应点数：</label>
     </el-form-item>
 	  <el-form-item>
-	    <el-input placeholder="点数" v-model="money" @change="changeMoney()"></el-input>
+	    <el-input placeholder="点数" v-model="money"></el-input>
 	  </el-form-item>
     <el-form-item>
-      <el-button @click="goBack">修改</el-button>
+      <el-button @click="changeMoney">修改</el-button>
     </el-form-item>
 	</el-form>
   	<el-table :data="giftList" style="width: 100%">
-		<el-table-column
-	      fixed
+		<el-table-column	      
 	      prop="name"
 	      label="礼物名称"
 	      width="200">
@@ -21,8 +20,7 @@
             <el-input size="small" v-model="scope.row.name" placeholder="请输入礼物名称" @change="handleEdit(scope.$index, scope.row)"></el-input>
         </template>
 	    </el-table-column>
-	    <el-table-column
-	      fixed
+	    <el-table-column	      
 	      prop="num"
 	      label="点数（点）"
 	      width="200">
@@ -31,17 +29,14 @@
         </template>
 	    </el-table-column>
 	    <el-table-column
-	      fixed
-	      label="缩略图"
-        prop="giftimg"
+	      label="缩略图"        
 	      width="200" height="80">
-	       <template slot-scope="scope">
-	      		<img :src="imgURL+scope.row.giftimg" />
-            <input type="file" placeholder="请选择" name="giftPic" ref="giftPic" class="giftPic" @change="updateGiftPic(scope.$index,scope.row)" />
+	       <template scope="scope">
+	      		<img :src="imgURL+scope.row.giftimg" width="80" height="80" />
+            <input type="file" placeholder="请选择" name="giftPic" ref="giftPic" class="giftPic" v-on:change="updateGiftPic(scope.$index,scope.row)" />
 	  		</template>
 	    </el-table-column>
       <el-table-column
-        fixed
         label="操作">
          <template slot-scope="scope">
            <el-button @click="delPresent(scope.row,scope.$index)">删除</el-button>
@@ -65,6 +60,7 @@ export default {
     return {
     	giftList:[],
     	imgURL: this.ApiSever.imgUrl,
+      uploadURL:this.ApiSever.uploadUrl,
       money:1
     }
   },
@@ -94,7 +90,7 @@ export default {
     changeMoney() {
       let self = this;
       let data = {
-        "prize":self.money
+        prize:parseInt(self.money)
       };
       this.ApiSever.updateMoney(data).then(res => {
           console.log('update money',data);
@@ -146,7 +142,7 @@ export default {
     //修改奖品信息
     updateGift(row) {
       row.num = !row.num?0:parseInt(row.num);
-      row.giftimg = !row.giftimg?'':row.giftimg;
+      row.giftImg = !row.giftimg?'':row.giftimg;
       this.ApiSever.updatePresent(row).then(res => {
           console.log('update prize',res);
       });
