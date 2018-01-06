@@ -22,6 +22,7 @@ const ACTIVITY = `${HOST}getActivities?status=0`;
 const ADDSIGNER = `${HOST}addSigner`;
 const GETSIGNERS= `${HOST}getSigners`;
 const GETSIGNERBYID=`${HOST}getSigner`;
+const UPDATESIGNER = `${HOST}updateSigner`;
 const GETUSER = `${HOST}getUser`;
 const GETAWARDS=`${HOST}getAwards`;
 const GETPRESENTNUM = `${HOST}getPresentsTotal`; //获得某人得到的礼物总数
@@ -33,82 +34,82 @@ const TEST = `${HOST}test`;
 const GIFTS = `${HOST}gifts`;
 //const BANNERS = `${HOST}banners`;
 const USERDATA = `${HOST}userData`;
+const delActivityImg = `${HOST}deleteActivityImage`;
 
 // 生成商品列数据
-Mock.mock(TEST, {
-  code: 1,
-  msg: '查询成功',
-  data: {
-    "success": 'true',
-    "pageSize": 3,
-    "count": 30,
-    "value|10": [{
-      'id|+1': 1,
-      'num': '@natural(10, 100)',
-      'name': '@title(6, 20)',
-      'src': '@image(200x200,#50B347,#fff, nice)'
-    }]
-  }
-});
+// Mock.mock(TEST, {
+//   code: 1,
+//   msg: '查询成功',
+//   data: {
+//     "success": 'true',
+//     "pageSize": 3,
+//     "count": 30,
+//     "value|10": [{
+//       'id|+1': 1,
+//       'num': '@natural(10, 100)',
+//       'name': '@title(6, 20)',
+//       'src': '@image(200x200,#50B347,#fff, nice)'
+//     }]
+//   }
+// });
 
 // 生成商品列数据
-Mock.mock(USERDATA, {
-  code: 1,
-  msg: '查询成功',
-  data: {
-    "success": 'true',
-    "voteNum": 12,
-    "hot": 12,
-    "gift": 12,
-    "id": 12,
-    "name":'@cword(2,4)',
-    "img":'@image(48x48,#50B347,#fff, nice)',
-    'words':'@cword(6,10)',
-    "pics|3":[{
-      'id|+1':1,
-      'src':'@image(200x200,#50B347,#fff, nice)'}],
-    "gifts|10":[{
-      "name":'@cword(2)',
-      "text":'@cword(3,5)',
-      "time":'2017-11-15',
-      "img":'@image(60x60,#50B347,#fff, nice)'
-    }]
-  }
-});
+// Mock.mock(USERDATA, {
+//   code: 1,
+//   msg: '查询成功',
+//   data: {
+//     "success": 'true',
+//     "voteNum": 12,
+//     "hot": 12,
+//     "gift": 12,
+//     "id": 12,
+//     "name":'@cword(2,4)',
+//     "img":'@image(48x48,#50B347,#fff, nice)',
+//     'words':'@cword(6,10)',
+//     "pics|3":[{
+//       'id|+1':1,
+//       'src':'@image(200x200,#50B347,#fff, nice)'}],
+//     "gifts|10":[{
+//       "name":'@cword(2)',
+//       "text":'@cword(3,5)',
+//       "time":'2017-11-15',
+//       "img":'@image(60x60,#50B347,#fff, nice)'
+//     }]
+//   }
+// });
 
 //模拟礼物列表数据
-Mock.mock(GIFTS, {
-  code: 1,
-  msg: '查询成功',
-  data: {
-    "success": 'true',
-    "value|6": [{
-      'id|+1': 1,
-      'num': '@natural(1, 100)',
-      'name': '@cword(2)'
-    }]
-  }
-});
-
+// Mock.mock(GIFTS, {
+//   code: 1,
+//   msg: '查询成功',
+//   data: {
+//     "success": 'true',
+//     "value|6": [{
+//       'id|+1': 1,
+//       'num': '@natural(1, 100)',
+//       'name': '@cword(2)'
+//     }]
+//   }
+// });
 // 生成商品列数据
-Mock.mock('awards.json', {
-  code: 1,
-  msg: '查询成功',
-  data: {
-    'total': 20,
-    'records': 10,
-    'page': 1,
-    'rows|3': [{
-      'id|+1': 1,
-      'name': '@cword(3, 20)',
-      "number": '@natural(1, 100)',
-      'details|1-10': [{
-        "name": "@cword(3, 4)",
-        "subname": "@cword(6, 10)"
-      }]
-    }]
-  }
-});
+// Mock.mock('awards.json', {
+//   code: 1,
+//   msg: '查询成功',
+//   data: {
+//     'total': 20,
+//     'records': 10,
+//     'page': 1,
+//     'rows|3': [{
+//       'id|+1': 1,
+//       'name': '@cword(3, 20)',
+//       "number": '@natural(1, 100)',
+//       'details|1-10': [{
+//         "name": "@cword(3, 4)",
+//         "subname": "@cword(6, 10)"
+//       }]
+//     }]
+//   }
+// });
 
 //模拟礼物列表数据
 // Mock.mock(BANNERS, {
@@ -173,7 +174,10 @@ export default {
     let url = `${GETAWARDS}?aid=${aid}`;
     return VueHttp.$http.get(RANKING)
   },
-
+  delActivityImg:(filename)=>{
+    let delImgUrl = `${delActivityImg}?image=${filename}`;
+    return VueHttp.$http.delete('delete', delImgUrl);
+  },
   //根据活动获取
   getListSigners: (aid) => {
     let url = `${GETSIGNERS}?aid=${aid}`;
@@ -195,11 +199,13 @@ export default {
     let url = `${GETSIGNERBYID}?sid=${sid}`;
     return VueHttp.$http.get(url)
   },
+  updateSinger:(sid,data) => {
+      let url = `${UPDATESIGNER}?sid=${sid}`;
+      return VueHttp.$http.put(url,JSON.stringify(data));
+  },
   getGiftsList: (jsons) => {
     return VueHttp.$http.get(LISTGIFTS)
-  },
-
-  
+  },  
   add: (jsons) => {
     return VueHttp.$http.post(TEST,
       qs.stringify(jsons)

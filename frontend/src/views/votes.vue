@@ -68,33 +68,6 @@ import {
 	} from 'mint-ui'
 	import Slider from './common/Slider.vue'
 
-	// let testData = [{
-	// 	id: 3,
-	// 	num: 200,
-	// 	name: '吉祥象',
-	// 	src: 'http://www.artrondata.com/hml/view/93、苍空独立图.jpg'
-	// }, {
-	// 	id: 4,
-	// 	num: 200,
-	// 	name: '装饰画公鸡',
-	// 	src: 'http://www.artrondata.com/hml/view/59%E3%80%81%E8%A3%85%E9%A5%B0%E7%94%BB%E5%85%AC%E9%B8%A1.jpg'
-	// }, {
-	// 	id: 6,
-	// 	num: 200,
-	// 	name: '布艺厅',
-	// 	src: 'http://www.artrondata.com/hml/view/11、母与子-1.jpg'
-	// }, {
-	// 	id: 7,
-	// 	num: 200,
-	// 	name: '布艺厅',
-	// 	src: 'http://www.artrondata.com/hml/view/23、卡纸岩画.jpg'
-	// }, {
-	// 	id: 9,
-	// 	num: 200,
-	// 	name: '母与子',
-	// 	src: 'http://www.artrondata.com/hml/view/11、母与子-2.JPG'
-	// }];
-
 	export default {
 		data() {
 			return {
@@ -171,7 +144,21 @@ import {
 				});
 				}				
 			},
-
+			//修改参与者信息
+		    updateSigner() {
+		      let this_ = this;
+		      let row = self.userData;
+		      row.votenum = !row.votenum?0:parseInt(row.votenum);
+		      row.votenum+=1;
+		      this.ApiSever.updateSinger(row._id,row).then(res => {
+		      	Toast({
+					message: '投票成功',
+					position: 'middle',
+					duration: 5000
+				});
+		        console.log('投票成功');
+		      });
+		    },
 			//投票按钮点击事件
 			handleVotes() {
 				console.log('当前的选手id', this.userId);
@@ -183,8 +170,9 @@ import {
 				});
 				}else{
 					let param = {
-					id: this.$route.params.id
-				};
+						id: this.$route.params.id
+					};
+
 				}
 			},
 

@@ -193,10 +193,14 @@
 				}
 			},
 
+			//删除照片
 			deletePhoto(index) {
-				let photoData = [...this.thumbPic];
-				let result = photoData.splice(index, 1);
-				this.thumbPic = [...photoData];
+				let filename = self.thumbPic[index];
+				let self = this;
+			    this.ApiSever.delActivityImg(filename).then(res => {
+			        console.log('del gift img',filename);
+			        self.thumbPic.splice(index, 1);
+			    });
 			}
 		},
 		mounted() {

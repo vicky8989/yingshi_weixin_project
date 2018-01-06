@@ -51,47 +51,12 @@
 
 		</div>
 		<div class="purchasing">
-			<a href="javascript:;" class="purchasing_btn">立刻购买</a>
+			<a href="javascript:;" class="purchasing_btn" @click="purchase">立刻购买</a>
 		</div>
 	</div>
 </template>
 
 <script>
-	
-	let testData = [{
-		id: 1,
-		num: 1,
-		name: '鲜花'
-	}, {
-		id: 2,
-		num: 2,
-		name: '钻石'
-	}, {
-		id: 3,
-		num: 3,
-		name: '鲜花'
-	}, {
-		id: 4,
-		num: 4,
-		name: '钻石'
-	}, {
-		id: 5,
-		num: 5,
-		name: '鲜花'
-	}, {
-		id: 6,
-		num: 6,
-		name: '钻石'
-	}, {
-		id: 7,
-		num: 7,
-		name: '鲜花'
-	}, {
-		id: 8,
-		num: 8,
-		name: '钻石'
-	}];
-
 	export default {
 		data() {
 			return {
@@ -162,6 +127,22 @@
 						id: this.userId
 					}
 				});
+			},
+
+			//购买礼物
+			purchase() {
+				let data=self.userData;
+				data.num = 
+				{
+						"sid": "5a4a15b9df064b1504f7af90",
+					    "openid": "0xadcbf2324460caddeff",
+					    "nickname": "海问香",
+					    "headimgurl": "海问香的头像URL",
+					    "num": 1,
+					    "gid": "753e24b91fdd04110cd981ac",
+					    "giftName": "游艇",
+					    "time": "2017-12-17T07:06:11.475Z"
+				}
 			}
 		},
 

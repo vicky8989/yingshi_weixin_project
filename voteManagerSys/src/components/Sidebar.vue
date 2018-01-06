@@ -1,6 +1,6 @@
 <template>
 	<div class="sidebar">
-		<el-menu class="el-menu-vertical-demo" default-active="1">
+		<el-menu class="el-menu-vertical-demo" default-active="1" text-color="#FFFFFF">
 			<template v-for="item in items">
 				<template v-if="item.subs">
 					<el-submenu :index="item.index">
@@ -28,14 +28,14 @@
 		data() {
 			return {
 				items: [{
-						icon: 'el-icon-location',
+						icon: 'el-icon-star-on',
 						index: '1',
 						title: '我的活动',
 						path:'/index'
 
 					},
 					{
-						icon: 'el-icon-location',
+						icon: 'el-icon-goods',
 						index: '2',
 						title: '活动礼物',
 						path:'/present'
@@ -58,11 +58,12 @@
 		width: 250px;
 		left: 0;
 		top: 70px;
-		bottom: 0;
+		bottom: 0;		
 	}
 
 	.sidebar>ul {
 		height: 100%;
 		background: #324157;
+
 	}
 </style>

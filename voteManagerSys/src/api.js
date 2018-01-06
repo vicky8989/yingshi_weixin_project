@@ -27,7 +27,7 @@ const paticilist = `${HOST}getSigners`;
 const GETPRESENTINFO = `${HOST}getPresentsDetail`; //获得某人得到的礼物总数
 const UPDATESIGNER = `${HOST}updateSigner`;
 const GIFTMONEY = `${HOST}getPrize`;
-const UPDATEMONEY = `${HOST}getPrize`;
+const UPDATEMONEY = `${HOST}updatePrize`;
 const LISTGIFTS = `${HOST}listGifts`;
 const UPDATEGIFT = `${HOST}updateGift`;
 const ADDGIFT = `${HOST}addGift`;
@@ -192,13 +192,13 @@ export default {
     return VueHttp.$http.put(url,JSON.stringify(data))
   },
   delPresent:(id)=> {
-    let url = `${delPresent}?gid=${id}`;
+    let url = `${DELGIFT}?gid=${id}`;
     return VueHttp.$http.delete(url)
   },
   getMoney:()=> {
     return VueHttp.$http.get(GIFTMONEY);
   },
-  updateMondy:(prize) => {
+  updateMoney:(prize) => {
     return VueHttp.$http.put(UPDATEMONEY,JSON.stringify(prize))
   },
   httpUrl: HOST,
