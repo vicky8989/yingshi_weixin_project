@@ -37,11 +37,19 @@ var File = function()
     this.deleteFile = function(image,callback){
         var path = imageDest + image;
 
-        fs.unlink(path, function(err) {
-            if (err) {
-                callback(err);
+        fs.exists(path,function(exists){
+            if(exists){
+                fs.unlink(path, function(err) {
+                    if (err) {
+                        callback(err);
+                    }
+                    callback(image);
+                });
             }
-            callback(image);
+            else
+            {
+                callback("文件不存在");
+            }
         });
     }
 

@@ -34,6 +34,12 @@ app.all('*', function(req, res, next) {
     else  next();
 });
 
+//测试连接接口
+app.get('/test', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	res.status(200).send({'sucess':"Connect"});
+})
+
 //图片接口
 app.post('/uploadActivityImage', upload.single('image'), function (req, res, next) {
 	res.header('Access-Control-Allow-Origin', '*');
