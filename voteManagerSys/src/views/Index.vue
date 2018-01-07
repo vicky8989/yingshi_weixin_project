@@ -17,8 +17,8 @@
       label="报名起止时间"
       width="125">
       <template scope="scope">
-          <p>{{getTime(scope.row.start)}}</p>
-          <p>{{getTime(scope.row.end)}}</p>
+          <p>{{getTime(scope.row.enrolstart)}}</p>
+          <p>{{getTime(scope.row.enrolend)}}</p>
       </template>
     </el-table-column>
     <el-table-column
@@ -27,8 +27,8 @@
       label="投票起止时间"
       width="125">
     <template scope="scope">
-          <p>{{getTime(scope.row.start)}}</p>
-          <p>{{getTime(scope.row.end)}}</p>
+          <p>{{getTime(scope.row.votestart)}}</p>
+          <p>{{getTime(scope.row.voteend)}}</p>
       </template>
     </el-table-column>
     <el-table-column
@@ -37,7 +37,7 @@
       label="活动状态"
       width="150">
       <template scope="scope">
-        <span :class="scope.row.status == 0? 'normal-class':'red-class'">报名期</span>/<span :class="scope.row.status == 1? 'normal-class':'red-class'">非投票期</span>
+        <span :class="!scope.row.status||parseInt(scope.row.status) == 0? 'normal-class':'red-class'">报名期</span>/<span :class="parseInt(scope.row.status) == 1? 'normal-class':'red-class'">非投票期</span>
       </template>
     </el-table-column>
     <el-table-column

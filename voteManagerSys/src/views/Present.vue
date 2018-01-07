@@ -25,7 +25,7 @@
 	      label="点数（点）"
 	      width="200">
         <template scope="scope">
-            <el-input size="small" v-model="scope.row.num" placeholder="请输入礼物名称" @change="handleEdit(scope.$index, scope.row)"></el-input>
+            <el-input size="small" v-model="scope.row.num" placeholder="请输入礼物点数" @change="handleEdit(scope.$index, scope.row)"></el-input>
         </template>
 	    </el-table-column>
 	    <el-table-column

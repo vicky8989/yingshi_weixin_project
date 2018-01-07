@@ -35,7 +35,7 @@
           <el-input type="textarea" v-model="activity.process"></el-input>
         </el-form-item>
         <el-form-item label="宣传图片:" prop="process">
-          <div class="input_photo bg_cover" v-if="activity.infoimg!=null" @click="handlePictureCardPreview(list)">
+          <div class="input_photo bg_cover" v-if="activity.infoimg!=null && activity.infoimg !=''" @click="handlePictureCardPreview(activity.infoimg)">
               <img :src="imgURL+activity.infoimg" @load="successLoadImg" @error="errorLoadImg" />
               <i class="close" @click="deletePhoto($event,-1,'info')">×</i>
             </div>          
@@ -194,7 +194,7 @@ export default {
         "process": "",
         "contact": "",
         "info": "",
-        "infoImg": "",
+        "infoimg": "",
         "sponsor":"",
         "banner":[],
         "pv":0,
@@ -278,11 +278,7 @@ export default {
     onSubmit() {
       let self = this;
       this.$refs["activityForm"].validate((valid) => {
-        if(valid) {
-          self.activity.enrolStart = self.activity.enrolstart;
-          self.activity.enrolEnd = self.activity.enrolend;
-          self.activity.voteStart = self.activity.votestart;
-          self.activity.voteEnd = self.activity.voteend;
+        if(valid) {          
           console.log('submit!', self.activity);          
           if(!this.activeId) {
             //新增
@@ -329,11 +325,11 @@ export default {
         var vm = this;
       if($('.infoImg').get(0).files[0].type.indexOf("image") != -1) {
         var fd = new FileReader();
-        fd.readAsDataURL($('.imgOne').get(0).files[0]);
+        fd.readAsDataURL($('.infoImg').get(0).files[0]);
         fd.onload = function() {
           if(fd.result) {
             var formData = new FormData();
-            formData.append("image", $('.imgOne').get(0).files[0]);
+            formData.append("image", $('.infoImg').get(0).files[0]);
             $.ajax({
               url: vm.uploadURL,
               type: 'POST',
@@ -377,6 +373,7 @@ export default {
               contentType : false, // 不设置Content-type请求头
               success: function(responseStr) {
                 var result = responseStr;
+                if(!vm.activity.banner) vm.activity.banner=[];
                 vm.activity.banner.push(result.filename);
               },
               error: function(responseStr) {
@@ -563,7 +560,7 @@ export default {
     padding-left: 20px;
   }
 
-  .imgOne {
+  .imgOne,.infoImg {
     position: absolute;
     top: 0;
     opacity: 0;
