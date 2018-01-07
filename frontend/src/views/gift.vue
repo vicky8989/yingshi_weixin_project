@@ -29,7 +29,7 @@
 			</li>
 		</ul>
 		<ul class="gift_list">
-			<li v-for="(list, index) in giftList" key="index" @click="handleCheckgift(list._id,list.name)">
+			<li v-for="(list, index) in giftList" key="index" @click="handleCheckgift(list._id,list.name,list.num)">
 				<div class="div_box" :class="{'active':list._id==currentId}">
 					<div class="div_img">
 						<img :src="imgURL+list.giftimg" :width="imgWid" :height="imgHei" />
@@ -103,6 +103,7 @@
 
 			changeGiftNum(event) {
 				this.currentGiftNum = parseInt(event.target.value);
+				this.currentGiftNum *= this.currentNum;
 			},
 
 			getGiftsList() {
@@ -115,14 +116,16 @@
 			},
 
 			//选择礼物
-			handleCheckgift(id,name) {
+			handleCheckgift(id,name,num) {
 				if(this.currentId == id) {
 					this.currentId = null;
 					this.currentGiftName = '';
+					this.currentNum = 0;
 					return false;
 				}
 				this.currentId = id;
 				this.currentGiftName = name;
+				this.currentNum = num;
 			},
 
 			//跳转到某个具体的界面
