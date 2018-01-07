@@ -25,7 +25,7 @@ var Gift = function()
 
         var data = {
             'name': userData.name,
-            'giftimg': userData.giftImg,
+            'giftimg': userData.giftimg,
             'num': userData.num
         };
 
@@ -53,7 +53,7 @@ var Gift = function()
         var whereStr = {"_id":ObjectId(gid)};
         var data = {$set:{
             'name': userData.name,
-            'giftimg': userData.giftImg,
+            'giftimg': userData.giftimg,
             'num': userData.num}};
 
         collection.update(whereStr,data, function(err, result) { 

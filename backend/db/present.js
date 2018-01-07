@@ -31,7 +31,7 @@ var Present = function()
             'headimgurl': userData.headimgurl,
             'num': userData.num,
             'gid': userData.gid,
-            'giftname': userData.giftName,
+            'giftname': userData.giftname,
             'time': userData.time
         };
 
@@ -64,7 +64,7 @@ var Present = function()
             'headimgurl': userData.headimgurl,
             'num': userData.num,
             'gid': userData.gid,
-            'giftname': userData.giftName,
+            'giftname': userData.giftname,
             'time': userData.time}};
 
         collection.update(whereStr,data, function(err, result) { 

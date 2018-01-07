@@ -72,7 +72,7 @@ var User = function()
             'address': userData.address,
             'words': userData.words,
             'hot': userData.hot,
-            'votenum': userData.voteNum,
+            'votenum': userData.votenum,
             'pics': userData.pics,
             'status':userData.status
         };
@@ -108,7 +108,7 @@ var User = function()
             'address': userData.address,
             'words': userData.words,
             'hot': userData.hot,
-            'votenum': userData.voteNum,
+            'votenum': userData.votenum,
             'pics': userData.pics,
             'status':userData.status}};
 

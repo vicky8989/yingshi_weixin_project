@@ -27,8 +27,8 @@ var Award = function()
             'aid':userData.aid,
             'name': userData.name,
             'num': userData.num,
-            'prizeinfo': userData.prizeInfo ,
-            'prizeimg': userData.prizeImg,
+            'prizeinfo': userData.prizeinfo ,
+            'prizeimg': userData.prizeimg,
             'info': userData.info
         };
 
@@ -58,8 +58,8 @@ var Award = function()
             'aid':userData.aid,
             'name': userData.name,
             'num': userData.num,
-            'prizeinfo': userData.prizeInfo ,
-            'prizeimg': userData.prizeImg,
+            'prizeinfo': userData.prizeinfo ,
+            'prizeimg': userData.prizeimg,
             'info': userData.info}};
 
         collection.update(whereStr,data, function(err, result) { 
