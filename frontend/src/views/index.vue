@@ -44,7 +44,7 @@
 			<div class="content">
 				<strong>{{activity.rule}}</strong>
 				<p>{{activity.info}}</p>
-				<img src="./../assets/images/IMG_0117.png" />
+				<img :src="imgURL+activity.infoimg" />
 				<h1>{{activity.name}}</h1>
 				<h5>协办方：{{activity.sponsor}}</h5>
 				<span>大赛客服老师微信号：{{activity.contact}}</span>
@@ -104,6 +104,7 @@
 						self.ApiSever.AID = result._id;
 						self.getListData(result._id);
 						self.$emit('finishTimeChanged', result.voteend);
+						self.$forceUpdate();
 					}
 				});
 			},
@@ -133,6 +134,7 @@
 						self.getPageData();
 						self.isHaveMore();
 						self.appendLi();
+						self.$forceUpdate();
 					}
 				});
 			},
@@ -247,7 +249,6 @@
 			handleSignin() {
 				this.$router.push({
 					path: '/recruit'
-
 				});
 			},
 			validCurTime(curtime) {

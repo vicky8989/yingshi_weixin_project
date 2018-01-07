@@ -31,14 +31,14 @@
         <el-form-item label="如何参与:" prop="participation">
           <el-input type="textarea" v-model="activity.participation"></el-input>
         </el-form-item>
-        <el-form-item label="奖品介绍:" prop="process">
-          <el-input type="textarea" v-model="activity.process"></el-input>
+        <el-form-item label="活动规则:" prop="rule">
+          <el-input type="textarea" v-model="activity.rule"></el-input>
         </el-form-item>
-        <el-form-item label="宣传图片:" prop="process">
+        <el-form-item label="宣传图片:">
           <div class="input_photo bg_cover" v-if="activity.infoimg!=null && activity.infoimg !=''" @click="handlePictureCardPreview(activity.infoimg)">
               <img :src="imgURL+activity.infoimg" @load="successLoadImg" @error="errorLoadImg" />
               <i class="close" @click="deletePhoto($event,-1,'info')">×</i>
-            </div>          
+            </div>
           <div class="input_photo bg_cover" v-else>
               <img :src="addImg" ref="regPhoto" />
               <input type="file" placeholder="请选择" name="infoImg" ref="infoImg" class="infoImg" @change="updateInfoImg" />
@@ -124,7 +124,7 @@
         title="预览"
         :visible.sync="dialogVisible"
         :before-close="handleClose">
-        <img :src="imgURL+previewImgURL" style="max-width:600px;" />        
+        <img :src="imgURL+previewImgURL" style="max-width:600px;" />
         </el-dialog>
           <!-- <v-table
             is-horizontal-resize
@@ -177,7 +177,7 @@ export default {
         // ],
         info:[{ required: true, message: '请输入活动介绍'}],
         participation:[{ required: true, message: '请输入如何参与'}],
-        process:[{ required: true, message: '请输入奖项介绍'}],
+        rule:[{ required: true, message: '请输入规则介绍'}],
         sponsor:[{ required: true, message: '请输入协办方单位名称'}],
         contact:[{ required: true, message: '请输入客服微信号'}],
         pv:[{ required: true, message: '请输入默认活动浏览量'},
@@ -263,10 +263,10 @@ export default {
         this.activity.infoimg = '';
       }
       if(!filename || filename=='') this.$message('当前没有可删除的图片');
-      
+
       let self = this;
       this.ApiSever.delActivityImg(filename).then(res => {
-        if(res){          
+        if(res){
           self.$forceUpdate();
         }
       });
@@ -274,12 +274,19 @@ export default {
     errorLoadImg() {
 
     },
+
+    //获取当前是否是投票阶段
+    getIsActivity(){
+      let isActive = this.$moment(new Date()).isBetween(this.activity.votestart, this.activity.voteend);
+      return isActive==true?1:0;
+    },
     //保存按钮
     onSubmit() {
       let self = this;
       this.$refs["activityForm"].validate((valid) => {
-        if(valid) {          
-          console.log('submit!', self.activity);          
+        if(valid) {
+          console.log('submit!', self.activity);
+          self.activity.status = self.getIsActivity();
           if(!this.activeId) {
             //新增
             self.ApiSever.addActivityInfo(self.activity).then(res => {
@@ -297,7 +304,7 @@ export default {
                   self.activeName='second';
                }
             });
-          }          
+          }
         } else {
           console.log('error submit!!');
           return false;
@@ -464,7 +471,7 @@ export default {
       this.ApiSever.updatePrize(row).then(res => {
           console.log('update prize',res);
       });
-    },    
+    },
     getPrizeInfos(row, event, column) {
         console.log(row, event, column, event.currentTarget)
     },
@@ -477,7 +484,7 @@ export default {
       this.ApiSever.delPrize(row._id).then(res => {
           self.awards.splice(index,1); //把该项从数据中删除
       });
-    },    
+    },
 
     //活动设置信息
     getActivityInfo(activityId){
@@ -498,7 +505,7 @@ export default {
       if(vueIns.activeId) {
         vueIns.getActivityInfo(vueIns.activeId);
         vueIns.getPrizes(vueIns.activeId); //请求奖品
-      }        
+      }
     });
 
   }

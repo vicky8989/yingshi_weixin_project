@@ -18,7 +18,13 @@ const PERPAGENUM = 3; //首页显示几条作品
 
 const VueHttp = new Vue();
 
-const ACTIVITY = `${HOST}getActivities?status=0`;
+//一定要设置，否则post,put不成功
+VueHttp.$http.options.emulateJSON = true;
+VueHttp.$http.options.headers = {
+  'Content-Type': 'application/x-www-form-urlencoded'
+};
+
+const ACTIVITY = `${HOST}getActivities?status=1`;
 const ADDSIGNER = `${HOST}addSigner`;
 const GETSIGNERS= `${HOST}getSigners`;
 const GETSIGNERBYID=`${HOST}getSigner`;
@@ -27,6 +33,7 @@ const GETUSER = `${HOST}getUser`;
 const GETAWARDS=`${HOST}getAwards`;
 const GETPRESENTNUM = `${HOST}getPresentsTotal`; //获得某人得到的礼物总数
 const GETPRESENTINFO = `${HOST}getPresentsDetail`; //获得某人得到的礼物总数
+const ADDPRESENT = `${HOST}addPresent`;
 const LISTGIFTS = `${HOST}listGifts`;
 
 /*测试的接口*/
@@ -162,7 +169,7 @@ export default {
     return VueHttp.$http.get(ACTIVITY)
   },
   addRecruit:(data) => {
-    return VueHttp.$http.post(ADDSIGNER,JSON.stringify(data))
+    return VueHttp.$http.post(ADDSIGNER,data)
   },
   //获取奖品数据
   getPrizes: (aid) => {
@@ -176,7 +183,7 @@ export default {
   },
   delActivityImg:(filename)=>{
     let delImgUrl = `${delActivityImg}?image=${filename}`;
-    return VueHttp.$http.delete('delete', delImgUrl);
+    return VueHttp.$http.delete(delImgUrl);
   },
   //根据活动获取
   getListSigners: (aid) => {
@@ -195,21 +202,22 @@ export default {
     let url = `${GETPRESENTINFO}?sid=${sid}`;
     return VueHttp.$http.get(url);
   },
+  addPresentDetail:(data)=> {
+    return VueHttp.$http.post(ADDPRESENT,data);
+  },
   getUserDataByID:(sid)=>{
     let url = `${GETSIGNERBYID}?sid=${sid}`;
     return VueHttp.$http.get(url)
   },
   updateSinger:(sid,data) => {
       let url = `${UPDATESIGNER}?sid=${sid}`;
-      return VueHttp.$http.put(url,JSON.stringify(data));
+      return VueHttp.$http.put(url,data);
   },
   getGiftsList: (jsons) => {
     return VueHttp.$http.get(LISTGIFTS)
-  },  
+  },
   add: (jsons) => {
-    return VueHttp.$http.post(TEST,
-      qs.stringify(jsons)
-    )
+    return VueHttp.$http.post(TEST,jsons)
   },
   getFinishTime:()=> {
     return validTimeFinished(FINSIHTIME);

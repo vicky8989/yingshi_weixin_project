@@ -37,7 +37,7 @@
       label="活动状态"
       width="150">
       <template scope="scope">
-        <span :class="!scope.row.status||parseInt(scope.row.status) == 0? 'normal-class':'red-class'">报名期</span>/<span :class="parseInt(scope.row.status) == 1? 'normal-class':'red-class'">非投票期</span>
+        <span :class="!scope.row.status||parseInt(scope.row.status) == 0? 'normal-class':'red-class'">报名期</span>/<span :class="parseInt(scope.row.status) == 1? 'normal-class':'red-class'">投票期</span>
       </template>
     </el-table-column>
     <el-table-column

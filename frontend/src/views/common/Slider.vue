@@ -2,8 +2,8 @@
 	<div>
 		<mt-swipe :auto="4000">
 			<mt-swipe-item v-for="(item,index) in list" key="index">
-				<div class="bg_cover" :style="{backgroundImage: 'url('+item.src+')'}">
-					<img :src="item.src">
+				<div class="bg_cover" :style="{backgroundImage: 'url('+imgURL+item+')'}">
+					<img :src="imgURL+item">
 				</div>
 			</mt-swipe-item>
 		</mt-swipe>
@@ -15,6 +15,7 @@
 		data() {
 			return {
 				msg: 'hello vue',
+				imgURL:this.ApiSever.imgUrl
 			}
 		},
 		props: {

@@ -29,23 +29,23 @@
 			</li>
 		</ul>
 		<ul class="gift_list">
-			<li v-for="(list, index) in giftList" key="index" @click="handleCheckgift(list._id)">
+			<li v-for="(list, index) in giftList" key="index" @click="handleCheckgift(list._id,list.name)">
 				<div class="div_box" :class="{'active':list._id==currentId}">
 					<div class="div_img">
-						<img src="./../assets/images/gift.jpg" />
+						<img :src="imgURL+list.giftimg" :width="imgWid" :height="imgHei" />
 					</div>
 					<p>{{list.name}}</p>
 					<span>{{list.num}}</span>
 				</div>
 			</li>
-			
+
 		</ul>
 		<div class="div_select">
 			<div class="div_label">请选择以上礼物</div>
 
 			<div class="list_selectinput">
-				<select>
-					<option  v-for="n in 100" value="n">{{n}}</option>
+				<select @change="changeGiftNum">
+					<option  v-for="n in 100" :value="n">{{n}}</option>
 				</select>
 			</div>
 
@@ -61,21 +61,27 @@
 		data() {
 			return {
 				giftList: [],
+				user:{headimgurl:'',nickname:'',},
 				currentId: null,
+				currentGiftName:'',
+				currentGiftNum:1,
 				userId:this.$route.params.id,
 				userData: {
 					voteNum: 12,
 					hot: 12,
 					giftnum: 12,
 					code: 12
-				}
+				},
+				imgWid:60,
+				imgHei:60,
+				imgURL: this.ApiSever.imgUrl
 			}
 		},
 		created() {},
 		components: {
 		},
 		methods: {
-			//通过id获取本个人的信息			
+			//通过id获取本个人的信息
 			getUserInfo() {
 				console.log(this.$route.query)
 				let sid = this.$route.params.id;
@@ -88,11 +94,15 @@
 					self.userData = result[0];
 					//请求用户信息
 					self.ApiSever.getPresentsTotal(sid).then(giftNum => {
-						let num = giftNum.body&& giftNum.body.length>0?giftNum.body[0].value:0;						
+						let num = giftNum.body&& giftNum.body.length>0?giftNum.body[0].value:0;
 						self.userData.giftnum = num;
 						self.$forceUpdate();
 					});
 				});
+			},
+
+			changeGiftNum(event) {
+				this.currentGiftNum = parseInt(event.target.value);
 			},
 
 			getGiftsList() {
@@ -105,12 +115,14 @@
 			},
 
 			//选择礼物
-			handleCheckgift(id) {
+			handleCheckgift(id,name) {
 				if(this.currentId == id) {
 					this.currentId = null;
+					this.currentGiftName = '';
 					return false;
 				}
 				this.currentId = id;
+				this.currentGiftName = name;
 			},
 
 			//跳转到某个具体的界面
@@ -119,7 +131,7 @@
 					path: '/index'
 				});
 			},
-			
+
 			gotoUserpage(){
 				this.$router.push({
 					path: '/votes/'+this.userId,
@@ -131,18 +143,33 @@
 
 			//购买礼物
 			purchase() {
-				let data=self.userData;
-				data.num = 
-				{
-						"sid": "5a4a15b9df064b1504f7af90",
-					    "openid": "0xadcbf2324460caddeff",
-					    "nickname": "海问香",
-					    "headimgurl": "海问香的头像URL",
-					    "num": 1,
-					    "gid": "753e24b91fdd04110cd981ac",
-					    "giftName": "游艇",
-					    "time": "2017-12-17T07:06:11.475Z"
-				}
+				if(!this.currentId) return;
+				let self = this;
+
+				self.ApiSever.getUserInfo(this.userData.openid).then(res=>{
+					if(res && res.data) {
+						let user = res.data[0];
+						let data = {
+							sid:self.userData._id,
+							openid:self.userData.openid,
+							nickname:user.nickname,
+							headimgurl:user.headimgurl,
+							num:self.currentGiftNum,
+							giftname:self.currentGiftName,
+							gid:self.currentId,
+							time:self.$moment(new Date()).format('YYYY-MM-DD hh:mm:ss')
+						};
+						
+						self.ApiSever.addPresentDetail(data).then(res=> {
+							self.$router.push({
+								path: '/votes/' + self.userData._id,
+								params: {
+									id: self.userData._id
+								}
+							});
+						});
+					}
+				});				
 			}
 		},
 

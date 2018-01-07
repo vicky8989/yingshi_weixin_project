@@ -70,12 +70,7 @@
 				thumbPic: []
 			}
 		},
-		created() {
-			if(!this.aid) {
-				this.$router.push({
-					path: '/index'
-				});
-			}
+		created() {			
 		},
 		components: {
 		},
@@ -133,7 +128,9 @@
 				if(!bOk) {
 					return false;
 				}
-				let param = Object.assign({}, this.user);
+				let param = Object.assign({}, this.user,{
+					votenum:0
+				});
 				let this_ = this;
 				this.ApiSever.addRecruit(param).then(res => {
 					let result = res.data;
@@ -204,7 +201,11 @@
 			}
 		},
 		mounted() {
-
+			if(!this.ApiSever.AID) {
+				this.$router.push({
+					path: '/index'
+				});
+			}
 		},
 		destroyed() {
 

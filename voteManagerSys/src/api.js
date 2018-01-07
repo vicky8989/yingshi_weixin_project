@@ -10,6 +10,7 @@ const HOST = HOST_CONFIG;
 
 const VueHttp = new Vue();
 
+//一定要设置，否则post,put不成功
 VueHttp.$http.options.emulateJSON = true;
 VueHttp.$http.options.headers = {
   'Content-Type': 'application/x-www-form-urlencoded'

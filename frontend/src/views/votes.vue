@@ -112,7 +112,7 @@ import {
 						console.log('gifts',giftsInfo);
 						self.userData.gifts = giftsInfo;
 						self.userData.giftnum = 0;
-						giftsInfo.map((item)=>{
+						giftsInfo.map((item)=> {
 							self.userData.giftnum+=item.num;
 						})
 						self.$forceUpdate();
@@ -162,6 +162,7 @@ import {
 			//投票按钮点击事件
 			handleVotes() {
 				console.log('当前的选手id', this.userId);
+				let self = this;
 				if(this.isFinished){
 					Toast({
 					message: '投票已结束',
@@ -169,10 +170,12 @@ import {
 					duration: 5000
 				});
 				}else{
-					let param = {
-						id: this.$route.params.id
-					};
+					if(!self.userData.votenum)
+						self.userData.votenum = 0;
+					self.userData.votenum += 1;
+					self.ApiSever.updateSinger(self.userData._id,self.userData).then(res => {
 
+					});
 				}
 			},
 
