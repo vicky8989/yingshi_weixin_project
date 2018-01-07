@@ -5,7 +5,7 @@
 			<ul class="statistics">
 				<li>
 					<i class="iconfont icon-ren"></i>已报名
-					<span>{{userData.id}}</span>
+					<span>{{userData.total}}</span>
 				</li>
 				<li>
 					<i class="iconfont icon-piao"></i>累计投票
@@ -13,7 +13,7 @@
 				</li>
 				<li>
 					<i class="iconfont icon-redu"></i>访问量
-					<span>{{userData.hot}}</span>
+					<span>{{activity.pv}}</span>
 				</li>
 			</ul>
 			<conutDown :time="finishTime" @validCurTime="validCurTime" />
@@ -124,6 +124,11 @@
 					if(result && result.length > 0) {
 						self.playerList.value = result;
 						self.playerList.totalCount = result.length;
+						self.userData.total = result.length;
+						self.userData.votenum = 0;
+						result.map((item)=>{
+							self.userData.votenum+= item.votenum;
+						})
 						self.playerList.pageSize =Math.ceil(self.playerList.totalCount / self.perPageNum);
 						self.getPageData();
 						self.isHaveMore();

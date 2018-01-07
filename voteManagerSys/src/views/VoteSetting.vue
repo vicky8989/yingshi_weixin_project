@@ -16,7 +16,7 @@
           <div class="photo_div">
             <div class="input_photo bg_cover" v-if="activity.banner&&activity.banner.length>0" v-for="(list, index) in activity.banner" @click="handlePictureCardPreview(list)">
               <img :src="imgURL+list" @load="successLoadImg" @error="errorLoadImg" />
-              <i class="close" @click="deletePhoto(index)">×</i>
+              <i class="close" @click="deletePhoto($event,index,'banner')">×</i>
             </div>
             <div class="input_photo bg_cover" v-if="!activity.banner||activity.banner.length<3">
               <img :src="addImg" ref="regPhoto" />
@@ -33,6 +33,16 @@
         </el-form-item>
         <el-form-item label="奖品介绍:" prop="process">
           <el-input type="textarea" v-model="activity.process"></el-input>
+        </el-form-item>
+        <el-form-item label="宣传图片:" prop="process">
+          <div class="input_photo bg_cover" v-if="activity.infoimg!=null" @click="handlePictureCardPreview(list)">
+              <img :src="imgURL+activity.infoimg" @load="successLoadImg" @error="errorLoadImg" />
+              <i class="close" @click="deletePhoto($event,-1,'info')">×</i>
+            </div>          
+          <div class="input_photo bg_cover" v-else>
+              <img :src="addImg" ref="regPhoto" />
+              <input type="file" placeholder="请选择" name="infoImg" ref="infoImg" class="infoImg" @change="updateInfoImg" />
+            </div>
         </el-form-item>
         <el-form-item label="默认活动浏览量:" prop="pv">
           <el-input v-model.number="activity.pv"></el-input>
@@ -115,7 +125,7 @@
         :visible.sync="dialogVisible"
         :before-close="handleClose">
         <img :src="imgURL+previewImgURL" style="max-width:600px;" />        
-      </el-dialog>
+        </el-dialog>
           <!-- <v-table
             is-horizontal-resize
             style="width:100%;font-size:14px;"
@@ -159,7 +169,7 @@ export default {
       rules:{
         name: [
             { required: true, message: '请输入活动名称', trigger: 'blur' },
-            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+            { min: 3, max: 100, message: '长度在 3 到 100 个字符', trigger: 'blur' }
           ],
         banner:[{required:true,message:'请上传banner图片'}],
         // date: [
@@ -240,9 +250,20 @@ export default {
 
     },
     //删除某个banner图片
-    deletePhoto(index) {
-      let filename = this.activity.banner[index];
-      self.activity.banner.splice(index,1);
+    deletePhoto(event,index,type) {
+      event.preventDefault();
+      event.stopPropagation();
+      this.dialogVisible = false;
+      let filename ='';
+      if(type=='banner'){
+          filename = this.activity.banner[index];
+          this.activity.banner.splice(index,1);
+      } else {
+        filename = this.activity.infoimg;
+        this.activity.infoimg = '';
+      }
+      if(!filename || filename=='') this.$message('当前没有可删除的图片');
+      
       let self = this;
       this.ApiSever.delActivityImg(filename).then(res => {
         if(res){          
@@ -258,7 +279,11 @@ export default {
       let self = this;
       this.$refs["activityForm"].validate((valid) => {
         if(valid) {
-          console.log('submit!', self.activity);
+          self.activity.enrolStart = self.activity.enrolstart;
+          self.activity.enrolEnd = self.activity.enrolend;
+          self.activity.voteStart = self.activity.votestart;
+          self.activity.voteEnd = self.activity.voteend;
+          console.log('submit!', self.activity);          
           if(!this.activeId) {
             //新增
             self.ApiSever.addActivityInfo(self.activity).then(res => {
@@ -298,6 +323,38 @@ export default {
     delPrize(index,rows) {
       console.log('del row',index);
       rows.splice(index, 1);
+    },
+    //上传宣传图片
+    updateInfoImg() {
+        var vm = this;
+      if($('.infoImg').get(0).files[0].type.indexOf("image") != -1) {
+        var fd = new FileReader();
+        fd.readAsDataURL($('.imgOne').get(0).files[0]);
+        fd.onload = function() {
+          if(fd.result) {
+            var formData = new FormData();
+            formData.append("image", $('.imgOne').get(0).files[0]);
+            $.ajax({
+              url: vm.uploadURL,
+              type: 'POST',
+              data: formData,
+              cache : false,
+              xhrFields:{'Access-Control-Allow-Origin': '*' },
+              processData : false, // 不处理发送的数据，因为data值是Formdata对象，不需要对数据做处理
+              contentType : false, // 不设置Content-type请求头
+              success: function(responseStr) {
+                var result = responseStr;
+                vm.activity.infoimg=result.filename;
+              },
+              error: function(responseStr) {
+                alert('上传失败')
+              }
+            });
+          }
+        }
+      } else {
+        alert('上传图片不符合规则，请重新上传');
+      }
     },
 
     //上传照片

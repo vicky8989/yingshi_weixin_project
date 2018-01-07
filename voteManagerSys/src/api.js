@@ -105,7 +105,7 @@ function axiosRequest(method, url, data) {
       method: method,
       url: url,
       data: JSON.stringify(data),
-      withCredentials:true,
+      //withCredentials:true,
       headers: {
         'Content-Type': 'application/json',
       }
@@ -114,7 +114,7 @@ function axiosRequest(method, url, data) {
     return VueHttp.$http({
       method: method,
       url: url,
-      withCredentials:true,
+      //withCredentials:true,
       headers: {
         'Content-Type': 'application/json',
       }
@@ -136,7 +136,8 @@ export default {
     return VueHttp.$http.get(getInfoUrl);
   },
   updateActivityInfo: (data) => {
-    return axiosRequest('put',updateActivityInfo, data);
+    let url = `${updateActivityInfo}?aid=${data._id}`;
+    return VueHttp.$http.put(url, JSON.stringify(data));
   },
   addActivityInfo:(data)=> {
     return VueHttp.$http.post(addActivity, JSON.stringify(data));
@@ -152,8 +153,8 @@ export default {
   },
   //修改奖品
   updatePrize: (data) => {
-    return axiosRequest('put',updatePrizes, data);
-    //return VueHttp.$http.put(updatePrizes, JSON.stringify(data));
+    //return axiosRequest('put',updatePrizes, data);
+    return VueHttp.$http.put(updatePrizes, JSON.stringify(data));
   },
   //删除奖品
   delPrize: (id) => {
@@ -185,8 +186,8 @@ export default {
   },
   updateSinger:(sid,data) => {
       let url = `${UPDATESIGNER}?sid=${sid}`;
-      return axiosRequest('put',url,data)
-      //return VueHttp.$http.put(url,JSON.stringify(data));
+      //return axiosRequest('put',url,data)
+      return VueHttp.$http.put(url,JSON.stringify(data));
   },
   getPresentList:() => {
     return VueHttp.$http.get(LISTGIFTS);
@@ -196,8 +197,8 @@ export default {
   },
   updatePresent:(data)=> {
     let url = `${UPDATEGIFT}?gid=${data._id}`;
-    return axiosRequest('put',url,data)
-    //return VueHttp.$http.put(url,JSON.stringify(data))
+    //return axiosRequest('put',url,data)
+    return VueHttp.$http.put(url,JSON.stringify(data))
   },
   delPresent:(id)=> {
     let url = `${DELGIFT}?gid=${id}`;
@@ -207,8 +208,8 @@ export default {
     return VueHttp.$http.get(GIFTMONEY);
   },
   updateMoney:(prize) => {
-    return axiosRequest('put',UPDATEMONEY,prize)
-    //return VueHttp.$http.put(UPDATEMONEY,JSON.stringify(prize))
+    //return axiosRequest('put',UPDATEMONEY,prize)
+    return VueHttp.$http.put(UPDATEMONEY,JSON.stringify(prize))
   },
   httpUrl: HOST,
   imgUrl: `${HOST}images/`,
