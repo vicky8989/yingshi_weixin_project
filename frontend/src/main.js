@@ -38,7 +38,8 @@ Vue.prototype.errorLoadImg = function(event) {
 //路由
 const router = new Router({
   hashbang: true,
-  history: false,
+  //history: false,
+  mode: 'history',
   saveScrollPosition: true,
   transitionOnLoad: true,
   linkActiveClass: 'aui-active',
