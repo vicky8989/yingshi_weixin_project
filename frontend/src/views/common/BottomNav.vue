@@ -9,7 +9,7 @@
 			</li>
 			<li v-if="isFinished===false">
 				<router-link to="/recruit">
-					<i class="iconfont">&#xe63f;</i>
+					<i class="iconfont">&#xe630;</i>
 					<div class="aui-bar-tab-label">报名</div>
 				</router-link>
 			</li>
