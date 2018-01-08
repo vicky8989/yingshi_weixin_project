@@ -40,11 +40,17 @@
 		</div>
 
 		<div class="activity_rules">
-			<div class="rules_title"><i class="iconfont icon_font">&#xe685;</i>活动规则</div>
+			<div class="rules_title"><i class="iconfont icon_font">&#xe64d;</i>活动介绍</div>
 			<div class="content">
 				<strong>{{activity.rule}}</strong>
+			</div>
+			<div class="rules_title"><i class="iconfont icon_font">&#xe674;</i>奖品介绍</div>
+			<div class="content">
 				<p>{{activity.info}}</p>
 				<img :src="imgURL+activity.infoimg" />
+			</div>
+			<div class="rules_title"><i class="iconfont icon_font">&#xe649;</i>参赛规则</div>
+			<div class="content">
 				<h1>{{activity.name}}</h1>
 				<h5>协办方：{{activity.sponsor}}</h5>
 				<span>大赛客服老师微信号：{{activity.contact}}</span>
@@ -88,6 +94,12 @@
 				imgURL: this.ApiSever.imgUrl
 			}
 		},
+		watch: {
+			finishTime: function(newQuestion) {
+				this.finishTime=newQuestion;
+
+			}
+		},
 		components: {
 			Slider,
 			conutDown
@@ -100,7 +112,7 @@
 						let result = res.data[0];
 						self.activity = result;
 						self.pics = result.banner;
-						self.ApiSever.FINSIHTIME = result.voteend;
+//						self.ApiSever.FINSIHTIME = result.voteend;
 						self.ApiSever.AID = result._id;
 						self.getListData(result._id);
 						self.$emit('finishTimeChanged', result.voteend);

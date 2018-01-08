@@ -8,7 +8,7 @@
 	</div>
 </template>
 <style scoped>
-	.count{
+	.count {
 		width: 19rem;
 		height: auto;
 		padding: 0 10%;
@@ -16,16 +16,18 @@
 		margin: 0 auto;
 		overflow: hidden;
 	}
-	.title{
+	
+	.title {
 		font-size: 0.75rem;
 		height: 2rem;
 		line-height: 2rem;
 		color: #666;
 		text-align: center;
 	}
-	.countItem{
+	
+	.countItem {
 		width: 3rem;
-		height:1.5rem;
+		height: 1.5rem;
 		line-height: 1.5rem;
 		border: 1px solid #ebebeb;
 		float: left;
@@ -38,7 +40,8 @@
 		text-align: center;
 		background-color: white;
 	}
-	.countItem:first-of-type{
+	
+	.countItem:first-of-type {
 		margin-left: 0;
 	}
 </style>
@@ -51,18 +54,22 @@
 				hour: 0,
 				minute: 0,
 				second: 0,
-
 			}
 		},
+		computed: {
+			conutTime() {
+				return this.$store.state.conutDown;
+			},
+		},
+
 		mounted: function() {
-			this.countDown(this.time)
+			this.countDowns(this.conutTime);
 		},
 		methods: {
-			countDown(d) {
+			countDowns(d) {
 				var _this = this;
 				_this.curTime = (new Date(d)).getTime() / 1000 - (new Date()).getTime() / 1000;
-				console.log(_this.curTime)
-				
+
 				var timer = window.setInterval(function() {
 					_this.$emit('validCurTime', _this.curTime);
 					if(_this.curTime > 0) {
@@ -71,36 +78,34 @@
 						_this.minute = Math.floor(_this.curTime / 60) - (_this.day * 24 * 60) - (_this.hour * 60);
 						_this.second = Math.floor(_this.curTime) - (_this.day * 24 * 60 * 60) - (_this.hour * 60 * 60) - (_this.minute * 60)
 					}
-					if(_this.day==0&&_this.hour==0&&_this.minute==0&&_this.second==0){
-						_this.day = "00" ;
-						_this.hour = "00" ;
+					if(_this.day == 0 && _this.hour == 0 && _this.minute == 0 && _this.second == 0) {
+						_this.day = "00";
+						_this.hour = "00";
 						_this.minute = "00";
-						_this.second = "00" ;
-						
-					}else{
-					if(_this.day <= 9) {
-						_this.day = "0" + _this.day
-					}
-					if(_this.hour <= 9) {
-						_this.hour = "0" + _this.hour
-					}
-					if(_this.minute <= 9) {
-						_this.minute = "0" + _this.minute
-					}
-					if(_this.second <= 9) {
-						_this.second = "0" + _this.second
-					}
-					if(_this.curTime <= 0) {
-						clearInterval(timer)
-					}
-					_this.curTime--
-					
+						_this.second = "00";
+
+					} else {
+						if(_this.day <= 9) {
+							_this.day = "0" + _this.day
+						}
+						if(_this.hour <= 9) {
+							_this.hour = "0" + _this.hour
+						}
+						if(_this.minute <= 9) {
+							_this.minute = "0" + _this.minute
+						}
+						if(_this.second <= 9) {
+							_this.second = "0" + _this.second
+						}
+						if(_this.curTime <= 0) {
+							clearInterval(timer)
+						}
+						_this.curTime--
+
 					}
 				}, 1000)
 			}
 		},
-		props: {
-			time: String,
-		}
+
 	}
 </script>
