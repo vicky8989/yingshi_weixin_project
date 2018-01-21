@@ -92,6 +92,13 @@
 					console.log(res);
 					let result = res.body;
 					self.userData = result[0];
+					self.ApiSever.getUserInfo(sid).then(user => {
+						if(user && user.data && user.data.length >0 ) {
+							let info = user.data[0];
+							self.userData.headimgurl = info.headimgurl;
+							self.userData.nickname = user.nickname;
+						}
+					});
 					//请求用户信息
 					self.ApiSever.getPresentsTotal(sid).then(giftNum => {
 						let num = giftNum.body&& giftNum.body.length>0?giftNum.body[0].value:0;
@@ -143,36 +150,57 @@
 					}
 				});
 			},
+			_get_date_string () {
+			  var date = moment().format('YYYY MM DD HH mm ss');
+
+			  return date.split(' ').join('_');
+			},
+			_get_out_trade_no () {
+			  return _get_date_string ()  + "" + Math.random().toString().substr(2, 10);
+			},
+			pay_h5(){
+			  var ordor_id = this._get_out_trade_no();
+			  alert(ordor_id)
+			  $.get('/wechats/pay_h5?id=o12hcuKXjejDFUwxMgToaGtjtqf4&order_id=' + ordor_id + '&body=1111&detail=222222&fee=1&cb_url=/wechats/pay_calllback/'+ ordor_id, function(data){
+			    var r = data.data;
+
+			    // WeixinJSBridge.invoke('getBrandWCPayRequest', r, function(res){
+			    //   if(res.err_msg == "get_brand_wcpay_request:ok"){
+			    //     alert("支付成功");
+			    //     // 这里可以跳转到订单完成页面向用户展示
+			    //   }else{
+			    //     alert("支付失败，请重试");
+			    //   }
+			    // });
+			  });
+			},
 
 			//购买礼物
 			purchase() {
 				if(!this.currentId) return;
 				let self = this;
 
-				self.ApiSever.getUserInfo(this.userData.openid).then(res=>{
-					if(res && res.data) {
-						let user = res.data[0];
-						let data = {
-							sid:self.userData._id,
-							openid:self.userData.openid,
-							nickname:user.nickname,
-							headimgurl:user.headimgurl,
-							num:self.currentGiftNum,
-							giftname:self.currentGiftName,
-							gid:self.currentId,
-							time:self.$moment(new Date()).format('YYYY-MM-DD hh:mm:ss')
-						};
-						
-						self.ApiSever.addPresentDetail(data).then(res=> {
-							self.$router.push({
-								path: '/votes/' + self.userData._id,
-								params: {
-									id: self.userData._id
-								}
-							});
-						});
-					}
-				});				
+				let data = {
+					sid:self.userData._id,
+					openid:self.userData.openid,
+					nickname:self.userData.nickname,
+					headimgurl:self.userData.headimgurl,
+					num:self.currentGiftNum,
+					giftname:self.currentGiftName,
+					gid:self.currentId,
+					time:self.$moment(new Date()).format('YYYY-MM-DD hh:mm:ss')
+				};
+
+
+
+				self.ApiSever.addPresentDetail(data).then(res=> {
+					self.$router.push({
+						path: '/votes/' + self.userData._id,
+						params: {
+							id: self.userData._id
+						}
+					});
+				});
 			}
 		},
 

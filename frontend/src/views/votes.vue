@@ -93,7 +93,12 @@ import {
 		components: {
 			Slider
 		},
-
+		computed: {
+			//计算当前时间是否结束
+			isFinished() {				
+				return this.ApiSever.getFinishTime(this.$store.state.conutDown);
+			},
+		},
 		methods: {
 			//通过id获取本个人的信息			
 			getUserInfo() {
@@ -172,7 +177,7 @@ import {
 				}else{
 					if(!self.userData.votenum)
 						self.userData.votenum = 0;
-					self.userData.votenum += 1;
+					self.userData.votenum += 1;					
 					self.ApiSever.updateSinger(self.userData._id,self.userData).then(res => {
 
 					});

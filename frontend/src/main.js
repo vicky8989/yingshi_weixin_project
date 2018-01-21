@@ -13,7 +13,11 @@ Vue.use(Router);
 import VueResource from 'vue-resource'; //vue-router路由
 Vue.use(VueResource)
 Vue.config.productionTip = false
+
 import ApiSever from './api.js';
+
+import utils from './utils.js'
+Vue.prototype.$utils = utils;
 
 import moment from 'moment';
 Object.defineProperty(Vue.prototype, '$moment', {
@@ -26,6 +30,7 @@ Vue.prototype.ApiSever = ApiSever;
 const Store = new Vuex.Store({
 	state: {
 		conutDown: '',
+		wxUser:null
 	},
 	mutations: {
 		checkToken(state, data) {
@@ -38,13 +43,18 @@ const Store = new Vuex.Store({
 					state.conutDown = result.voteend;
 				}
 			});
-		}
+		},
+	    setWeixinUser(state,info) {
+	        state.wxUser = info;
+	    }
 	},
 	actions: {
 		finishtimeChanged(context) {
 			context.commit("timeChanged");
-
-		}
+		},
+	    setWeixinUserInfo(context,info) {
+	      context.commit("setWeixinUser",info)
+	    }
 	}
 });
 
@@ -64,7 +74,7 @@ Vue.prototype.errorLoadImg = function(event) {
 
 //路由
 const router = new Router({
-  hashbang: true,
+  //hashbang: true,
   //history: false,
   mode: 'history',
   saveScrollPosition: true,

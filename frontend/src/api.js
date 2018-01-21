@@ -13,7 +13,7 @@ const PRIZES = 'awards.json';
 const RANKING = 'userList.json';
 
 let FINSIHTIME = '2018/12/29 17:39:10';
-let AID=null;
+let AID = null;
 const PERPAGENUM = 3; //首页显示几条作品
 
 const VueHttp = new Vue();
@@ -26,11 +26,13 @@ VueHttp.$http.options.headers = {
 
 const ACTIVITY = `${HOST}getActivities?status=1`;
 const ADDSIGNER = `${HOST}addSigner`;
-const GETSIGNERS= `${HOST}getSigners`;
-const GETSIGNERBYID=`${HOST}getSigner`;
+const GETSIGNERS = `${HOST}getSigners`;
+const GETSIGNERBYID = `${HOST}getSigner`;
 const UPDATESIGNER = `${HOST}updateSigner`;
 const GETUSER = `${HOST}getUser`;
-const GETAWARDS=`${HOST}getAwards`;
+const ADD_USER_INFO = `${HOST}addOrUpdateUser`;  //添加微信用户
+const UPDATE_USER_INFO = `${HOST}addOrUpdateUser`; //更新微信用户
+const GETAWARDS = `${HOST}getAwards`;
 const GETPRESENTNUM = `${HOST}getPresentsTotal`; //获得某人得到的礼物总数
 const GETPRESENTINFO = `${HOST}getPresentsDetail`; //获得某人得到的礼物总数
 const ADDPRESENT = `${HOST}addPresent`;
@@ -42,6 +44,14 @@ const GIFTS = `${HOST}gifts`;
 //const BANNERS = `${HOST}banners`;
 const USERDATA = `${HOST}userData`;
 const delActivityImg = `${HOST}deleteActivityImage`;
+
+const OAUTH = `${HOST}oauth`;
+const GET_WX_USER = `${HOST}oauthcallback`;
+
+//微信接口
+const appID = 'wx0ef959f2d341d916';
+//const weixin_login = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appID}&redirect_uri=http://192.168.1.6/vote/index&response_type=code&scope=snsapi_userinfo&state=234#wechat_redirect`;
+var weixin_code = null;
 
 // 生成商品列数据
 // Mock.mock(TEST, {
@@ -153,7 +163,7 @@ const delActivityImg = `${HOST}deleteActivityImage`;
 function validTimeFinished(finishTime) {
   let curTime_ = (new Date(finishTime)).getTime() / 1000 - (new Date()).getTime() / 1000;
 
-  if(curTime_ < 0) {
+  if (curTime_ < 0) {
     return true;
   } else {
     return false;
@@ -162,14 +172,21 @@ function validTimeFinished(finishTime) {
 
 
 export default {
-	FINSIHTIME,
+  FINSIHTIME,
   AID,
   PERPAGENUM,
-  getActivity:() => {
+  // weixin_login,
+  weixin_code,
+  OAUTH,
+  getWxUserInfo: (code) => {
+    let url = GET_WX_USER + '?code=' + code;
+    return VueHttp.$http.get(url);
+  },
+  getActivity: () => {
     return VueHttp.$http.get(ACTIVITY)
   },
-  addRecruit:(data) => {
-    return VueHttp.$http.post(ADDSIGNER,data)
+  addRecruit: (data) => {
+    return VueHttp.$http.post(ADDSIGNER, data)
   },
   //获取奖品数据
   getPrizes: (aid) => {
@@ -181,7 +198,7 @@ export default {
     let url = `${GETAWARDS}?aid=${aid}`;
     return VueHttp.$http.get(RANKING)
   },
-  delActivityImg:(filename)=>{
+  delActivityImg: (filename) => {
     let delImgUrl = `${delActivityImg}?image=${filename}`;
     return VueHttp.$http.delete(delImgUrl);
   },
@@ -190,37 +207,45 @@ export default {
     let url = `${GETSIGNERS}?aid=${aid}`;
     return VueHttp.$http.get(url)
   },
-  getUserInfo:(openid)=>{
+  addUserInfo: (data) => {
+    return VueHttp.$http.post(ADD_USER_INFO, data);
+  },
+  updateUserInfo: (openid, data) => {
+    let url = `${UPDATE_USER_INFO}?openid=${openid}`;
+    return VueHttp.$http.post(url, data);
+  },
+  getUserInfo: (openid) => {
     let url = `${GETUSER}?openid=${openid}`;
     return VueHttp.$http.get(url)
   },
-  getPresentsTotal:(sid)=>{
+  getPresentsTotal: (sid) => {
     let url = `${GETPRESENTNUM}?sid=${sid}`;
     return VueHttp.$http.get(url)
   },
-  getPresentsDetail:(sid)=> {
+  getPresentsDetail: (sid) => {
     let url = `${GETPRESENTINFO}?sid=${sid}`;
     return VueHttp.$http.get(url);
   },
-  addPresentDetail:(data)=> {
-    return VueHttp.$http.post(ADDPRESENT,data);
+  addPresentDetail: (data) => {
+    return VueHttp.$http.post(ADDPRESENT, data);
   },
-  getUserDataByID:(sid)=>{
+  getUserDataByID: (sid) => {
     let url = `${GETSIGNERBYID}?sid=${sid}`;
     return VueHttp.$http.get(url)
   },
-  updateSinger:(sid,data) => {
-      let url = `${UPDATESIGNER}?sid=${sid}`;
-      return VueHttp.$http.put(url,data);
+  updateSinger: (sid, data) => {
+    let url = `${UPDATESIGNER}?sid=${sid}`;
+    return VueHttp.$http.put(url, data);
   },
   getGiftsList: (jsons) => {
     return VueHttp.$http.get(LISTGIFTS)
   },
   add: (jsons) => {
-    return VueHttp.$http.post(TEST,jsons)
+    return VueHttp.$http.post(TEST, jsons)
   },
-  getFinishTime:()=> {
-    return validTimeFinished(FINSIHTIME);
+  getFinishTime: (time) => {
+    if (!time) time = FINSIHTIME;
+    return validTimeFinished(time);
   },
   httpUrl: HOST,
   imgUrl: `${HOST}images/`,

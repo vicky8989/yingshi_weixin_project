@@ -14,13 +14,15 @@
 <script>
 	import Marquee from './views/common/Marquee.vue'
 	import BottomNav from './views/common/BottomNav.vue'
+
 	export default {
 		data() {
 			let day = this.$moment(this.ApiSever.FINSIHTIME).format('YYYY-MM-DD');
 			return {
 				isVoteFinished: this.ApiSever.getFinishTime(),
 				isVotePage: false,
-				mtip: `投票时间截至到${day}日`
+				mtip: `投票时间截至到${day}日`,
+				code:null
 			}
 		},
 		name: 'app',
@@ -31,16 +33,69 @@
 		watch: {
 			'$route' (to, from) {
 				this.isVotePage = to.path.indexOf('votes') >= 0;
-			}
-		},
+			},
+			'code':'getCodeParam'
+		},		
 		methods: {
 			finishTimeChanged(finishTime) {
 				let day = this.$moment(this.ApiSever.FINSIHTIME).format('YYYY-MM-DD');
 				this.mtip = `投票时间截至到${day}日`;
+			},
+			getCodeParam() {
+				let code = this.$route.query.code;
+				this.$store.dispatch('weixinLogin',code);
+				if(code!=null) {
+					console.log('code',code);
+				}
+				return code;
+			},
+			getWxUserInfo(code) {
+				let this_ = this;
+				this.ApiSever.getWxUserInfo(code).then(res => {
+					console.log(res);
+					if(res) {
+						let info = res.body;
+						//如果当前已经报过名了，不能再报名了。
+						this_.ApiSever.getUserInfo(info.openid).then(res => {
+							if(res.data) {
+								this_.handleUpdateUser(info);
+							} else {
+								this_.handleAddUser(info);
+							}
+
+							this_.$store.dispatch('setWeixinUser',info);
+						});						
+					}
+				});
+			},
+
+			//添加用户信息
+			handleAddUser(info) {
+				let this_ = this;
+				let data = Object.assign({}, info,{});
+				this.ApiSever.addUserInfo(data).then(res => {
+					console.log('add user',res);
+				})
+			},
+
+			//更新用户信息
+			handleUpdateUser(info) {
+				let this_ = this;
+				let data = Object.assign({}, info,{});
+				this.ApiSever.updateUserInfo(info.openid,data).then(res => {
+					console.log('update user',res);
+				})
 			}
 		},
 		mounted() {
 			this.$store.dispatch("finishtimeChanged");
+			this.ApiSever.weixin_code= this.$utils.getUrlKey("code");
+			// console.log('code',this.ApiSever.weixin_code);
+			if(!this.ApiSever.weixin_code) {
+				window.location.href =this.ApiSever.OAUTH;
+			} else {
+				this.getWxUserInfo(this.ApiSever.weixin_code);
+			}			
 		}
 	}
 </script>

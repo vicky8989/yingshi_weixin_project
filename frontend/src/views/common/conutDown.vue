@@ -61,7 +61,6 @@
 				return this.$store.state.conutDown;
 			},
 		},
-
 		mounted: function() {
 			this.countDowns(this.conutTime);
 		},

@@ -70,7 +70,7 @@
 				thumbPic: []
 			}
 		},
-		created() {			
+		created() {
 		},
 		components: {
 		},
@@ -125,12 +125,31 @@
 					this.user.pics = resultPhoto;
 				}
 
+				if(!this.$store.state.wxUser) bOk = false;
+
 				if(!bOk) {
 					return false;
 				}
-				let param = Object.assign({}, this.user,{
-					votenum:0
+				let this_ = this;
+
+				let openId = this.$store.state.wxUser.openid;
+				//如果当前已经报过名了，不能再报名了。
+				this.ApiSever.getUserDataByID(openId).then(res => {
+					if(res.data) {
+						this_.$toast({
+							message: '您已经报过名了！'
+						});
+					} else {
+						let param = Object.assign({}, this_.user,{
+							votenum:0,
+							openid:openId
+						});
+						this_.handleaddRecruit(param);
+					}
 				});
+			},
+			//添加报名
+			handleaddRecruit (param) {
 				let this_ = this;
 				this.ApiSever.addRecruit(param).then(res => {
 					let result = res.data;
