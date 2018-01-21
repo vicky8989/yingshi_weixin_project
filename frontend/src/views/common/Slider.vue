@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<mt-swipe :auto="4000">
-			<mt-swipe-item v-for="(item,index) in list" key="index">
+			<mt-swipe-item v-if="list&&list.length>0" v-for="(item,index) in list" :key="index">
 				<div class="bg_cover" :style="{backgroundImage: 'url('+imgURL+item+')'}">
 					<img :src="imgURL+item">
 				</div>
