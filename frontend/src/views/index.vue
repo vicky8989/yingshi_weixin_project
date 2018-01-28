@@ -109,6 +109,7 @@
 				let self = this;
 				this.ApiSever.getActivity().then(res => {
 					if(res && res.data && res.data.length >0) {
+						console.log('get activity',res);
 						let result = res.data[0];
 						self.activity = result;
 						self.pics = result.banner;
@@ -129,7 +130,7 @@
 				// 	pageSize: self.playerList.pageSize
 				// };
 				this.appendLi();
-
+				if(!aid) return;
 				this.ApiSever.getListSigners(aid).then(res => {
 					Indicator.close();
 					//console.log(res)

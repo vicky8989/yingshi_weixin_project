@@ -1,1 +1,1 @@
-const HOST_CONFIG = "http://datongys.cn/backend/"
+const HOST_CONFIG = "http://datongys.cn/backend/";

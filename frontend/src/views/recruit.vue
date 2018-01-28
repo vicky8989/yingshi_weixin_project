@@ -43,8 +43,8 @@
 	//文本框校验正则
 	let rejson = {
 		name: /\S/,
-		declaration: /\S/,
-		phone: /^([0-9]{3,4}-)?[0-9]{7,8}$/
+		declaration: /\S/,		
+		phone: /^1[34578]\d{9}$/
 	};
 
 	//手机号码校验

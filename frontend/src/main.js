@@ -77,6 +77,7 @@ const router = new Router({
   //hashbang: true,
   //history: false,
   mode: 'history',
+  base:'/vote',
   saveScrollPosition: true,
   transitionOnLoad: true,
   linkActiveClass: 'aui-active',

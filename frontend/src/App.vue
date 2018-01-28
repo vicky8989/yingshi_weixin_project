@@ -52,7 +52,7 @@
 			getWxUserInfo(code) {
 				let this_ = this;
 				this.ApiSever.getWxUserInfo(code).then(res => {
-					console.log(res);
+					console.log('weixin user',res);
 					if(res) {
 						let info = res.body;
 						//如果当前已经报过名了，不能再报名了。
@@ -83,7 +83,16 @@
 				let this_ = this;
 				let data = Object.assign({}, info,{});
 				this.ApiSever.updateUserInfo(info.openid,data).then(res => {
-					console.log('update user',res);
+					console.log('update user',res);					
+					//如果当前已经报过名了，不能再报名了。
+					// this_.ApiSever.getUserInfo(user.openid).then(isuser => {
+					// 	if(isuser.data) {} else {
+					// 		//如果当前结果中没有，则新增
+					// 		this_.ApiSever.updateUserInfo(user.openid,user).then(useradded => {
+					// 			console.log('add usered',useradded);
+					// 		})
+					// 	}
+					// });
 				})
 			}
 		},
@@ -93,7 +102,7 @@
 			// console.log('code',this.ApiSever.weixin_code);
 			if(!this.ApiSever.weixin_code) {
 				window.location.href =this.ApiSever.OAUTH;
-			} else {
+			} else if(this.$store.wxUser == null){
 				this.getWxUserInfo(this.ApiSever.weixin_code);
 			}			
 		}
