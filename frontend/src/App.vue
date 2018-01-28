@@ -99,7 +99,7 @@
 		mounted() {
 			this.$store.dispatch("finishtimeChanged");
 			this.ApiSever.weixin_code= this.$utils.getUrlKey("code");
-			// console.log('code',this.ApiSever.weixin_code);
+			 console.log('code',this.ApiSever.weixin_code);
 			if(!this.ApiSever.weixin_code) {
 				window.location.href =this.ApiSever.OAUTH;
 			} else if(this.$store.wxUser == null){
@@ -111,7 +111,6 @@
 
 <style lang="less" type="text/css">
 	@import './assets/css/main';
-	@import './assets/css/iconfont.css';
 	#app {
 		text-align: center;
 		color: #333;

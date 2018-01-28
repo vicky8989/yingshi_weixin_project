@@ -73,10 +73,10 @@
         position: absolute;
         left:50%;
         top:50%;
-        width:300px;
-        height:160px;
-        margin:-150px 0 0 -190px;
-        padding:40px;
+        width:350px;
+        height:250px;
+        margin:-150px 0 0 -175px;
+        padding:30px;
         border-radius: 5px;
         background: #fff;
     }
