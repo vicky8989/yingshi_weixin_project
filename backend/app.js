@@ -19,6 +19,10 @@ var file = require('./file/file');
 var app = express();
 var upload = file.uploadFile();
 
+//微信认证
+var OAuth = require('wechat-oauth');
+var client = new OAuth('wx300122015031b943', 'e8f5f0568d63516865fcc2dd8cff1830');
+
 app.use(express.static(file.getImageUrlPath()));
 app.use(bodyParser.json({limit: '1mb'}));
 app.use(bodyParser.urlencoded({
@@ -495,9 +499,44 @@ app.get('/getPrize', function (req, res) {
   	});
 })
 
+/* GET users listing.以下为微信认证部分 */
+app.get('/oauth', function (req, res, next) {
+	res.header('Access-Control-Allow-Origin', '*');
+    var domain = "http://datongys.cn/vote/"
+	//var domain = "http://datongys.cn/backend/oauthcallback";
+    var auth_callback_url = domain;
+    var url = client.getAuthorizeURL(auth_callback_url, '', 'snsapi_userinfo');
+    console.log(url);
+    // 重定向请求到微信服务器
+    res.redirect(url);
+});
+
+app.get('/oauthcallback', function (req, res, next) {
+	res.header('Access-Control-Allow-Origin', '*');
+    var code = req.query.code;
+    client.getAccessToken(code, function (err, result) {
+        console.log(result);
+		if(err)
+		{
+		  console.log('Error:'+ err);
+		  return;
+		}
+        var accessToken = result.data.access_token;
+        var openid = result.data.openid;
+
+        client.getUser(openid, function (err, result) {
+            var userInfo = result;
+            // save or other opration
+            //res.json(userInfo)
+			res.send(userInfo);
+			console.log(userInfo);
+        });
+    });
+});
+
 
 //创建服务
-var server = app.listen(8085,function () {
+var server = app.listen(8081,function () {
  
   var host = server.address().address
   var port = server.address().port

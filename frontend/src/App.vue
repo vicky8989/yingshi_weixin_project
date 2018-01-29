@@ -43,7 +43,7 @@
 			},
 			getCodeParam() {
 				let code = this.$route.query.code;
-				this.$store.dispatch('weixinLogin',code);
+				//this.$store.dispatch('weixinLogin',code);
 				if(code!=null) {
 					console.log('code',code);
 				}
@@ -55,6 +55,8 @@
 					console.log('weixin user',res);
 					if(res) {
 						let info = res.body;
+						this_.$store.dispatch('setWeixinUserInfo',info);
+
 						//如果当前已经报过名了，不能再报名了。
 						this_.ApiSever.getUserInfo(info.openid).then(res => {
 							if(res.data) {
@@ -62,8 +64,6 @@
 							} else {
 								this_.handleAddUser(info);
 							}
-
-							this_.$store.dispatch('setWeixinUser',info);
 						});						
 					}
 				});

@@ -50,7 +50,7 @@ const GET_WX_USER = `${HOST}oauthcallback`;
 
 //微信接口
 const appID = 'wx0ef959f2d341d916';
-//const weixin_code = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appID}&redirect_uri=http://192.168.1.6/vote/index&response_type=code&scope=snsapi_userinfo&state=234#wechat_redirect`;
+//const weixin_login = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appID}&redirect_uri=http://192.168.1.6/vote/index&response_type=code&scope=snsapi_userinfo&state=234#wechat_redirect`;
 var weixin_code = null;
 
 // 生成商品列数据

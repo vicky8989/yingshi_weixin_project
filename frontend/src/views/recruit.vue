@@ -9,7 +9,7 @@
 				<!--<div><label>参赛宣言</label>-->
 				<div><label>参赛宣言</label>
 					<textarea placeholder="请输入备注" v-model="user.words" name="declaration" @blur="handleBlur" ref="declaration"></textarea>
-					<span class="hiden" ref="declaration_span">请输入联系电话</span>
+					<span class="hiden" ref="declaration_span">请输入参赛宣言</span>
 				</div>
 				<div><label>联系电话</label>
 					<input type="tel" placeholder="请输入联系电话" v-model="user.phone" name="phone" @blur="handleBlur" ref="phone" />
@@ -115,7 +115,7 @@
 					}
 				}
 				let resultPhoto = [...this.thumbPic];
-				if(resultPhoto.length < 1) {
+				if(resultPhoto.length == 0) {
 					this.$refs['regPhoto'].classList.add('error_photo');
 					bOk = false;
 				} else {
@@ -125,7 +125,12 @@
 					this.user.pics = resultPhoto;
 				}
 
-				if(!this.$store.state.wxUser) bOk = false;
+				if(!this.$store.state.wxUser) {
+					this_.$toast({
+							message: '用户未授权'
+						});
+					bOk = false;
+				}
 
 				if(!bOk) {
 					return false;
