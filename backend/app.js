@@ -250,6 +250,19 @@ app.get('/getSigner', function (req, res) {
     });
 })
 
+app.get('/getSignerByAidAndOpenid', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	var params = url.parse(req.url, true).query;
+	if (params==null || params.aid==null || params.openid==null) {
+		res.status(400).send({'error':"Bad Request"});
+		return;
+	}
+
+	voteSigner.queryDataByAidAndOpenid(params.aid, params.openid, function(result){
+        res.send(result);
+    });
+})
+
 app.post('/addSigner', function (req, res) {
 	res.header('Access-Control-Allow-Origin', '*');
 	if (req.body == null) {

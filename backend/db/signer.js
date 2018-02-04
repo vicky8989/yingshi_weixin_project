@@ -181,6 +181,28 @@ var User = function()
         });
     }
 
+    this.queryDataByAidAndOpenid = function(aid,openid,callback)
+    {
+        if (this.collection() == false) {
+            return;
+        }
+
+        if (aid == null || openid== null) {
+            return;
+        }
+
+        var whereStr = {"aid":aid,"openid":openid};
+        collection.find(whereStr).toArray(function(err, result) {
+            if(err)
+            {
+              console.log('Error:'+ err);
+              return;
+            }
+
+            callback(result);
+        });
+    }
+
     this.delData = function(sid,callback)
     {
         if (this.collection() == false) {
