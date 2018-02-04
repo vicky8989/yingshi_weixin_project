@@ -2,7 +2,7 @@
 	<div id="gift">
 		<div class="div_info" @click="gotoUserpage">
 			<div class="div_img">
-				<img src="./../assets/images/IMG_0117.png" />
+				<img :src="userData.headimgurl" />
 			</div>
 			<div class="div_msg">
 				<div class="div_name">{{userData.name}}</div>
@@ -84,15 +84,17 @@
 			//通过id获取本个人的信息
 			getUserInfo() {
 				console.log(this.$route.query)
-				let sid = this.$route.params.id;
+				let sid = this.$store.state.wxUser.openid;
 
 				let self = this;
 
-				this.ApiSever.getUserDataByID(sid).then(res => {
+				this.ApiSever.getUserDataByID(sid,this.ApiSever.AID).then(res => {
 					console.log(res);
-					let result = res.body;
+					let result = res.body;					
 					self.userData = result[0];
+					if(!self.userData) self.userData = {};
 					self.ApiSever.getUserInfo(sid).then(user => {
+						console.log('get userinfo',user);
 						if(user && user.data && user.data.length >0 ) {
 							let info = user.data[0];
 							self.userData.headimgurl = info.headimgurl;

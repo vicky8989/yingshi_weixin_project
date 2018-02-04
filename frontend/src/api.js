@@ -3,7 +3,7 @@ import axios from 'axios'
 import qs from 'qs'
 import Mock from 'mockjs';
 
-Vue.prototype.$http = axios
+Vue.prototype.$http = axios;
 
 // 常量 API 接口地址
 const HOST = HOST_CONFIG;
@@ -14,7 +14,7 @@ const RANKING = 'userList.json';
 
 let FINSIHTIME = '2018/12/29 17:39:10';
 let AID = null;
-const PERPAGENUM = 3; //首页显示几条作品
+const PERPAGENUM = 10; //首页显示几条作品
 
 const VueHttp = new Vue();
 
@@ -27,7 +27,7 @@ VueHttp.$http.options.headers = {
 const ACTIVITY = `${HOST}getActivities?status=1`;
 const ADDSIGNER = `${HOST}addSigner`;
 const GETSIGNERS = `${HOST}getSigners`;
-const GETSIGNERBYID = `${HOST}getSigner`;
+const GETSIGNERBYID = `${HOST}getSignerByAidAndOpenid`;
 const UPDATESIGNER = `${HOST}updateSigner`;
 const GETUSER = `${HOST}getUser`;
 const ADD_USER_INFO = `${HOST}addOrUpdateUser`;  //添加微信用户
@@ -183,7 +183,7 @@ export default {
     return VueHttp.$http.get(url);
   },
   getActivity: () => {
-    return VueHttp.$http.get(ACTIVITY)
+    return VueHttp.$http.get(ACTIVITY);
   },
   addRecruit: (data) => {
     return VueHttp.$http.post(ADDSIGNER, data)
@@ -229,8 +229,8 @@ export default {
   addPresentDetail: (data) => {
     return VueHttp.$http.post(ADDPRESENT, data);
   },
-  getUserDataByID: (sid) => {
-    let url = `${GETSIGNERBYID}?sid=${sid}`;
+  getUserDataByID: (sid,aid) => {
+    let url = `${GETSIGNERBYID}?openid=${sid}&aid=${aid}`;
     return VueHttp.$http.get(url)
   },
   updateSinger: (sid, data) => {

@@ -97,7 +97,6 @@
 		watch: {
 			finishTime: function(newQuestion) {
 				this.finishTime=newQuestion;
-
 			}
 		},
 		components: {

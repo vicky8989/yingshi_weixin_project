@@ -43,7 +43,7 @@
 	//文本框校验正则
 	let rejson = {
 		name: /\S/,
-		declaration: /\S/,		
+		declaration: /\S/,
 		phone: /^1[34578]\d{9}$/
 	};
 
@@ -139,8 +139,8 @@
 
 				let openId = this.$store.state.wxUser.openid;
 				//如果当前已经报过名了，不能再报名了。
-				this.ApiSever.getUserDataByID(openId).then(res => {
-					if(res.data) {
+				this.ApiSever.getUserDataByID(openId,this.ApiSever.AID).then(res => {
+					if(res.data && res.data.length > 0) {
 						this_.$toast({
 							message: '您已经报过名了！'
 						});
@@ -216,8 +216,8 @@
 
 			//删除照片
 			deletePhoto(index) {
-				let filename = self.thumbPic[index];
 				let self = this;
+				let filename = this.thumbPic[index];
 			    this.ApiSever.delActivityImg(filename).then(res => {
 			        console.log('del gift img',filename);
 			        self.thumbPic.splice(index, 1);

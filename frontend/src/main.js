@@ -30,7 +30,14 @@ Vue.prototype.ApiSever = ApiSever;
 const Store = new Vuex.Store({
 	state: {
 		conutDown: '',
-		wxUser:null
+		//wxUser:null, //正式环境
+		//test
+		wxUser:{
+			openid:'o933-1W4cdVDN25_e2JWKGOFeg_a',
+			nikename:'文姬',
+			headimgurl:"http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoDGe7wXlOa1mxspKHy64ZLmq0zNPbpqibxmEFoUTS2mrhgR8hiagCibdoyq90ib6NWKqzUlvFmzZDBrQ/132",
+			language:'zh_CN'
+		}
 	},
 	mutations: {
 		checkToken(state, data) {

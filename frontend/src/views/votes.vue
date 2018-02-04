@@ -72,7 +72,7 @@ import {
 		data() {
 			return {
 				userId: this.$route.params.id,
-				isFinished:this.ApiSever.getFinishTime(),
+				//isFinished:this.ApiSever.getFinishTime(),
 				userData: {
 					voteNum: 12,
 					hot: 12,
@@ -95,22 +95,24 @@ import {
 		},
 		computed: {
 			//计算当前时间是否结束
-			isFinished() {				
+			isFinished() {
 				return this.ApiSever.getFinishTime(this.$store.state.conutDown);
 			},
 		},
 		methods: {
-			//通过id获取本个人的信息			
+			//通过id获取本个人的信息
 			getUserInfo() {
-				console.log(this.$route.query)
-				let sid = this.$route.params.id;
+				console.log(this.$store.state.wxUser.openid)
+				let sid = this.$store.state.wxUser.openid;
+				if(!sid) return;
 
 				let self = this;
 
-				this.ApiSever.getUserDataByID(sid).then(res => {
+				this.ApiSever.getUserDataByID(sid,this.ApiSever.AID).then(res => {
 					console.log(res);
 					let result = res.body;
 					self.userData = result[0];
+					if(!self.userData) self.userData = {};
 					//请求用户信息
 					self.ApiSever.getPresentsDetail(sid).then(gifts => {
 						let giftsInfo = gifts.body;
@@ -147,7 +149,7 @@ import {
 						id: this.$route.params.id
 					}
 				});
-				}				
+				}
 			},
 			//修改参与者信息
 		    updateSigner() {
@@ -177,7 +179,7 @@ import {
 				}else{
 					if(!self.userData.votenum)
 						self.userData.votenum = 0;
-					self.userData.votenum += 1;					
+					self.userData.votenum += 1;
 					self.ApiSever.updateSinger(self.userData._id,self.userData).then(res => {
 
 					});

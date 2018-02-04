@@ -99,12 +99,12 @@
 		mounted() {
 			this.$store.dispatch("finishtimeChanged");
 			this.ApiSever.weixin_code= this.$utils.getUrlKey("code");
-			 console.log('code',this.ApiSever.weixin_code);
-			if(!this.ApiSever.weixin_code) {
-				window.location.href =this.ApiSever.OAUTH;
-			} else if(this.$store.wxUser == null){
-				this.getWxUserInfo(this.ApiSever.weixin_code);
-			}			
+			console.log('code',this.ApiSever.weixin_code);
+			// if(!this.ApiSever.weixin_code) {
+			// 	window.location.href =this.ApiSever.OAUTH;
+			// } else if(this.$store.wxUser == null){
+			// 	this.getWxUserInfo(this.ApiSever.weixin_code);
+			// }
 		}
 	}
 </script>
