@@ -264,7 +264,7 @@
 		padding-left: 4.6rem;
 		box-sizing: border-box;
 		text-align: left;
-		font-size: 0.2rem;
+		font-size: 0.75rem
 	}
 
 	.hiden {

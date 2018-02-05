@@ -83,7 +83,7 @@
 				let this_ = this;
 				let data = Object.assign({}, info,{});
 				this.ApiSever.updateUserInfo(info.openid,data).then(res => {
-					console.log('update user',res);					
+//					console.log('update user',res);					
 					//如果当前已经报过名了，不能再报名了。
 					// this_.ApiSever.getUserInfo(user.openid).then(isuser => {
 					// 	if(isuser.data) {} else {
@@ -96,8 +96,11 @@
 				})
 			}
 		},
-		mounted() {
+		created() {
 			this.$store.dispatch("finishtimeChanged");
+		},
+		mounted() {
+			
 			this.ApiSever.weixin_code= this.$utils.getUrlKey("code");
 			console.log('code',this.ApiSever.weixin_code);
 			// if(!this.ApiSever.weixin_code) {

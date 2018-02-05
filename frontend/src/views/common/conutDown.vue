@@ -49,11 +49,15 @@
 	export default {
 		data() {
 			return {
-				curTime: 0,
 				day: 0,
 				hour: 0,
 				minute: 0,
 				second: 0,
+			}
+		},
+		created() {
+			if(this.conutTime){
+				this.countDowns(this.conutTime);
 			}
 		},
 		computed: {
