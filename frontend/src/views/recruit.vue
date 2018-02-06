@@ -136,22 +136,11 @@
 					return false;
 				}
 				let this_ = this;
-
-				let openId = this.$store.state.wxUser.openid;
-				//如果当前已经报过名了，不能再报名了。
-				this.ApiSever.getUserDataByID(openId,this.ApiSever.AID).then(res => {
-					if(res.data && res.data.length > 0) {
-						this_.$toast({
-							message: '您已经报过名了！'
-						});
-					} else {
-						let param = Object.assign({}, this_.user,{
-							votenum:0,
-							openid:openId
-						});
-						this_.handleaddRecruit(param);
-					}
+				let param = Object.assign({}, this_.user,{
+					votenum:0,
+					openid:openId
 				});
+				this_.handleaddRecruit(param);				
 			},
 			//添加报名
 			handleaddRecruit (param) {
@@ -226,8 +215,20 @@
 		},
 		mounted() {
 			if(!this.ApiSever.AID) {
-				this.$router.push({
-					path: '/index'
+				this.$router.go(-1);
+			} else {
+				let openId = this.$store.state.wxUser.openid;
+				let this_ = this;
+				//如果当前已经报过名了，不能再报名了。
+				this.ApiSever.getUserDataByID(openId,this.ApiSever.AID).then(res => {
+					if(res.data && res.data.length > 0) {
+						this_.$toast({
+							message: '您已经报过名了！'
+						});
+						setTimeout(function(){
+							this_.$router.go(-1);
+						},3000);
+					}					
 				});
 			}
 		},

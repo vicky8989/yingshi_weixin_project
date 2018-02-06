@@ -13,7 +13,7 @@
 						<div class="ranking_lf">
 							<div class="crown" v-if="index<3"></div>
 							<div class="poho">
-								<img :src="list.headimgurl" />
+								<img :src="list.user.headimgurl" />
 							</div>
 						</div>
 						<div class="ranking_center">
@@ -35,7 +35,7 @@
 						<div class="ranking_lf">
 							<div class="crown" v-if="index<3"></div>
 							<div class="poho">
-								<img :src="list.headimgurl" />
+								<img :src="list.user.headimgurl" />
 							</div>
 						</div>
 						<div class="ranking_center">
@@ -86,15 +86,16 @@
 					let userIndex =0,presentIndex = 0;
 					for(var i=0,ilen = result.length; i <ilen; i++){
 						self.listData[i].present = 0;
+						self.listData[i].user = {headimgurl:''};
 
 						//请求用户信息						
 						self.ApiSever.getUserInfo(result[i].openid).then(info => {
 							let userInfo = info.data;
-							console.log('user i',userInfo,userIndex);
-							self.listData[userIndex].user = userInfo[0];
+							
+							self.listData[userIndex].user.headimgurl = userInfo[0].headimgurl;
 							userIndex++;
-
-							if(userIndex == i) self.$forceUpdate();
+							console.log('user i',userInfo,userIndex,self.listData[userIndex]);
+							if(userIndex == ilen) self.$forceUpdate();
 						});
 
 						//请求礼物信息
