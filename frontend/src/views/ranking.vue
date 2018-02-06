@@ -13,7 +13,7 @@
 						<div class="ranking_lf">
 							<div class="crown" v-if="index<3"></div>
 							<div class="poho">
-								<img :src="list.user.headimgurl" />
+								<img :src="list.headimgurl" />
 							</div>
 						</div>
 						<div class="ranking_center">
@@ -35,7 +35,7 @@
 						<div class="ranking_lf">
 							<div class="crown" v-if="index<3"></div>
 							<div class="poho">
-								<img :src="list.user.headimgurl" />
+								<img :src="list.headimgurl" />
 							</div>
 						</div>
 						<div class="ranking_center">
@@ -86,13 +86,15 @@
 					let userIndex =0,presentIndex = 0;
 					for(var i=0,ilen = result.length; i <ilen; i++){
 						self.listData[i].present = 0;
-						self.listData[i].user = {headimgurl:''};
+						self.listData[i].headimgurl = '';
 
-						//请求用户信息						
+						//请求用户信息
 						self.ApiSever.getUserInfo(result[i].openid).then(info => {
 							let userInfo = info.data;
-							
-							self.listData[userIndex].user.headimgurl = userInfo[0].headimgurl;
+							if(userInfo.length > 0) {
+								self.listData[userIndex].headimgurl = userInfo[0].headimgurl;
+							}
+
 							userIndex++;
 							console.log('user i',userInfo,userIndex,self.listData[userIndex]);
 							if(userIndex == ilen) self.$forceUpdate();
@@ -102,7 +104,7 @@
 						self.ApiSever.getPresentsTotal(result[i]._id).then(giftNum => {
 							console.log('giftNum i',giftNum,presentIndex);
 							let num = giftNum.body&& giftNum.body.length>0?giftNum.body[0].value:0;
-							
+
 							self.listData[presentIndex].present = parseInt(num);
 							presentIndex++;
 							if(presentIndex == i) self.$forceUpdate();
