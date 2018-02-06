@@ -13,7 +13,7 @@
 						<div class="ranking_lf">
 							<div class="crown" v-if="index<3"></div>
 							<div class="poho">
-								<img :src="imgURL+list.user.headimgurl" />
+								<img :src="list.headimgurl" />
 							</div>
 						</div>
 						<div class="ranking_center">
@@ -35,7 +35,7 @@
 						<div class="ranking_lf">
 							<div class="crown" v-if="index<3"></div>
 							<div class="poho">
-								<img :src="imgURL+list.user.headimgurl" />
+								<img :src="list.headimgurl" />
 							</div>
 						</div>
 						<div class="ranking_center">
@@ -123,7 +123,7 @@
 				}
 			},
 			validCurTime(curtime) {
-					console.log('aa', curtime)
+					//console.log('aa', curtime)
 					if(curtime <= 0) {
 						Toast({
 							message: '活动已结束',

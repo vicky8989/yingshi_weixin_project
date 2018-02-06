@@ -42,7 +42,7 @@
 						let result = res.data[0];
 						self.activeTime = result.voteend;
 						if(self.activeTime) {
-							alert('time',self.activeTime);
+							//alert('time',self.activeTime);
 							self.countDowns(self.activeTime);
 						}
 					}

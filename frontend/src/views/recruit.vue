@@ -203,7 +203,7 @@
 									}
 								},
 								error: function(responseStr) {
-									MessageBox.alert('上传失败');
+									MessageBox.alert('上传失败'+responseStr);
 									Indicator.close();
 								}
 							});

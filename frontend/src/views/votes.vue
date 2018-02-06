@@ -1,7 +1,7 @@
 <template>
 	<div id="vote">
 		<div class="user_poho">
-			<img :src="userData.img" />
+			<img :src="userData.headimgurl" />
 			<div class="user_name">{{userData.name}}</div>
 		</div>
 		<ul class="user_vote">
@@ -77,7 +77,7 @@ import {
 					voteNum: 12,
 					hot: 12,
 					name:'',
-					img:'',
+					headimgurl:'',
 					gift: 12,
 					id: 12,
 					pics:[{
@@ -113,6 +113,14 @@ import {
 					let result = res.body;
 					self.userData = result[0];
 					if(!self.userData) self.userData = {};
+					self.ApiSever.getUserInfo(sid).then(user => {
+						console.log('get userinfo',user);
+						if(user && user.data && user.data.length >0 ) {
+							let info = user.data[0];
+							self.userData.headimgurl = info.headimgurl;
+						}
+						self.$forceUpdate();
+					});
 					//请求用户信息
 					self.ApiSever.getPresentsDetail(sid).then(gifts => {
 						let giftsInfo = gifts.body;
