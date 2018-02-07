@@ -30,9 +30,9 @@
 					</div>
 				</div>
 			</form>
-			<div class="purchasing">
+			<div class="submitBtn">
 				<p>请如实填写报名信息 获取参赛资格！</p>
-				<span href="javascript:;" class="purchasing_btn" @click="submitData">提交报名</span>
+				<span href="javascript:;" class="submit_btn" @click="submitData">提交报名</span>
 			</div>
 		</div>
 	</div>

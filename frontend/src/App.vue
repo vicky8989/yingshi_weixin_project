@@ -3,7 +3,8 @@
 		<Marquee :tips="mtip"></Marquee>
 		<!--   <images src="./assets/logo.png">-->
 		<div class="wrap">
-			<transition enter-active-class="next-enter">
+			<transition name="fade" mode="out-in">
+			<!--<transition enter-active-class="next-enter">-->
 				<router-view class="full-h" @finishTimeChanged="finishTimeChanged"></router-view>
 			</transition>
 		</div>
@@ -283,5 +284,21 @@
 			-webkit-transform: translate3d(0, 0, 0);
 			transform: translate3d(0, 0, 0);
 		}
+	}
+	
+	.fade-enter-active,
+	.fade-leave-active {
+		transition: all .3s ease;
+	}
+	/*.fade-enter,*/
+	
+	.fade-leave-active {
+		opacity: 0;
+		transform: translateX(100%);
+	}
+	
+	.fade-enter {
+		opacity: 0;
+		transform: translateX(-100%);
 	}
 </style>
