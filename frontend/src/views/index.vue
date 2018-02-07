@@ -274,6 +274,11 @@
 			}
 		},
 		created() {
+			//第一次创建的时候存入openid
+			var userId = this.$utils.getUrlKey("openid");
+			if(!this.$store.state.wxUser.openid && userId) {
+				this.$store.dispatch('setWeixinUserInfo',{openid:userId});
+			}
 			this.getActivity();
 		},
 		destroyed() {

@@ -23,6 +23,9 @@ var upload = file.uploadFile();
 var OAuth = require('wechat-oauth');
 var client = new OAuth('wx300122015031b943', 'e8f5f0568d63516865fcc2dd8cff1830');
 
+//微信支付
+var wxpay = require('./weixin/wxpay');
+
 app.use(express.static(file.getImageUrlPath()));
 app.use(bodyParser.json({limit: '1mb'}));
 app.use(bodyParser.urlencoded({
@@ -515,8 +518,8 @@ app.get('/getPrize', function (req, res) {
 /* GET users listing.以下为微信认证部分 */
 app.get('/oauth', function (req, res, next) {
 	res.header('Access-Control-Allow-Origin', '*');
-    var domain = "http://datongys.cn/vote/"
-	//var domain = "http://datongys.cn/backend/oauthcallback";
+    //var domain = "http://datongys.cn/vote/"
+	var domain = "http://datongys.cn/backend/oauthcallback";
     var auth_callback_url = domain;
     var url = client.getAuthorizeURL(auth_callback_url, '', 'snsapi_userinfo');
     console.log(url);
@@ -538,13 +541,47 @@ app.get('/oauthcallback', function (req, res, next) {
         var openid = result.data.openid;
 
         client.getUser(openid, function (err, result) {
-            var userInfo = result;
-            // save or other opration
-            //res.json(userInfo)
-			res.send(userInfo);
+			if(err)
+			{
+			  console.log('Error:'+ err);
+			  return;
+			}
+            var userInfo = result;			
+            // save or other opration            
+			//res.send(userInfo);
 			console.log(userInfo);
+			voteUser.addOrUpdateData(userInfo.openid,userInfo,function(result,openid){
+				//res.send(openid);	
+				console.log('getorupdateuser'+result);
+				var redUrl = "http://datongys.cn/vote/#/";
+				redUrl += "?openid="+userInfo.openid;
+				res.redirect(redUrl);
+			});
         });
     });
+});
+
+//支付
+app.post('/addOrder',function(req,res,next) {
+	res.header('Access-Control-Allow-Origin', '*');
+	var ip = req.headers['x-forwarded-for'] || 
+     req.connection.remoteAddress || 
+     req.socket.remoteAddress ||
+     (req.connection.socket ? req.connection.socket.remoteAddress : null);
+	var data = req.body;
+	console.log('order',data);
+	var order = {
+		body: data.body,
+        detail: data.detail,
+        out_trade_no: '20170331'+Math.random().toString().substr(2, 10),
+        total_fee: data.fee,
+        spbill_create_ip: ip,
+        openid: data.openid,
+		trade_type:'JSAPI'
+	}
+	wxpay.weixinorderpayment(order,function(result){
+		res.send(result);
+	});
 });
 
 

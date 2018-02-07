@@ -160,12 +160,12 @@
 			_get_out_trade_no () {
 			  return _get_date_string ()  + "" + Math.random().toString().substr(2, 10);
 			},
-			pay_h5(){
+			pay_h5(body,detail,fee){
 			  var ordor_id = this._get_out_trade_no();
-			  alert(ordor_id)
-			  $.get('/wechats/pay_h5?id=o12hcuKXjejDFUwxMgToaGtjtqf4&order_id=' + ordor_id + '&body=1111&detail=222222&fee=1&cb_url=/wechats/pay_calllback/'+ ordor_id, function(data){
+			  var openid = this.$store.state.wxUser.openid;
+			  $.get('/wechats/pay_h5?id=' + openid + '&order_id=' + ordor_id + '&body='+body+'&detail='+detail+'&fee='+fee+'&cb_url=/wechats/pay_calllback/'+ ordor_id, function(data){
 			    var r = data.data;
-
+			    console.log('pay',data);
 			    // WeixinJSBridge.invoke('getBrandWCPayRequest', r, function(res){
 			    //   if(res.err_msg == "get_brand_wcpay_request:ok"){
 			    //     alert("支付成功");
@@ -184,7 +184,7 @@
 
 				let data = {
 					sid:self.userData._id,
-					openid:self.userData.openid,
+					openid:self.$store.state.wxUser.openid,
 					nickname:self.userData.nickname,
 					headimgurl:self.userData.headimgurl,
 					num:self.currentGiftNum,
@@ -193,16 +193,63 @@
 					time:self.$moment(new Date()).format('YYYY-MM-DD hh:mm:ss')
 				};
 
+				var order = {
+					body:self.currentGiftName,
+					detail:self.currentGiftNum+'个',
+					fee:0.01,
+					openid:self.$store.state.wxUser.openid
+				};
 
+				let _this=this;
+		        let jsApiParameters={};
+		        let onBridgeReady=function(){
+		            WeixinJSBridge.invoke(
+		                    'getBrandWCPayRequest',
+		                    jsApiParameters,
+		                    (res)=>{
+		                        if (res.err_msg == "get_brand_wcpay_request:ok") {
+		                            _this.alert('支付成功');
+		                            window.location.reload();
+		                        }
+		                        if (res.err_msg == "get_brand_wcpay_request:cancel") {
+		                            _this.alert('取消支付');
+		                            window.location.reload();
+		                        }
+		                    }
+		            );
+		        }
+		        let callpay=function(){
+		            if (typeof WeixinJSBridge == "undefined") {
+		                if (document.addEventListener) {
+		                    document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+		                } else if (document.attachEvent) {
+		                    document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+		                    document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+		                }
+		            } else {
+		                onBridgeReady();
+		            }            
+		        }
 
-				self.ApiSever.addPresentDetail(data).then(res=> {
-					self.$router.push({
-						path: '/votes/' + self.userData._id,
-						params: {
-							id: self.userData._id
-						}
-					});
+				//this.pay_h5(self.currentGiftName,self.currentGiftName,0.01);
+				self.ApiSever.addOrder(order).then(response => {
+					console.log('weixin pay',response);
+					if(response.body.status == 1) {
+                        jsApiParameters=response.body.data;
+                        callpay();
+                    } else {
+                        console.log('error',response.body.msg);
+                    }
 				});
+
+				// self.ApiSever.addPresentDetail(data).then(res=> {
+				// 	self.$router.push({
+				// 		path: '/votes/' + self.userData._id,
+				// 		params: {
+				// 			id: self.userData._id
+				// 		}
+				// 	});
+				// });
 			}
 		},
 

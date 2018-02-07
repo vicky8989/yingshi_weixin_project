@@ -24,14 +24,16 @@ Object.defineProperty(Vue.prototype, '$moment', {
 	value: moment
 });
 
+// import wx from 'weixin-js-sdk';
+// Vue.prototype.$wx = wx;
+
 Vue.use(ApiSever);
 Vue.prototype.ApiSever = ApiSever;
 
 const Store = new Vuex.Store({
 	state: {
 		conutDown: '',
-		//wxUser:null, //正式环境
-		//test
+		wxUser:{}, //正式环境
 		wxUser:{
 			openid:'o933-1W4cdVDN25_e2JWKGOFeg_a',
 //			nikename:'文姬',
@@ -39,6 +41,14 @@ const Store = new Vuex.Store({
 			headimgurl:"http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoDGe7wXlOa1mxspKHy64ZLmq0zNPbpqibxmEFoUTS2mrhgR8hiagCibdoyq90ib6NWKqzUlvFmzZDBrQ/132",
 			language:'zh_CN'
 		}
+
+		// wxUser:{
+		// 	openid:'o933-1W4cdVDN25_e2JWKGOFeg_a',
+		// 	nikename:'文姬',
+		// 	headimgurl:"http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoDGe7wXlOa1mxspKHy64ZLmq0zNPbpqibxmEFoUTS2mrhgR8hiagCibdoyq90ib6NWKqzUlvFmzZDBrQ/132",
+		// 	language:'zh_CN'
+		// }
+
 	},
 	mutations: {
 		checkToken(state, data) {
@@ -82,10 +92,10 @@ Vue.prototype.errorLoadImg = function(event) {
 
 //路由
 const router = new Router({
-  //hashbang: true,
-  //history: false,
-  mode: 'history',
-  base:'/vote',
+  hashbang: true,
+  history: false,
+  //mode: 'history',
+  //base:'/vote',
   saveScrollPosition: true,
   transitionOnLoad: true,
   linkActiveClass: 'aui-active',
