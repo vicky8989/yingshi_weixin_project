@@ -17,7 +17,8 @@
 				hour: 0,
 				minute: 0,
 				second: 0,
-				timer: null
+				timer: null,
+				curTime:0
 			}
 		},
 		beforeMount() {
@@ -51,7 +52,7 @@
 				
 				var _this = this;
 				_this.curTime = (new Date(d)).getTime() / 1000 - (new Date()).getTime() / 1000;
-
+				alert('curTime'+_this.curTime);
 				_this.$emit('validCurTime', _this.curTime);
 				if(_this.curTime > 0) {
 					_this.day = Math.floor(_this.curTime / (60 * 60 * 24));
@@ -61,6 +62,7 @@
 				}
 				
 				if(_this.day == 0 && _this.hour == 0 && _this.minute == 0 && _this.second == 0) {
+					alert('111');
 					_this.day = "00";
 					_this.hour = "00";
 					_this.minute = "00";
@@ -91,7 +93,7 @@
 				let self = this;
 				self.tick(d)
 				this.timer = window.setInterval(function() {
-					self.tick(d)
+//					self.tick(d)
 				}, 1000)
 			}
 		},
