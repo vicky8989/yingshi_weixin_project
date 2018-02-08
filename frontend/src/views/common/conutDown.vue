@@ -96,7 +96,7 @@
 			}
 		},
 		destroyed() {
-			clearTimeout(this.timer);
+			clearInterval(this.timer);
 		}
 
 	}
