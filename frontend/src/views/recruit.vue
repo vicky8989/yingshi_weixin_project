@@ -67,7 +67,8 @@
 				},
 				imgURL: this.ApiSever.imgUrl,
       			uploadURL:this.ApiSever.uploadUrl,
-				thumbPic: []
+				thumbPic: [],
+				timer:null
 			}
 		},
 		created() {
@@ -225,7 +226,7 @@
 						this_.$toast({
 							message: '您已经报过名了！'
 						});
-						setTimeout(function(){
+						this_.timer=setTimeout(function(){
 							this_.$router.go(-1);
 						},3000);
 					}					
@@ -233,7 +234,7 @@
 			}
 		},
 		destroyed() {
-
+			clearTimeout(this.timer);
 		}
 	}
 </script>

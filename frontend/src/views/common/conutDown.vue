@@ -95,6 +95,9 @@
 				}, 1000)
 			}
 		},
+		destroyed() {
+			clearTimeout(this.timer);
+		}
 
 	}
 </script>
