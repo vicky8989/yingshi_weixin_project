@@ -1,6 +1,6 @@
 <template>
 	<div id="app">
-		<Marquee :tips="mtip"></Marquee>
+		<!--<Marquee :tips="mtip"></Marquee>-->
 		<!--   <images src="./assets/logo.png">-->
 		<div class="wrap">
 			<transition name="fade" mode="out-in">
