@@ -18,7 +18,7 @@
 				minute: 0,
 				second: 0,
 				timer: null,
-				curTime:0
+				curTime: 0
 			}
 		},
 		beforeMount() {
@@ -49,10 +49,17 @@
 				});
 			},
 			tick(d) {
-				
+				if(!d) return false;
+
 				var _this = this;
-				_this.curTime = (new Date(d)).getTime() / 1000 - (new Date()).getTime() / 1000;
-				alert('curTime'+_this.curTime);
+				let testtime = d.replace(/-/g, ':').replace(' ', ':');
+				let time = testtime.split(':');
+				let min = parseInt(time[1]) - 1;
+
+				let actionsTime = new Date(time[0], min, time[2], time[3], time[4], time[5]) / 1000;
+				let currentTime = parseFloat(new Date().getTime()) / 1000;
+				_this.curTime = actionsTime - currentTime;
+
 				_this.$emit('validCurTime', _this.curTime);
 				if(_this.curTime > 0) {
 					_this.day = Math.floor(_this.curTime / (60 * 60 * 24));
@@ -60,9 +67,9 @@
 					_this.minute = Math.floor(_this.curTime / 60) - (_this.day * 24 * 60) - (_this.hour * 60);
 					_this.second = Math.floor(_this.curTime) - (_this.day * 24 * 60 * 60) - (_this.hour * 60 * 60) - (_this.minute * 60)
 				}
-				
+
 				if(_this.day == 0 && _this.hour == 0 && _this.minute == 0 && _this.second == 0) {
-					alert('111');
+					console.log('111');
 					_this.day = "00";
 					_this.hour = "00";
 					_this.minute = "00";
@@ -89,11 +96,10 @@
 				}
 			},
 			countDowns(d) {
-				
 				let self = this;
 				self.tick(d)
 				this.timer = window.setInterval(function() {
-//					self.tick(d)
+					self.tick(d)
 				}, 1000)
 			}
 		},
