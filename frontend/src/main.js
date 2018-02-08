@@ -34,13 +34,13 @@ const Store = new Vuex.Store({
 	state: {
 		conutDown: '',
 		wxUser:{}, //正式环境
-		wxUser:{
-			openid:'o933-1W4cdVDN25_e2JWKGOFeg_a',
-//			nikename:'文姬',
-			nikename:null,
-			headimgurl:"http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoDGe7wXlOa1mxspKHy64ZLmq0zNPbpqibxmEFoUTS2mrhgR8hiagCibdoyq90ib6NWKqzUlvFmzZDBrQ/132",
-			language:'zh_CN'
-		}
+// 		wxUser:{
+// 			openid:'o933-1W4cdVDN25_e2JWKGOFeg_a',
+// //			nikename:'文姬',
+// 			nikename:null,
+// 			headimgurl:"http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoDGe7wXlOa1mxspKHy64ZLmq0zNPbpqibxmEFoUTS2mrhgR8hiagCibdoyq90ib6NWKqzUlvFmzZDBrQ/132",
+// 			language:'zh_CN'
+// 		}
 
 		// wxUser:{
 		// 	openid:'o933-1W4cdVDN25_e2JWKGOFeg_a',
