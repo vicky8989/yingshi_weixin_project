@@ -136,7 +136,7 @@
 				if(!bOk) {
 					return false;
 				}
-				let this_ = this;
+				let this_ = this,openId = this.$store.state.wxUser.openid;
 				let param = Object.assign({}, this_.user,{
 					votenum:0,
 					openid:openId

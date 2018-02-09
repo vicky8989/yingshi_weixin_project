@@ -99,6 +99,7 @@
 							let info = user.data[0];
 							self.userData.headimgurl = info.headimgurl;
 							self.userData.nickname = user.nickname;
+							self.$forceUpdate();
 						}
 					});
 					//请求用户信息
