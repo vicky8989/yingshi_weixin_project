@@ -17,6 +17,8 @@ import 'vue-easytable/libs/themes-base/index.css';
 Vue.use(VueResource)*/
 //Vue.config.productionTip = false
 import ApiSever from './api.js';
+import * as Filter from './filter.js'
+Vue.prototype.filter = Filter;
 
 
 Vue.use(ApiSever);
