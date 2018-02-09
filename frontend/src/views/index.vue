@@ -4,15 +4,15 @@
 		<div class="top">
 			<ul class="statistics">
 				<li>
-					<i class="iconfont icon-ren"></i>已报名
+					<i class="iconfont">&#xe648;</i>已报名
 					<span>{{userData.total}}</span>
 				</li>
 				<li>
-					<i class="iconfont icon-piao"></i>累计投票
+					<i class="iconfont">&#xe659;</i>累计投票
 					<span>{{userData.voteNum}}</span>
 				</li>
 				<li>
-					<i class="iconfont icon-redu"></i>访问量
+					<i class="iconfont">&#xe619;</i>访问量
 					<span>{{activity.pv}}</span>
 				</li>
 			</ul>

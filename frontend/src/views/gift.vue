@@ -12,19 +12,19 @@
 		</div>
 		<ul class="user_vote">
 			<li>
-				<i class="iconfont icon-ren"></i>编号
+				<i class="iconfont">&#xe648;</i>编号
 				<p>{{userData.code}}</p>
 			</li>
 			<li>
-				<i class="iconfont icon-piao"></i>票数
+				<i class="iconfont">&#xe659;</i>票数
 				<p>{{userData.votenum}}</p>
 			</li>
 			<li>
-				<i class="iconfont icon-redu"></i>热度
+				<i class="iconfont">&#xe619;</i>热度
 				<p>{{userData.hot}}</p>
 			</li>
 			<li>
-				<i class="iconfont icon-liwu"></i>礼物
+				<i class="iconfont">&#xe62f;</i>礼物
 				<p>{{userData.giftnum}}点</p>
 			</li>
 		</ul>
