@@ -8,7 +8,7 @@
 		<mt-tab-container v-model="currentSelected">
 			<mt-tab-container-item id="votes">
 				<ul class="ranking_list" v-for="(list, index) in listData">
-					<router-link :to="{path:'votes/'+list._id}" :key="list._id">
+					<router-link :to="{path:'votes/'+list._id+'/'+list.openid}" :key="list._id">
 					<li  key="index">
 						<div class="ranking_lf">
 							<div class="crown" v-if="index<3"></div>
@@ -30,7 +30,7 @@
 			</mt-tab-container-item>
 			<mt-tab-container-item id="gift">
 				<ul class="ranking_list" v-for="(list, index) in listData" >
-				<router-link :to="{path:'votes/'+list._id,params:{id: list._id}}" :key="list._id">
+				<router-link :to="{path:'votes/'+list._id+'/'+list.openid,params:{id: list._id,openid:list.openid}}" :key="list._id">
 					<li key="index">
 						<div class="ranking_lf">
 							<div class="crown" v-if="index<3"></div>

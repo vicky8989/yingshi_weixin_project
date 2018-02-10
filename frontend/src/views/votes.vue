@@ -6,19 +6,19 @@
 		</div>
 		<ul class="user_vote">
 			<li>
-				<i class="iconfont">&#xe648;</i>编号
+				<i class="iconfont icon-ren"></i>编号
 				<p>{{userData.code}}</p>
 			</li>
 			<li>
-				<i class="iconfont">&#xe659;</i>票数
+				<i class="iconfont icon-piao"></i>票数
 				<p>{{userData.votenum}}</p>
 			</li>
 			<li>
-				<i class="iconfont">&#xe619;</i>热度
+				<i class="iconfont icon-redu"></i>热度
 				<p>{{userData.hot}}</p>
 			</li>
 			<li>
-				<i class="iconfont">&#xe62f;</i>礼物
+				<i class="iconfont icon-liwu"></i>礼物
 				<p>{{userData.giftnum}}点</p>
 			</li>
 		</ul>
@@ -72,6 +72,7 @@ import {
 		data() {
 			return {
 				userId: this.$route.params.id,
+				openId:this.$route.params.openid,
 				//isFinished:this.ApiSever.getFinishTime(),
 				userData: {
 					voteNum: 12,
@@ -102,18 +103,18 @@ import {
 		methods: {
 			//通过id获取本个人的信息
 			getUserInfo() {
-				console.log(this.$store.state.wxUser.openid)
-				let sid = this.$store.state.wxUser.openid;
+				console.log(this.openId);
+				let openid = this.openId,sid = this.userId;
 				if(!sid) return;
 
 				let self = this;
 
-				this.ApiSever.getUserDataByID(sid,this.ApiSever.AID).then(res => {
+				this.ApiSever.getUserDataByID(openid,this.ApiSever.AID).then(res => {
 					console.log(res);
 					let result = res.body;
 					self.userData = result[0];
 					if(!self.userData) self.userData = {};
-					self.ApiSever.getUserInfo(sid).then(user => {
+					self.ApiSever.getUserInfo(openid).then(user => {
 						console.log('get userinfo',user);
 						if(user && user.data && user.data.length >0 ) {
 							let info = user.data[0];
@@ -132,6 +133,7 @@ import {
 						})
 						self.$forceUpdate();
 					});
+					self.addHot(); //增加热度
 				});
 			},
 
@@ -152,11 +154,12 @@ import {
 				}else{
 					let this_ = this;
 					this.$router.push({
-					path: '/gift/' + this.$route.params.id,
-					params: {
-						id: this.$route.params.id
-					}
-				});
+						path: '/gift/' + this.$route.params.id+'/'+this.$route.params.openid,
+						params: {
+							id: this.$route.params.id,
+							openid:this.$route.params.openid
+						}
+					});
 				}
 			},
 			//修改参与者信息
@@ -188,6 +191,21 @@ import {
 					if(!self.userData.votenum)
 						self.userData.votenum = 0;
 					self.userData.votenum += 1;
+					self.ApiSever.updateSinger(self.userData._id,self.userData).then(res => {
+
+					});
+				}
+			},
+			//直接新增热度
+			addHot() {
+				console.log('当前的选手id', this.userId);
+				let self = this;
+				if(this.isFinished){
+					return;
+				}else{
+					if(!self.userData.hot)
+						self.userData.hot = 0;
+					self.userData.hot += 1;
 					self.ApiSever.updateSinger(self.userData._id,self.userData).then(res => {
 
 					});

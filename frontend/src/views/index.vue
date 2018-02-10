@@ -216,9 +216,10 @@
 				oDiv.onclick = function() {
 					console.log('给' + data._id + '投票');
 					this_.$router.push({
-						path: '/votes/' + data._id,
+						path: '/votes/' + data._id+'/'+data.openid,
 						params: {
-							id: data
+							id: data,
+							openid:data.openid
 						},
 						query:{
 							isFinished: this_.isVoteFinished

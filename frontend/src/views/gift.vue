@@ -66,6 +66,7 @@
 				currentGiftName:'',
 				currentGiftNum:1,
 				userId:this.$route.params.id,
+				openId:this.$route.params.openid,
 				userData: {
 					voteNum: 12,
 					hot: 12,
@@ -84,16 +85,16 @@
 			//通过id获取本个人的信息
 			getUserInfo() {
 				console.log(this.$route.query)
-				let sid = this.$store.state.wxUser.openid;
+				let openid = this.openId,sid= this.userId;
 
 				let self = this;
 
-				this.ApiSever.getUserDataByID(sid,this.ApiSever.AID).then(res => {
+				this.ApiSever.getUserDataByID(openid,this.ApiSever.AID).then(res => {
 					console.log(res);
-					let result = res.body;					
+					let result = res.body;
 					self.userData = result[0];
 					if(!self.userData) self.userData = {};
-					self.ApiSever.getUserInfo(sid).then(user => {
+					self.ApiSever.getUserInfo(openid).then(user => {
 						console.log('get userinfo',user);
 						if(user && user.data && user.data.length >0 ) {
 							let info = user.data[0];
@@ -147,9 +148,10 @@
 
 			gotoUserpage(){
 				this.$router.push({
-					path: '/votes/'+this.userId,
+					path: '/votes/'+this.userId+''+this.openId,
 					params: {
-						id: this.userId
+						id: this.userId,
+						openid:this.openId
 					}
 				});
 			},
@@ -229,17 +231,17 @@
 		                }
 		            } else {
 		                onBridgeReady();
-		            }            
+		            }
 		        }
 
 				//this.pay_h5(self.currentGiftName,self.currentGiftName,0.01);
 				self.ApiSever.addOrder(order).then(response => {
 					console.log('weixin pay',response);
-					if(response.body.status == 1) {
-                        jsApiParameters=response.body.data;
+					if(response.status == 200 && response.ok === true) {
+                        jsApiParameters=response.data;
                         callpay();
                     } else {
-                        console.log('error',response.body.msg);
+                        console.log('error',response.bodyText);
                     }
 				});
 

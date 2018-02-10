@@ -17,14 +17,14 @@ const routes = [{
 		}
 	},
 	{
-		path: '/votes/:id?',
+		path: '/votes/:id/:openid?',
 		name: 'votes',
 		component: resolve => {
 			require(['../views/votes.vue'], resolve)
 		}
 	},
 	{
-		path: '/gift/:id?',
+		path: '/gift/:id/:openid?',
 		name: 'gift',
 		component: resolve => {
 			require(['../views/gift.vue'], resolve)
