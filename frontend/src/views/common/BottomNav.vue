@@ -7,7 +7,7 @@
 					<div class="aui-bar-tab-label">首页</div>
 				</router-link>
 			</li>
-			<li v-if="isFinished===false">
+			<li v-if="isEnroltime">
 				<router-link to="/recruit">
 					<i class="iconfont">&#xe630;</i>
 					<div class="aui-bar-tab-label">报名</div>
@@ -36,7 +36,12 @@
 
 			}
 		},
-		props:['isFinished']
+		computed: {
+			//是否在投票范围
+			isEnroltime() {
+				return this.$store.state.isEnroltime;
+			},
+		}
 		
 	}
 </script>

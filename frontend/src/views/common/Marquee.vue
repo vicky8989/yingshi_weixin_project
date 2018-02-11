@@ -1,13 +1,16 @@
 <template>
-  <marquee class="notice"  direction="left" align="middle"> <i class="iconfont">&#xe6bf;  {{tips}}</i> </marquee>
+	<marquee class="notice" direction="left" align="middle"  v-if="actitiyInfo&&actitiyInfo.voteend"> <i class="iconfont">&#xe6bf;  投票时间截至到{{actitiyInfo.voteend | timeMoment}}日</i> </marquee>
 </template>
 <script>
-    export default{
-        data(){
-            return{ }
-        },
-        props:{
-           tips:String,
-        }
-    }
+	export default {
+		data() {
+			return {}
+		},
+
+		computed: {
+			actitiyInfo() {
+				return this.$store.state.actitiyInfo;
+			},
+		}
+	}
 </script>

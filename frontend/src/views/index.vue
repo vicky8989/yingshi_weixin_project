@@ -16,9 +16,10 @@
 					<span>{{activity.pv}}</span>
 				</li>
 			</ul>
-			<conutDown :time="finishTime" @validCurTime="validCurTime" />
-			<div class="enrol" >
-				<a href="javascript:;" class="enrol_btn" @click="handleSignin" v-if="isVoteFinished === false">我要报名</a>
+			<conutDown />
+			<!--<conutDown :time="finishTime" @validCurTime="validCurTime" />-->
+			<div class="enrol">
+				<a href="javascript:;" class="enrol_btn" @click="handleSignin" :class="{'div_end':!isEnroltime}">我要报名</a>
 			</div>
 		</div>
 
@@ -62,7 +63,8 @@
 <script>
 	import {
 		Indicator,
-		Toast
+		Toast,
+		MessageBox
 	} from 'mint-ui'
 	import Slider from './common/Slider.vue'
 	import conutDown from './common/conutDown.vue'
@@ -71,14 +73,14 @@
 		data() {
 			return {
 				pics: [],
-				activity:{},
+				activity: {},
 				searchInfo: '',
-				perPageNum:this.ApiSever.PERPAGENUM,
-				curPage:0,
-				originData:[],
+				perPageNum: this.ApiSever.PERPAGENUM,
+				curPage: 0,
+				originData: [],
 				listData: [],
 				finishTime: this.ApiSever.FINSIHTIME,
-				isVoteFinished:this.ApiSever.getFinishTime(),
+				isVoteFinished: this.ApiSever.getFinishTime(),
 				playerList: {
 					totalCount: 0, //总条数
 					pageSize: 10,
@@ -96,8 +98,18 @@
 		},
 		watch: {
 			finishTime: function(newQuestion) {
-				this.finishTime=newQuestion;
+				this.finishTime = newQuestion;
 			}
+		},
+		computed: {
+			//是否可以报名
+			isEnroltime() {
+				return this.$store.state.isEnroltime;
+			},
+			//是否在投票范围
+			isVotetime() {
+				return this.$store.state.isVotetime;
+			},
 		},
 		components: {
 			Slider,
@@ -107,12 +119,11 @@
 			getActivity() {
 				let self = this;
 				this.ApiSever.getActivity().then(res => {
-					if(res && res.data && res.data.length >0) {
-						console.log('get activity',res);
+					if(res && res.data && res.data.length > 0) {
 						let result = res.data[0];
 						self.activity = result;
 						self.pics = result.banner;
-//						self.ApiSever.FINSIHTIME = result.voteend;
+						//						self.ApiSever.FINSIHTIME = result.voteend;
 						self.ApiSever.AID = result._id;
 						self.getListData(result._id);
 						self.$emit('finishTimeChanged', result.voteend);
@@ -139,10 +150,10 @@
 						self.playerList.totalCount = result.length;
 						self.userData.total = result.length;
 						self.userData.votenum = 0;
-						result.map((item)=>{
-							self.userData.votenum+= item.votenum;
+						result.map((item) => {
+							self.userData.votenum += item.votenum;
 						})
-						self.playerList.pageSize =Math.ceil(self.playerList.totalCount / self.perPageNum);
+						self.playerList.pageSize = Math.ceil(self.playerList.totalCount / self.perPageNum);
 						self.getPageData();
 						self.isHaveMore();
 						self.appendLi();
@@ -152,18 +163,18 @@
 			},
 
 			getPageData() {
-				let start =0,
-				end = this.curPage*this.perPageNum + this.perPageNum;
+				let start = 0,
+					end = this.curPage * this.perPageNum + this.perPageNum;
 				if(end > this.playerList.totalCount) end = this.playerList.totalCount;
 
-				this.listData = this.playerList.value.slice(start,end);
+				this.listData = this.playerList.value.slice(start, end);
 				//console.log('page data',this.listData);
 			},
 
 			//是否可以点击加载更多事件
 			isHaveMore() {
 				this.allLoaded = false;
-				let currentNum = (this.curPage+1)*this.perPageNum;
+				let currentNum = (this.curPage + 1) * this.perPageNum;
 				if(currentNum == this.playerList.totalCount || currentNum > this.playerList.totalCount) {
 					this.allLoaded = true;
 				} else this.allLoaded = false;
@@ -180,19 +191,19 @@
 			//点击搜索按钮事件
 			handleSearch() {
 				if(this.searchInfo != '') {
-					let data = [],searchTxt = this.searchInfo;
+					let data = [],
+						searchTxt = this.searchInfo;
 					this.listData = [];
-					for(var i=0,ilen = this.playerList.value.length; i < ilen;i++) {
+					for(var i = 0, ilen = this.playerList.value.length; i < ilen; i++) {
 						let item = this.playerList.value[i];
-						if(item.code.toString().indexOf(searchTxt)>=0 || item.name.indexOf(searchTxt)>=0) {
+						if(item.code.toString().indexOf(searchTxt) >= 0 || item.name.indexOf(searchTxt) >= 0) {
 							this.listData.push(item);
 						}
 					}
 
-				}	else {
+				} else {
 					this.getPageData();
 				}
-				console.log('search',this.listData);
 				this.appendLi();
 				this.isHaveMore();
 			},
@@ -210,18 +221,19 @@
 				oSpan.innerHTML = data.code + '号, ' + data.votenum + '票';
 				oP.innerHTML = data.name;
 				var oImg = new Image();
-				oImg.src = this_.imgURL+data.pics[0];
+				oImg.src = this_.imgURL + data.pics[0];
 
 				//点击跳转到投票界面
 				oDiv.onclick = function() {
-					console.log('给' + data._id + '投票');
+					this_.$store.commit('voteTime');
+					if(!this_.isVotetime) return false;
 					this_.$router.push({
-						path: '/votes/' + data._id+'/'+data.openid,
+						path: '/votes/' + data._id + '/' + data.openid,
 						params: {
 							id: data,
-							openid:data.openid
+							openid: data.openid
 						},
-						query:{
+						query: {
 							isFinished: this_.isVoteFinished
 						}
 					});
@@ -237,7 +249,10 @@
 			//通过排序实现瀑布流效果
 			appendLi() {
 				let oAaterfallFlow = document.getElementById('waterfallFlow');
+				if(!oAaterfallFlow) return false;
+
 				let aUl = oAaterfallFlow.getElementsByTagName('ul');
+
 				aUl[0].innerHTML = '';
 				aUl[1].innerHTML = '';
 
@@ -260,6 +275,8 @@
 
 			//我要报名点击事件
 			handleSignin() {
+				this.$store.commit('conversionTime');
+				if(!this.isEnroltime) return false;
 				this.$router.push({
 					path: '/recruit'
 				});
@@ -278,7 +295,9 @@
 			//第一次创建的时候存入openid
 			var userId = this.$utils.getUrlKey("openid");
 			if(!this.$store.state.wxUser.openid && userId) {
-				this.$store.dispatch('setWeixinUserInfo',{openid:userId});
+				this.$store.dispatch('setWeixinUserInfo', {
+					openid: userId
+				});
 			}
 			this.getActivity();
 		},

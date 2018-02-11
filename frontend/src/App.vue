@@ -5,18 +5,23 @@
 		<div class="wrap">
 			<transition name="fade" mode="out-in">
 			<!--<transition enter-active-class="next-enter">-->
-				<router-view class="full-h" @finishTimeChanged="finishTimeChanged"></router-view>
+				<!--<router-view class="full-h" @finishTimeChanged="finishTimeChanged"></router-view>-->
+				<router-view class="full-h" ></router-view>
 			</transition>
 		</div>
-		<BottomNav v-if="isVotePage == false" :isFinished='isVoteFinished'></BottomNav>
+		<BottomNav v-if="isVotePage == false"></BottomNav>
 	</div>
 </template>
 
 <script>
 	import Marquee from './views/common/Marquee.vue'
 	import BottomNav from './views/common/BottomNav.vue'
+	import {
+		Toast
+	} from 'mint-ui'
 
 	export default {
+		name: 'app',
 		data() {
 			let day = this.$moment(this.ApiSever.FINSIHTIME).format('YYYY-MM-DD');
 			return {
@@ -26,7 +31,6 @@
 				code:null
 			}
 		},
-		name: 'app',
 		components: {
 			Marquee,
 			BottomNav
@@ -98,18 +102,23 @@
 			}
 		},
 		created() {
+			let self=this;
+			this.$store.commit('timeChanged');
 			this.$store.dispatch("finishtimeChanged");
+			setTimeout(()=>{
+				self.$store.commit('conversionTime');
+			},500)
 		},
 		mounted() {
 			//alert('openid：'+this.$store.state.wxUser.openid);
 			//第一次创建的时候存入openid
 			var userId = this.$utils.getUrlKey("openid");
 			//alert('userId:'+userId);
-			if(!this.$store.state.wxUser.openid && !userId) {
-				window.location.href =this.ApiSever.OAUTH;
-			} else if(!this.$store.state.wxUser.openid && userId){
-				this.$store.dispatch('setWeixinUserInfo',{openid:userId});
-			}
+//			if(!this.$store.state.wxUser.openid && !userId) {
+//				window.location.href =this.ApiSever.OAUTH;
+//			} else if(!this.$store.state.wxUser.openid && userId){
+//				this.$store.dispatch('setWeixinUserInfo',{openid:userId});
+//			}
 			// this.ApiSever.weixin_code= this.$utils.getUrlKey("code");
 			// console.log('code',this.ApiSever.weixin_code);
 			// if(!this.ApiSever.weixin_code) {

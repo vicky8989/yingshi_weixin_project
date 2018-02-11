@@ -15,6 +15,7 @@ Vue.use(VueResource)
 Vue.config.productionTip = false
 
 import ApiSever from './api.js';
+import Public from './public.js';
 
 import utils from './utils.js'
 Vue.prototype.$utils = utils;
@@ -29,18 +30,23 @@ Object.defineProperty(Vue.prototype, '$moment', {
 
 Vue.use(ApiSever);
 Vue.prototype.ApiSever = ApiSever;
+Vue.use(Public);
+Vue.prototype.Public = Public;
 
 const Store = new Vuex.Store({
 	state: {
 		conutDown: '',
-		wxUser:{}, //正式环境
-// 		wxUser:{
-// 			openid:'o933-1W4cdVDN25_e2JWKGOFeg_a',
-// //			nikename:'文姬',
-// 			nikename:null,
-// 			headimgurl:"http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoDGe7wXlOa1mxspKHy64ZLmq0zNPbpqibxmEFoUTS2mrhgR8hiagCibdoyq90ib6NWKqzUlvFmzZDBrQ/132",
-// 			language:'zh_CN'
-// 		}
+		actitiyInfo: null,
+		wxUser: {}, //正式环境
+		isEnroltime: true,
+		isVotetime: true,
+		// 		wxUser:{
+		// 			openid:'o933-1W4cdVDN25_e2JWKGOFeg_a',
+		// //			nikename:'文姬',
+		// 			nikename:null,
+		// 			headimgurl:"http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoDGe7wXlOa1mxspKHy64ZLmq0zNPbpqibxmEFoUTS2mrhgR8hiagCibdoyq90ib6NWKqzUlvFmzZDBrQ/132",
+		// 			language:'zh_CN'
+		// 		}
 
 		// wxUser:{
 		// 	openid:'o933-1W4cdVDN25_e2JWKGOFeg_a',
@@ -59,20 +65,64 @@ const Store = new Vuex.Store({
 				if(res && res.data && res.data.length > 0) {
 					let result = res.data[0];
 					state.conutDown = result.voteend;
+					state.actitiyInfo = result;
+
 				}
 			});
 		},
-	    setWeixinUser(state,info) {
-	        state.wxUser = info;
-	    }
+		//判断是否是报名时间范围内【isEnroltime：true在报名时间范围内/false不在报名时间范围内
+		conversionTime(state) {
+			let enrolstartTime = state.actitiyInfo.enrolstart;
+			let enrolendTime = state.actitiyInfo.enrolend;
+			let Enrolstart = Public.conversionTime(enrolstartTime);
+			let Enrolend = Public.conversionTime(enrolendTime);
+			let currentTime = Public.conversionTime(null);
+			if(Enrolstart > currentTime) {
+				state.isEnroltime = false;
+				MintUI.Toast({
+					message: '活动报名时间还没开始！',
+					position: 'middle'
+				});
+			} else if(currentTime >= Enrolstart && Enrolend >= currentTime) {
+				state.isEnroltime = true;
+			} else if(currentTime > Enrolend) {
+				state.isEnroltime = false;
+				MintUI.Toast({
+					message: '活动报名时间已结束！',
+					position: 'middle'
+				});
+			}
+		},
+		//判断是否是投票时间范围内【isEnroltime：true在投票时间范围内/false不在投票时间范围内
+		voteTime(state) {
+			let enrolstartTime = state.actitiyInfo.enrolstart;
+			let voteendTime = state.actitiyInfo.voteend;
+			let Enrolstart = Public.conversionTime(enrolstartTime);
+			let Voteend = Public.conversionTime(voteendTime);
+			let currentTime = Public.conversionTime(null);
+
+			//投票时间判断
+			if(currentTime >= Enrolstart && Voteend >= currentTime) {
+				state.isVotetime = true;
+			} else {
+				state.isVotetime = false;
+				MintUI.Toast({
+					message: '投票时间已结束！',
+					position: 'middle'
+				});
+			}
+		},
+		setWeixinUser(state, info) {
+			state.wxUser = info;
+		}
 	},
 	actions: {
 		finishtimeChanged(context) {
 			context.commit("timeChanged");
 		},
-	    setWeixinUserInfo(context,info) {
-	      context.commit("setWeixinUser",info)
-	    }
+		setWeixinUserInfo(context, info) {
+			context.commit("setWeixinUser", info)
+		}
 	}
 });
 
@@ -90,16 +140,20 @@ Vue.prototype.errorLoadImg = function(event) {
 	event.target.style.display = "none";
 };
 
+Vue.filter("timeMoment", function(value) {
+	return moment(value).format('YYYY-MM-DD');
+});
+
 //路由
 const router = new Router({
-  hashbang: true,
-  history: false,
-  //mode: 'history',
-  //base:'/vote',
-  saveScrollPosition: true,
-  transitionOnLoad: true,
-  linkActiveClass: 'aui-active',
-  routes :routerConfig// （缩写）相当于 routes: routes
+	hashbang: true,
+	history: false,
+	//mode: 'history',
+	//base:'/vote',
+	saveScrollPosition: true,
+	transitionOnLoad: true,
+	linkActiveClass: 'aui-active',
+	routes: routerConfig // （缩写）相当于 routes: routes
 });
 //路由控制
 router.beforeEach((to, from, next) => {

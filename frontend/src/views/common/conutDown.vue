@@ -21,15 +21,15 @@
 				curTime: 0
 			}
 		},
-		beforeMount() {
-			this.getactiveTime();
-			//			if(this.conutTime) {
-			//				this.countDowns(this.conutTime);
-			//			}
+		created() {
+//			this.getactiveTime();
+						if(this.actitiyInfo) {
+							this.countDowns(this.actitiyInfo.enrolend);
+						}
 		},
 		computed: {
-			conutTime() {
-				return this.$store.state.conutDown;
+			actitiyInfo() {
+				return this.$store.state.actitiyInfo;
 			},
 		},
 		mounted: function() {
@@ -41,7 +41,7 @@
 				this.ApiSever.getActivity().then(res => {
 					if(res && res.data && res.data.length > 0) {
 						let result = res.data[0];
-						self.activeTime = result.voteend;
+						self.activeTime = result.enrolend;
 						if(self.activeTime) {
 							self.countDowns(self.activeTime);
 						}
@@ -52,15 +52,10 @@
 				if(!d) return false;
 
 				var _this = this;
-				let testtime = d.replace(/-/g, ':').replace(' ', ':');
-				let time = testtime.split(':');
-				let min = parseInt(time[1]) - 1;
-
-				let actionsTime = new Date(time[0], min, time[2], time[3], time[4], time[5]) / 1000;
+				let activityTime=this.Public.conversionTime(d);
 				let currentTime = parseFloat(new Date().getTime()) / 1000;
-				_this.curTime = actionsTime - currentTime;
+				_this.curTime = activityTime - currentTime;
 
-				_this.$emit('validCurTime', _this.curTime);
 				if(_this.curTime > 0) {
 					_this.day = Math.floor(_this.curTime / (60 * 60 * 24));
 					_this.hour = Math.floor(_this.curTime / (60 * 60)) - (_this.day * 24);
@@ -69,7 +64,6 @@
 				}
 
 				if(_this.day == 0 && _this.hour == 0 && _this.minute == 0 && _this.second == 0) {
-					console.log('111');
 					_this.day = "00";
 					_this.hour = "00";
 					_this.minute = "00";
