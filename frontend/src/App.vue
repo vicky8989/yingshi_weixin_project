@@ -114,11 +114,11 @@
 			//第一次创建的时候存入openid
 			var userId = this.$utils.getUrlKey("openid");
 			//alert('userId:'+userId);
-//			if(!this.$store.state.wxUser.openid && !userId) {
-//				window.location.href =this.ApiSever.OAUTH;
-//			} else if(!this.$store.state.wxUser.openid && userId){
-//				this.$store.dispatch('setWeixinUserInfo',{openid:userId});
-//			}
+			if(!this.$store.state.wxUser.openid && !userId) {
+				window.location.href =this.ApiSever.OAUTH;
+			} else if(!this.$store.state.wxUser.openid && userId){
+				this.$store.dispatch('setWeixinUserInfo',{openid:userId});
+			}
 			// this.ApiSever.weixin_code= this.$utils.getUrlKey("code");
 			// console.log('code',this.ApiSever.weixin_code);
 			// if(!this.ApiSever.weixin_code) {
