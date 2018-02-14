@@ -47,6 +47,7 @@ const GETPRESENTINFO = `${HOST}getPresentsDetail`; //获得某人得到的礼物
 const ADDPRESENT = `${HOST}addPresent`;
 const LISTGIFTS = `${HOST}listGifts`;
 const ADDORDER = `${HOST}addOrder`; //发起微信支付
+const GETPRIZE = `${HOST}getPrize`; //1块钱对应多少点
 
 /*测试的接口*/
 const TEST = `${HOST}test`;
@@ -259,6 +260,9 @@ export default {
   },
   addOrder:(data) => {
     return VueHttp.$http.post(ADDORDER,data);
+  },
+  getPrize:() => {
+    return VueHttp.$http.get(GETPRIZE);
   },
   httpUrl: HOST,
   imgUrl: `${HOST}images/`,

@@ -14,12 +14,12 @@
 			<el-form-item>
 				<el-button type="primary" icon="el-icon-search" v-on:click="search">搜索</el-button>
 			</el-form-item>
-			<el-form-item>
+			<!-- <el-form-item>
 				<el-button type="primary" icon="el-icon-tickets" v-on:click="votesStatic">投票者统计信息</el-button>
-			</el-form-item>
+			</el-form-item> 
 			<el-form-item>
 				<el-button type="primary" icon="el-icon-tickets" v-on:click="votesInfoList">投票选项投票信息</el-button>
-			</el-form-item>
+			</el-form-item>-->
 			<el-form-item>
 				<el-button type="primary" icon="el-icon-back" v-on:click="goBack">返回</el-button>
 			</el-form-item>
@@ -59,6 +59,11 @@
 			</el-table-column>
 			<el-table-column prop="money" label="礼物总额">
 			</el-table-column>
+			<el-table-column label="操作">
+				<template slot-scope="scope">
+			        <el-button @click="handleDelClick(scope.$index,scope.row)" type="text" size="small">删除</el-button>
+			      </template>
+			</el-table-column>
 		</el-table>
 	</div>
 </template>
@@ -73,7 +78,7 @@
 				voteList: [],
 				paticitesList: [],
 				originSigners: [],
-				isVote: true,
+				isVote: false,
 				money: 1,
 				searchTxt: ''
 			}
@@ -138,6 +143,21 @@
 					}
 				});
 			},
+			delSigner(row) {
+				let this_ = this;
+				this.ApiSever.delSigner(row._id).then(res => {
+					this_.$message({
+						message: '删除成功！',
+						type: 'success'
+					});
+
+					//重新加载页面
+					setTimeout(function(){
+						window.location.reload();
+					},3000)
+				});
+			},
+
 			//修改参与者信息
 			updateSigner(row) {
 				let this_ = this;
@@ -163,6 +183,11 @@
 				this.updateSigner(row);
 			},
 
+			//删除某一行数据
+			handleDelClick(index,row) {
+				this.delSigner(row);
+			},
+
 			//双击单元格修改信息
 			editororderData(row, column, cell, event) {
 				if(column.label == "已投票数") {
@@ -186,7 +211,7 @@
 	.hide {
 		display: none;
 	}
-	
+
 	.show {
 		display: block;
 	}

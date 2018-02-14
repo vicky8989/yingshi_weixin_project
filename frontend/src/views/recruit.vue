@@ -6,10 +6,10 @@
 					<input type="text" placeholder="请输入姓名" v-model="user.name" name="name" @blur="handleBlur" ref="name" />
 					<span class="hiden" ref="name_span">请输入姓名</span>
 				</div>
-				<!--<div><label>参赛宣言</label>-->
-				<div><label>参赛宣言</label>
+				<!--<div><label>事迹简述</label>-->
+				<div><label>事迹简述</label>
 					<textarea placeholder="请输入备注" v-model="user.words" name="declaration" @blur="handleBlur" ref="declaration"></textarea>
-					<span class="hiden" ref="declaration_span">请输入参赛宣言</span>
+					<span class="hiden" ref="declaration_span">请输入事迹简述</span>
 				</div>
 				<div><label>联系电话</label>
 					<input type="tel" placeholder="请输入联系电话" v-model="user.phone" name="phone" @blur="handleBlur" ref="phone" />

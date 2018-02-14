@@ -29,6 +29,7 @@ const addActivity = `${HOST}addActivity`;
 const delActivity = `${HOST}deleteActivity`;
 const voterList = `${HOST}getVoter`;
 const paticilist = `${HOST}getSigners`;
+const DELSINGER = `${HOST}deleteSigner`;
 const GETPRESENTINFO = `${HOST}getPresentsDetail`; //获得某人得到的礼物总数
 const UPDATESIGNER = `${HOST}updateSigner`;
 const GIFTMONEY = `${HOST}getPrize`;
@@ -180,6 +181,12 @@ export default {
     let url = `${paticilist}?aid=${aid}`;
     return VueHttp.$http.get(url)
   },
+  //删除某个报名者
+  delSigner:(sid) => {
+    let url = `${DELSINGER}?sid=${sid}`;
+    return VueHttp.$http.delete(url);
+  },
+
   getPresentsDetail:(sid)=> {
     let url = `${GETPRESENTINFO}?sid=${sid}`;
     return VueHttp.$http.get(url);

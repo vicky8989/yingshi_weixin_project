@@ -127,6 +127,7 @@
 						self.ApiSever.AID = result._id;
 						self.getListData(result._id);
 						self.$emit('finishTimeChanged', result.voteend);
+						self.$emit('setActivityInfo',result);
 						self.$forceUpdate();
 					}
 				});

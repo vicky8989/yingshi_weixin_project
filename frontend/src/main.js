@@ -72,6 +72,7 @@ const Store = new Vuex.Store({
 		},
 		//判断是否是报名时间范围内【isEnroltime：true在报名时间范围内/false不在报名时间范围内
 		conversionTime(state) {
+			console.log('date',state.actitiyInfo)
 			let enrolstartTime = state.actitiyInfo.enrolstart;
 			let enrolendTime = state.actitiyInfo.enrolend;
 			let Enrolstart = Public.conversionTime(enrolstartTime);
@@ -111,6 +112,9 @@ const Store = new Vuex.Store({
 					position: 'middle'
 				});
 			}
+		},		
+		setActivityInfo(state,info) {
+			state.actitiyInfo = info;
 		},
 		setWeixinUser(state, info) {
 			state.wxUser = info;
@@ -122,6 +126,9 @@ const Store = new Vuex.Store({
 		},
 		setWeixinUserInfo(context, info) {
 			context.commit("setWeixinUser", info)
+		},
+		setActivityInfo(context,info) {
+			context.commit('setActivityInfo',info);
 		}
 	}
 });

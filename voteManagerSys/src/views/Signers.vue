@@ -29,7 +29,7 @@
 					</div>
 				</template>
 			</el-table-column>
-			<el-table-column label="审核状态">
+			<!-- <el-table-column label="审核状态">
 				<template slot-scope="scope">
 					<div class="productTr">
 						<span :ref="'span_'+scope.row._id">{{scope.row.status | reviewStatus}}</span>
@@ -42,9 +42,9 @@
 							</el-select>
 						</div>
 					</div>
-
+			
 				</template>
-			</el-table-column>
+			</el-table-column> -->
 		</el-table>
 
 		<el-dialog center title="图像预览" :visible.sync="dialogVisible" :before-close="handleClose">

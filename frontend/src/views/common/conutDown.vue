@@ -41,7 +41,7 @@
 				this.ApiSever.getActivity().then(res => {
 					if(res && res.data && res.data.length > 0) {
 						let result = res.data[0];
-						self.activeTime = result.enrolend;
+						self.activeTime = result.isVotetime;
 						if(self.activeTime) {
 							self.countDowns(self.activeTime);
 						}

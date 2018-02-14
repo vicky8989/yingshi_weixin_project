@@ -61,6 +61,7 @@
 		data() {
 			return {
 				giftList: [],
+				feeUnit:0,
 				user:{headimgurl:'',nickname:'',},
 				currentId: null,
 				currentGiftName:'',
@@ -114,7 +115,7 @@
 
 			changeGiftNum(event) {
 				this.currentGiftNum = parseInt(event.target.value);
-				this.currentGiftNum *= this.currentNum;
+				//this.currentGiftNum *= this.currentNum;
 			},
 
 			getGiftsList() {
@@ -122,6 +123,14 @@
 				this.ApiSever.getGiftsList().then(res => {
 					console.log(res);
 					self.giftList = res.body;
+				});
+			},
+
+			getFeeUnit() {
+				let self = this;
+				this.ApiSever.getPrize().then(res => {
+					console.log(res);
+					self.feeUnit = res.body.prize;
 				});
 
 			},
@@ -185,6 +194,8 @@
 				if(!this.currentId) return;
 				let self = this;
 
+				if(self.feeUnit == 0) return;//如果没有取到对应价格。
+
 				let data = {
 					sid:self.userData._id,
 					openid:self.$store.state.wxUser.openid,
@@ -196,10 +207,12 @@
 					time:self.$moment(new Date()).format('YYYY-MM-DD hh:mm:ss')
 				};
 
+				//换算成‘分’
+				let fee_ = parseFloat(self.currentNum / self.feeUnit * self.currentGiftNum).toFixed(2) * 100;
 				var order = {
-					body:self.currentGiftName,
+					body:self.currentGiftName+'*'+self.currentGiftNum+'个',
 					detail:self.currentGiftNum+'个',
-					fee:0.01,
+					fee: fee_,
 					openid:self.$store.state.wxUser.openid
 				};
 
@@ -211,11 +224,20 @@
 		                    jsApiParameters,
 		                    (res)=>{
 		                        if (res.err_msg == "get_brand_wcpay_request:ok") {
-		                            _this.alert('支付成功');
-		                            window.location.reload();
+		                            //_this.alert('支付成功');
+		                            _this.ApiSever.addPresentDetail(data).then(res=> {
+										_this.$router.push({
+											path: '/votes/' + _this.userData._id+''+_this.openId,
+											params: {
+												id: _this.userData._id,
+												openid:_this.openId
+											}
+										});
+									});
+		                           //window.location.reload();
 		                        }
 		                        if (res.err_msg == "get_brand_wcpay_request:cancel") {
-		                            _this.alert('取消支付');
+		                            //_this.alert('取消支付');
 		                            window.location.reload();
 		                        }
 		                    }
@@ -243,16 +265,7 @@
                     } else {
                         console.log('error',response.bodyText);
                     }
-				});
-
-				// self.ApiSever.addPresentDetail(data).then(res=> {
-				// 	self.$router.push({
-				// 		path: '/votes/' + self.userData._id,
-				// 		params: {
-				// 			id: self.userData._id
-				// 		}
-				// 	});
-				// });
+				});				
 			}
 		},
 
