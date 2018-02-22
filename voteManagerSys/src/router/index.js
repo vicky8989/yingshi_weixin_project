@@ -15,6 +15,9 @@ export default new Router({
       children: [{
         path: '/index',
         component: Index
+      },{
+        path:'/admin',
+        component:resolve => require(['../views/Admin.vue'], resolve)
       },
       {
       	path:'/setting/:id?',

@@ -24,7 +24,7 @@
 						</div>
 						<div class="input_photo bg_cover" v-if="!thumbPic||thumbPic.length<3">
 							<img src="./../assets/images/imgadd.png" ref="regPhoto" />
-							<input v-if="!thumbPic||thumbPic.length<3" type="file" multiple="multiple" placeholder="请选择" name="thumbPic" ref="thumbPic" accept="image/*" class="imgOne" @change="updataOne" />
+							<input v-if="!thumbPic||thumbPic.length<3" type="file" multiple placeholder="请选择" name="thumbPic" ref="thumbPic" accept="image/*" class="imgOne" @change="updataOne" />
 							<span class="hiden" ref="thumbPic_span">请上传生活照</span>
 						</div>
 					</div>
@@ -166,42 +166,90 @@
 					}
 				});
 			},
-			updataOne() {
-				var vm = this;
-				if($('.imgOne').get(0).files[0].type.indexOf("image") != -1) {
-					var fd = new FileReader();
-					Indicator.open('上传中...');
-					fd.readAsDataURL($('.imgOne').get(0).files[0]);
-					fd.onload = function() {
-						if(fd.result) {
-							var formData = new FormData();
-							formData.append("image", $('.imgOne').get(0).files[0]);
-							$.ajax({
-								url: vm.uploadURL,
-								type: 'POST',
-								data: formData,
-								processData: false,
-								contentType: false,
-								success: function(responseStr) {
-									var result = responseStr;
-									Indicator.close();
-									$('.imgOne').val("");
-									vm.thumbPic.push(result.filename);
-
-									if(vm.$refs['regPhoto'] && vm.$refs['regPhoto'].classList.contains('error_photo')) {
-										vm.$refs['regPhoto'].classList.remove('error_photo');
-									}
-								},
-								error: function(responseStr) {
-									MessageBox.alert('上传失败'+responseStr);
-									Indicator.close();
-								}
-							});
-						}
-					}
-				} else {
-					alert('上传图片不符合规则，请重新上传');
+			AutoResizeImage(maxWidth,maxHeight,objImg){
+				var img = new Image();
+				img.src = objImg.src;
+				var hRatio;
+				var wRatio;
+				var Ratio = 1;
+				var w = img.width;
+				var h = img.height;
+				wRatio = maxWidth / w;
+				hRatio = maxHeight / h;
+				if (maxWidth ==0 && maxHeight==0){
+					Ratio = 1;
+				}else if (maxWidth==0){//
+				if (hRatio<1) Ratio = hRatio;
+				}else if (maxHeight==0){
+				if (wRatio<1) Ratio = wRatio;
+				}else if (wRatio<1 || hRatio<1){
+					Ratio = (wRatio<=hRatio?wRatio:hRatio);
 				}
+				if (Ratio<1){
+					w = w * Ratio;
+					h = h * Ratio;
+				}
+				objImg.height = h;
+				objImg.width = w;
+			},
+			updataOne() {
+				var len = $('.imgOne').get(0).files.length;
+				if(len > 3) {
+					this.$toast({
+						message: '最多允许上传3张图片！',
+						customClass:'large-font'
+					});
+					return;
+				}
+				var vm = this,index=0,formData = new FormData();
+				for(index = 0; index < len; index++){
+					let file = $('.imgOne').get(0).files[index];
+					//alert('图片大小'+file.size);
+					formData.append("images", file);
+
+					// let fd = new FileReader();
+					// fd.readAsDataURL(file);
+					// fd.onload = function() {
+					// 	if(fd.result) {
+					// 		formData.append("image", file);
+					// 	}else {
+					// 		MessageBox.alert("上传图片失败");
+					// 	}
+					// }
+				}
+				
+				Indicator.open('上传中...');
+				$.ajax({
+					url: vm.uploadURL,
+					type: 'POST',
+					data: formData,
+					cache:false,
+					processData: false,
+					contentType: false,
+					// xhrFields: {
+					//   withCredentials: true
+					// },
+					timeout: 30000, //超时时间：30秒
+					success: function(responseStr) {
+						var result = responseStr;
+						Indicator.close();
+						$('.imgOne').val("");
+						result.map((item)=>{
+							vm.thumbPic.push(item.filename);
+						})
+						
+						if(vm.$refs['regPhoto'] && vm.$refs['regPhoto'].classList.contains('error_photo')) {
+							vm.$refs['regPhoto'].classList.remove('error_photo');
+						}
+					},
+					error: function(responseStr, textStatus, errorThrown) {
+						// alert(responseStr.status);
+						// 	alert(responseStr.readyState);
+						// 	alert(textStatus);
+						//MessageBox.alert('上传失败'+responseStr+','+textStatus+','+errorThrown);
+						Indicator.close();
+					}
+				});
 			},
 
 			//删除照片

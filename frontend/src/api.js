@@ -275,5 +275,5 @@ export default {
   },
   httpUrl: HOST,
   imgUrl: `${HOST}images/`,
-  uploadUrl: `${HOST}uploadActivityImage`
+  uploadUrl: `${HOST}uploadActivityImages`
 }

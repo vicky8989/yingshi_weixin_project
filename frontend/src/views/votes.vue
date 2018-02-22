@@ -159,8 +159,8 @@
 				if(!this_.isVotetime) return false;
 
 				this.$router.push({
-					path: '/gift/' + this.$route.params.id + '/' + this.$route.params.openid,
-					params: {
+					path: '/gift',
+					query: {
 						id: this.$route.params.id,
 						openid: this.$route.params.openid
 					}

@@ -8,6 +8,7 @@
                     {{username}}
                 </span>
 				<el-dropdown-menu slot="dropdown">
+					<el-dropdown-item command="changePwd">修改密码</el-dropdown-item>
 					<el-dropdown-item command="loginout">退出</el-dropdown-item>
 				</el-dropdown-menu>
 			</el-dropdown>
@@ -18,24 +19,33 @@
 	export default {
 		data() {
 			return {
-				name: 'linxin',
+				name: '',
 				logo: 'static/img/img.jpg'
 			}
 		},
 		computed: {
 			username() {
-				let username = localStorage.getItem('ms_username');
+				let username = sessionStorage.getItem('ms_username');
 				return username ? username : this.name;
 			}
 		},
 		methods: {
 			handleCommand(command) {
 				if(command == 'loginout') {
-					localStorage.removeItem('ms_username')
+					sessionStorage.removeItem("ms_username");
+					sessionStorage.removeItem("ms_login");
+					this.ApiSever.login = false;
 					this.$router.push('/login');
+				} else if(command == 'changePwd') {
+					this.$router.push('/admin');
 				}
 			}
-		}
+		},
+		created(){
+    		if(!this.ApiSever.login) {
+				this.$router.push('/login');
+			}
+    	}
 	}
 </script>
 <style scoped>

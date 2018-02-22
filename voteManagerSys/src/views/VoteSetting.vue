@@ -126,7 +126,7 @@
 						<template scope="scope">
 							<span v-if="!scope.row.state">{{scope.row.num}}</span>
 							<div v-if="scope.row.state">
-								<el-input v-if="editorData" size="small" v-model="editorData.num" placeholder="奖品数量" @blur="handleBlur"></el-input>
+								<el-input v-if="editorData" size="small" v-model="editorData.num" placeholder="奖品数量"  type="number"></el-input>
 							</div>
 						</template>
 					</el-table-column>
@@ -224,7 +224,7 @@
 				},
 				activity: {
 					"name": "",
-					"status": 0,
+					"status": 1,
 					"enrolstart": "",
 					"enrolend": "",
 					"votestart": "",
@@ -306,7 +306,7 @@
 			//奖品--校验奖品数量
 			handleBlur(event) {
 				let reg = /^\d{n}$ /;
-				let value = event.target.value;
+				let value = parseInt(event.target.value);
 				if(reg.test(value)) {
 					this.editorData['num'] = value;
 				} else {
@@ -379,7 +379,7 @@
 				this.$refs["activityForm"].validate((valid) => {
 					if(valid) {
 						console.log('submit!', self.activity);
-						self.activity.status = self.getIsActivity();
+						self.activity.status = 1;
 						if(!this.activeId) {
 							//新增
 							self.ApiSever.addActivityInfo(self.activity).then(res => {
@@ -435,9 +435,9 @@
 								type: 'POST',
 								data: formData,
 								cache: false,
-								xhrFields: {
-									'Access-Control-Allow-Origin': '*'
-								},
+								// xhrFields: {
+								// 	'Access-Control-Allow-Origin': '*'
+								// },
 								processData: false, // 不处理发送的数据，因为data值是Formdata对象，不需要对数据做处理
 								contentType: false, // 不设置Content-type请求头
 								success: function(responseStr) {

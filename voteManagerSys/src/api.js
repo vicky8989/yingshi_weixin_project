@@ -38,6 +38,9 @@ const LISTGIFTS = `${HOST}listGifts`;
 const UPDATEGIFT = `${HOST}updateGift`;
 const ADDGIFT = `${HOST}addGift`;
 const DELGIFT = `${HOST}deleteGift`;
+const GETGIFT = `${HOST}getGift`;
+const GETPWD = `${HOST}getAdmin`;
+const UPDATEPWD = `${HOST}updatePwd`;
 
 /*用户接口*/
 const signerList = `${HOST}listUsers`;
@@ -211,12 +214,26 @@ export default {
     let url = `${DELGIFT}?gid=${id}`;
     return VueHttp.$http.delete(url)
   },
+  getPresent:(id)=> {
+    let url = `${GETGIFT}?gid=${id}`;
+    return VueHttp.$http.get(url)
+  },
+  getPwd:(username) => {
+    let url = `${GETPWD}?username=${username}`;
+    return VueHttp.$http.get(url)
+  },
+  updatePwd:(data) => {
+    let url = `${UPDATEPWD}`;
+    return VueHttp.$http.put(url,data)
+  },
   getMoney:()=> {
     return VueHttp.$http.get(GIFTMONEY);
   },
   updateMoney:(prize) => {
     return VueHttp.$http.put(UPDATEMONEY,prize)
   },
+  login:(sessionStorage.getItem('ms_login')==null?false:sessionStorage.getItem('ms_login')),
+  username:(sessionStorage.getItem('ms_username')==null?'':sessionStorage.getItem('ms_username')),
   httpUrl: HOST,
   imgUrl: `${HOST}images/`,
   uploadUrl: `${HOST}uploadActivityImage`

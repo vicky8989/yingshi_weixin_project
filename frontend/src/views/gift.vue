@@ -66,8 +66,8 @@
 				currentId: null,
 				currentGiftName:'',
 				currentGiftNum:1,
-				userId:this.$route.params.id,
-				openId:this.$route.params.openid,
+				userId:this.$route.query.id,
+				openId:this.$route.query.openid,
 				userData: {
 					voteNum: 12,
 					hot: 12,
@@ -200,8 +200,8 @@
 				let data = {
 					sid:self.userData._id,
 					openid:self.$store.state.wxUser.openid,
-					nickname:self.userData.nickname,
-					headimgurl:self.userData.headimgurl,
+					nickname:self.$store.state.wxUser.nickname,
+					headimgurl:self.$store.state.wxUser.headimgurl,
 					num:self.currentGiftNum,
 					giftname:self.currentGiftName,
 					gid:self.currentId,
@@ -224,8 +224,9 @@
 		                    'getBrandWCPayRequest',
 		                    jsApiParameters,
 		                    (res)=>{
+		                    	alert('orderpay:'+alert(JSON.stringify(res)));
 		                        if (res.err_msg == "get_brand_wcpay_request:ok") {
-		                            //_this.alert('支付成功');
+		                            //alert('支付成功');
 		                            _this.ApiSever.addPresentDetail(data).then(res=> {
 		                            	_this.gotoUserpage();
 										// _this.$router.push({
@@ -245,7 +246,8 @@
 		                    }
 		            );
 		        }
-		        let callpay=function(){
+		        let callpay=function() {
+		        	//alert(WeixinJSBridge);
 		            if (typeof WeixinJSBridge == "undefined") {
 		                if (document.addEventListener) {
 		                    document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
@@ -272,7 +274,7 @@
 		},
 
 		mounted() {
-			if(!this.$route.params.id) this.handleJump();
+			if(!this.userId) this.handleJump();
 			this.getUserInfo();
 			this.getGiftsList();
 			this.getFeeUnit();

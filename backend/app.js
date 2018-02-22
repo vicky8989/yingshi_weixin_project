@@ -14,6 +14,7 @@ var voteGift = require('./db/gift');
 var votePresent = require('./db/present');
 var voteSetting = require('./db/setting');
 var voter = require('./db/voter');
+var admin = require('./db/admin');
 
 var file = require('./file/file');
 
@@ -28,7 +29,7 @@ var client = new OAuth('wx300122015031b943', 'e8f5f0568d63516865fcc2dd8cff1830')
 var wxpay = require('./weixin/wxpay');
 
 app.use(express.static(file.getImageUrlPath()));
-app.use(bodyParser.json({limit: '1mb'}));
+app.use(bodyParser.json({limit: '1000kb'}));
 app.use(bodyParser.urlencoded({
   extended: true
 }));
@@ -38,7 +39,7 @@ app.all('*', function(req, res, next) {
     res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
     res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
     res.header("X-Powered-By",' 3.2.1')
-    if(req.method=="OPTIONS") res.send(200);/*让options请求快速返回*/
+    if(req.method=="OPTIONS") res.sendStatus(200);/*让options请求快速返回*/
     else  next();
 });
 
@@ -557,6 +558,39 @@ app.delete('/deleteVoter', function (req, res) {
   	});
 })
 
+//sys
+app.get('/getAdmin',function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	var params = url.parse(req.url, true).query;
+	if (params==null || params.username==null) {
+		res.status(400).send({'error':"Bad Request"});
+		return;
+	}
+
+	admin.queryData(params.username,function(result){
+        res.send(result);
+    });
+})
+
+app.put('/updatePwd',function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	if (req.body==null) {
+		res.status(400).send({'error':"Bad Request"});
+		return;
+	}
+
+	admin.updateData(req.body,function(result){
+      	res.send(result);
+  	});
+})
+
+app.use(function (err, req, res, next) {
+  if (err.code === 'LIMIT_FILE_SIZE') {
+    res.send({ result: 'fail', error: { code: 1001, message: 'File is too big' } })
+    return 
+  }
+})
+
 /* GET users listing.以下为微信认证部分 */
 app.get('/oauth', function (req, res, next) {
 	res.header('Access-Control-Allow-Origin', '*');
@@ -611,6 +645,7 @@ app.post('/addOrder',function(req,res,next) {
      req.socket.remoteAddress ||
      (req.connection.socket ? req.connection.socket.remoteAddress : null);
 	var data = req.body;
+	if(ip.indexOf(',') > 0 ) ip = '127.0.0.1';
 	//console.log('order',data);
 	var order = {
 		body: data.body,

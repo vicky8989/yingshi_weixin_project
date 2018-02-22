@@ -55,10 +55,10 @@
 					</div>
 				</template>
 			</el-table-column>
-			<el-table-column prop="giftnum" label="礼物数">
+			<!-- <el-table-column prop="giftnum" label="礼物数">
 			</el-table-column>
 			<el-table-column prop="money" label="礼物总额">
-			</el-table-column>
+			</el-table-column> -->
 			<el-table-column label="操作">
 				<template slot-scope="scope">
 			        <el-button @click="handleDelClick(scope.$index,scope.row)" type="text" size="small">删除</el-button>
@@ -120,27 +120,55 @@
 			getPaticiesList(aid) {
 				let self = this;
 				this.ApiSever.getPaticitesList(aid).then(res => {
-					if(res && res.data && res.data.length > 0)
+					if(res && res.data && res.data.length > 0){
 						self.paticitesList = res.data;
-					let presentIndex = 0;
-					for(var i = 0, ilen = res.data.length; i < ilen; i++) {
-						//请求礼物信息
-						self.ApiSever.getPresentsDetail(res.data[i]._id).then(gifts => {
-							let giftsInfo = gifts.data;
-							console.log('giftNum i', giftsInfo, presentIndex);
-							self.paticitesList[presentIndex].giftnum = 0;
-							giftsInfo.map((item) => {
-								self.paticitesList[presentIndex].giftnum += item.num;
-							})
-
-							self.paticitesList[presentIndex].money = parseFloat(self.paticitesList[presentIndex].giftnum / self.money).toFixed(2);
-							presentIndex++;
-							if(presentIndex == i) {
-								self.originSigners = self.paticitesList;
-								self.$forceUpdate();
-							}
-						});
+						self.originSigners = self.paticitesList;
 					}
+					//let presentIndex = 0;
+					// for(var i = 0, ilen = res.data.length; i < ilen; i++) {
+					// 	self.paticitesList[i].money = 0;
+					// 	self.paticitesList[i].giftnum = 0;
+					// 	//请求礼物信息
+					// 	self.ApiSever.getPresentsDetail(res.data[i]._id).then(gifts => {
+					// 		let giftsInfo = gifts.data;
+					// 		console.log('giftNum i', giftsInfo, presentIndex);
+					// 		self.paticitesList[presentIndex].giftnum = giftsInfo.length.toString();
+
+					// 		// giftsInfo.map((item) => {
+					// 		// 	self.paticitesList[presentIndex].giftnum += item.num;
+					// 		// })
+
+					// 		var giftIndex = presentIndex,giftItemIndex = 0;
+					// 		presentIndex++;
+					// 		self.paticitesList[giftIndex].money = 0;
+					// 		for(var j = 0,jlen = giftsInfo.length; j < jlen; j ++){
+					// 			let gid = giftsInfo[j].gid;
+					// 			self.ApiSever.getPresent(gid).then(giftlist => {
+					// 				let gift = giftlist.data;
+					// 				if(gift && gift.length > 0) {
+					// 					let prize = parseFloat(self.paticitesList[giftIndex].money);
+					// 					prize+= parseFloat(gift[0].num / self.money);
+					// 					prize = prize.toFixed(2);
+					// 					self.paticitesList[giftIndex].money =prize;
+					// 					giftItemIndex++;	
+					// 					if(giftItemIndex == jlen && presentIndex == ilen) {
+					// 						alert('gift:'+prize+'i:'+giftIndex+'j:'+j);
+					// 						self.originSigners = self.paticitesList;
+					// 						self.$forceUpdate();
+					// 					}					
+					// 				}
+					// 			});
+					// 		}
+
+					// 		if(presentIndex == ilen) {
+					// 			self.originSigners = self.paticitesList;
+					// 			self.$forceUpdate();
+					// 		}
+
+					// 		//self.paticitesList[presentIndex].money = parseFloat(self.paticitesList[presentIndex].giftnum / self.money).toFixed(2);
+					// 		//self.$forceUpdate();
+					// 	});
+					// }
 				});
 			},
 			delSigner(row) {
@@ -175,8 +203,9 @@
 			getMoney() {
 				let self = this;
 				this.ApiSever.getMoney().then(res => {
-					if(res && res.data)
+					if(res && res.data){
 						self.money = res.data.prize;
+					}
 				});
 			},
 			handleEdit(index, row) {
@@ -201,8 +230,12 @@
 			// 	this.$router.push('/index');
 			// }
 			this.getMoney();
-			this.getVoterList();
-			this.getPaticiesList(this.activeId);
+			//this.getVoterList();
+			let this_= this;			
+			setTimeout(function(){
+				this_.getPaticiesList(this_.activeId);
+			},500)
+			
 		}
 	}
 </script>

@@ -12,7 +12,7 @@
                 <div class="login-btn">
                     <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
                 </div>
-                <p style="font-size:12px;line-height:30px;color:#999;">Tips : 用户名和密码随便填。</p>
+                <p style="font-size:12px;line-height:30px;color:#999;">请输入用户名和密码</p>
             </el-form>
         </div>
     </div>
@@ -41,8 +41,24 @@
                 const self = this;
                 self.$refs[formName].validate((valid) => {
                     if (valid) {
-                        localStorage.setItem('ms_username',self.ruleForm.username);
-                        self.$router.push('/index');
+                        let username = self.ruleForm.username.trim(),
+                        pwd = self.ruleForm.password;
+                        self.ApiSever.getPwd(username).then(res => {
+                            if(res.data && res.data.pwd && res.data.pwd == pwd) {
+                                self.ApiSever.login = true;
+                                self.ApiSever.username = username;
+                                sessionStorage.setItem('ms_username',username);
+                                sessionStorage.setItem('ms_login',true);
+                                self.$router.push('/index');
+                            } 
+                            else {
+                                self.$message({
+                                    message: '用户名，密码不正确！',
+                                    type: 'error'
+                                });
+                            }
+                        })
+                        
                     } else {
                         console.log('error submit!!');
                         return false;

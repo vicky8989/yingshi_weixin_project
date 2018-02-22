@@ -24,7 +24,7 @@ const routes = [{
 		}
 	},
 	{
-		path: '/gift/:id/:openid?',
+		path: '/gift',
 		name: 'gift',
 		component: resolve => {
 			require(['../views/gift.vue'], resolve)
