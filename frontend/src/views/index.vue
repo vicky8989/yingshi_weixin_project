@@ -39,7 +39,6 @@
 				<div class="load_more" @click="handleMore">加载更多</div>
 			</template>
 		</div>
-
 		<div class="activity_rules">
 			<div class="rules_title"><i class="iconfont icon_font">&#xe64d;</i>活动介绍</div>
 			<div class="content">
@@ -127,7 +126,7 @@
 						self.ApiSever.AID = result._id;
 						self.getListData(result._id);
 						self.$emit('finishTimeChanged', result.voteend);
-						self.$emit('setActivityInfo',result);
+						//self.$emit('setActivityInfo',result);
 						self.$forceUpdate();
 					}
 				});
@@ -239,6 +238,22 @@
 						}
 					});
 				}
+
+				oImg.onclick = function() {
+					this_.$store.commit('voteTime');
+					if(!this_.isVotetime) return false;
+					this_.$router.push({
+						path: '/votes/' + data._id + '/' + data.openid,
+						params: {
+							id: data,
+							openid: data.openid
+						},
+						query: {
+							isFinished: this_.isVoteFinished
+						}
+					});
+				}
+				
 				oLi.appendChild(oImg);
 				oLi.appendChild(oSpan);
 				oLi.appendChild(oP);

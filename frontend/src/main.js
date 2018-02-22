@@ -40,21 +40,12 @@ const Store = new Vuex.Store({
 		wxUser: {}, //正式环境
 		isEnroltime: true,
 		isVotetime: true,
-		// 		wxUser:{
-		// 			openid:'o933-1W4cdVDN25_e2JWKGOFeg_a',
-		// //			nikename:'文姬',
-		// 			nikename:null,
-		// 			headimgurl:"http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoDGe7wXlOa1mxspKHy64ZLmq0zNPbpqibxmEFoUTS2mrhgR8hiagCibdoyq90ib6NWKqzUlvFmzZDBrQ/132",
-		// 			language:'zh_CN'
-		// 		}
-
 		// wxUser:{
 		// 	openid:'o933-1W4cdVDN25_e2JWKGOFeg_a',
 		// 	nikename:'文姬',
 		// 	headimgurl:"http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoDGe7wXlOa1mxspKHy64ZLmq0zNPbpqibxmEFoUTS2mrhgR8hiagCibdoyq90ib6NWKqzUlvFmzZDBrQ/132",
 		// 	language:'zh_CN'
 		// }
-
 	},
 	mutations: {
 		checkToken(state, data) {
@@ -66,7 +57,6 @@ const Store = new Vuex.Store({
 					let result = res.data[0];
 					state.conutDown = result.voteend;
 					state.actitiyInfo = result;
-
 				}
 			});
 		},

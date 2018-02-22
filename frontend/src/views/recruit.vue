@@ -7,9 +7,9 @@
 					<span class="hiden" ref="name_span">请输入姓名</span>
 				</div>
 				<!--<div><label>事迹简述</label>-->
-				<div><label>事迹简述</label>
+				<div><label>内容简述</label>
 					<textarea placeholder="请输入备注" v-model="user.words" name="declaration" @blur="handleBlur" ref="declaration"></textarea>
-					<span class="hiden" ref="declaration_span">请输入事迹简述</span>
+					<span class="hiden" ref="declaration_span">请输入内容简述</span>
 				</div>
 				<div><label>联系电话</label>
 					<input type="tel" placeholder="请输入联系电话" v-model="user.phone" name="phone" @blur="handleBlur" ref="phone" />
@@ -24,7 +24,7 @@
 						</div>
 						<div class="input_photo bg_cover" v-if="!thumbPic||thumbPic.length<3">
 							<img src="./../assets/images/imgadd.png" ref="regPhoto" />
-							<input v-if="!thumbPic||thumbPic.length<3" type="file" multiple="multiple" placeholder="请选择" name="thumbPic" ref="thumbPic" class="imgOne" @change="updataOne" />
+							<input v-if="!thumbPic||thumbPic.length<3" type="file" multiple="multiple" placeholder="请选择" name="thumbPic" ref="thumbPic" accept="image/*" class="imgOne" @change="updataOne" />
 							<span class="hiden" ref="thumbPic_span">请上传生活照</span>
 						</div>
 					</div>
@@ -43,7 +43,7 @@
 	//文本框校验正则
 	let rejson = {
 		name: /\S/,
-		declaration: /\S/,
+		declaration: /^.{3,60}$/,
 		phone: /^1[34578]\d{9}$/
 	};
 
@@ -224,7 +224,8 @@
 				this.ApiSever.getUserDataByID(openId,this.ApiSever.AID).then(res => {
 					if(res.data && res.data.length > 0) {
 						this_.$toast({
-							message: '您已经报过名了！'
+							message: '您已经报过名了！',
+							customClass:'large-font'
 						});
 						this_.timer=setTimeout(function(){
 							this_.$router.go(-1);

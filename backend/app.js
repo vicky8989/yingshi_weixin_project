@@ -13,6 +13,7 @@ var voteAward = require('./db/award');
 var voteGift = require('./db/gift');
 var votePresent = require('./db/present');
 var voteSetting = require('./db/setting');
+var voter = require('./db/voter');
 
 var file = require('./file/file');
 
@@ -515,6 +516,47 @@ app.get('/getPrize', function (req, res) {
   	});
 })
 
+//投票者记录
+app.post('/addVoter', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	if (req.body == null) {
+		res.status(400).send({'error':"Bad Request"});
+		return;
+	}
+
+	voter.addData(req.body,function(result,aid){
+      	res.send(aid);
+  	});
+})
+
+app.get('/getVoter', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	var params = url.parse(req.url, true).query;
+	if (params==null || params.openid==null || params.sid == null) {
+		res.status(400).send({'error':"Bad Request"});
+		return;
+	}
+	
+	console.log('getvoter',params.openid,params.sid);
+
+	voter.queryData(params.openid,params.sid,function(result){
+        res.send(result);
+    });
+})
+
+app.delete('/deleteVoter', function (req, res) {
+	res.header('Access-Control-Allow-Origin', '*');
+	var params = url.parse(req.url, true).query;
+	if (params==null || params.openid==null) {
+		res.status(400).send({'error':"Bad Request"});
+		return;
+	}
+
+	voter.delData(params.openid,function(result){
+      	res.send(result);
+  	});
+})
+
 /* GET users listing.以下为微信认证部分 */
 app.get('/oauth', function (req, res, next) {
 	res.header('Access-Control-Allow-Origin', '*');
@@ -569,11 +611,12 @@ app.post('/addOrder',function(req,res,next) {
      req.socket.remoteAddress ||
      (req.connection.socket ? req.connection.socket.remoteAddress : null);
 	var data = req.body;
-	console.log('order',data);
+	//console.log('order',data);
 	var order = {
 		body: data.body,
-        detail: data.detail,
-        out_trade_no: '20170331'+Math.random().toString().substr(2, 10),
+		attach: '{"dtys":"test"}',
+        //detail: data.detail,
+        out_trade_no: '20180214'+Math.random().toString().substr(2, 10),
         total_fee: data.fee,
         spbill_create_ip: ip,
         openid: data.openid,

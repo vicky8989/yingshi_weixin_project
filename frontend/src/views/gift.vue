@@ -157,7 +157,7 @@
 
 			gotoUserpage(){
 				this.$router.push({
-					path: '/votes/'+this.userId+''+this.openId,
+					path: '/votes/'+this.userId+'/'+this.openId,
 					params: {
 						id: this.userId,
 						openid:this.openId
@@ -191,6 +191,7 @@
 
 			//购买礼物
 			purchase() {
+				//alert('purchase');
 				if(!this.currentId) return;
 				let self = this;
 
@@ -204,7 +205,7 @@
 					num:self.currentGiftNum,
 					giftname:self.currentGiftName,
 					gid:self.currentId,
-					time:self.$moment(new Date()).format('YYYY-MM-DD hh:mm:ss')
+					time:self.$moment(new Date()).format('YYYY-MM-DD')
 				};
 
 				//换算成‘分’
@@ -226,13 +227,14 @@
 		                        if (res.err_msg == "get_brand_wcpay_request:ok") {
 		                            //_this.alert('支付成功');
 		                            _this.ApiSever.addPresentDetail(data).then(res=> {
-										_this.$router.push({
-											path: '/votes/' + _this.userData._id+''+_this.openId,
-											params: {
-												id: _this.userData._id,
-												openid:_this.openId
-											}
-										});
+		                            	_this.gotoUserpage();
+										// _this.$router.push({
+										// 	path: '/votes/' + _this.userData._id+'/'+_this.openId,
+										// 	params: {
+										// 		id: _this.userData._id,
+										// 		openid:_this.openId
+										// 	}
+										// });
 									});
 		                           //window.location.reload();
 		                        }
@@ -273,6 +275,7 @@
 			if(!this.$route.params.id) this.handleJump();
 			this.getUserInfo();
 			this.getGiftsList();
+			this.getFeeUnit();
 		}
 	}
 </script>

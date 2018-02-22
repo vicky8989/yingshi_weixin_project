@@ -22,8 +22,8 @@
 				<p>{{userData.giftnum}}点</p>
 			</li>
 		</ul>
-		<div class="declaration"><i class="iconfont icon_font">&#xe6bf;</i>宣言：{{userData.words}}</div>
 		<Slider :list="userData.pics" />
+		<div class="declaration"><i class="iconfont icon_font">&#xe6bf;</i>内容简述：{{userData.words}}</div>
 		<div class="enrol">
 			<a href="javascript:;" class="enrol_btn" @click="handleSignin" v-if="isEnroltime">我也要参加</a>
 		</div>
@@ -201,31 +201,43 @@
 			handleVotes() {
 				console.log('当前的选手id', this.userId);
 				let self = this;
-				self.$store.commit('voteTime');
-				if(!self.isVotetime) return false;
+				//self.$store.commit('voteTime');
+				//if(!self.isVotetime) return false;
 
-				if(!self.userData.votenum)
-					self.userData.votenum = 0;
-				self.userData.votenum += 1;
-				self.ApiSever.updateSinger(self.userData._id, self.userData).then(res => {
-
-				});
-
-				//				if(this.isFinished){
-				//					Toast({
-				//					message: '投票已结束',
-				//					position: 'middle',
-				//					duration: 5000
-				//				});
-				//				}else{
-				//					if(!self.userData.votenum)
-				//						self.userData.votenum = 0;
-				//					self.userData.votenum += 1;
-				//					self.ApiSever.updateSinger(self.userData._id,self.userData).then(res => {
-				//
-				//					});
-				//				}
+				self.ApiSever.getVoter(self.openId,self.userId).then(res => {
+					//今日已经投过票了
+					if(res.body.length > 0) {
+						self.$toast({
+							message: '您今日已投过票了！',
+							customClass:'large-font'
+						});
+					} else {
+						self.addVoter(); //添加今日投票信息
+						self.updateSigner(); //更新得票信息
+					}
+				})			
 			},
+
+			addVoter() {
+				let voter = {
+					openid:this.openId,
+					sid:this.userId,
+					time:this.$moment(new Date).format('YYYY-MM-DD')
+				}
+				console.log('votetime',voter.time);
+				this.ApiSever.addVoter(voter).then(res => {
+					console.log('addVoter',res);
+				})
+			},
+			updateSigner() {
+				if(!this.userData.votenum)
+					this.userData.votenum = 0;
+				this.userData.votenum += 1;
+				this.ApiSever.updateSinger(this.userData._id, this.userData).then(res => {
+					console.log('updateSigner',res);
+				});
+			},
+
 			//直接新增热度
 			addHot() {
 				console.log('当前的选手id', this.userId);

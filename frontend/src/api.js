@@ -8,9 +8,9 @@ Vue.prototype.$http = axios;
 // 常量 API 接口地址
 const HOST = HOST_CONFIG;
 
-const PRIZES = 'awards.json';
+//const PRIZES = 'awards.json';
 
-const RANKING = 'userList.json';
+//const RANKING = 'userList.json';
 
 let FINSIHTIME = '2018/12/29 17:39:10';
 let AID = null;
@@ -48,6 +48,8 @@ const ADDPRESENT = `${HOST}addPresent`;
 const LISTGIFTS = `${HOST}listGifts`;
 const ADDORDER = `${HOST}addOrder`; //发起微信支付
 const GETPRIZE = `${HOST}getPrize`; //1块钱对应多少点
+const GETVOTER = `${HOST}getVoter`; //获取今日投票者信息
+const ADDVOTER = `${HOST}addVoter`; //添加今日投票者信息
 
 /*测试的接口*/
 const TEST = `${HOST}test`;
@@ -57,10 +59,10 @@ const USERDATA = `${HOST}userData`;
 const delActivityImg = `${HOST}deleteActivityImage`;
 
 const OAUTH = `${HOST}oauth`;
-const GET_WX_USER = `${HOST}oauthcallback`;
+//const GET_WX_USER = `${HOST}oauthcallback`;
 
 //微信接口
-const appID = 'wx0ef959f2d341d916';
+//const appID = 'wx0ef959f2d341d916';
 //const weixin_login = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appID}&redirect_uri=http://192.168.1.6/vote/index&response_type=code&scope=snsapi_userinfo&state=234#wechat_redirect`;
 var weixin_code = null;
 
@@ -189,10 +191,10 @@ export default {
   // weixin_login,
   weixin_code,
   OAUTH,
-  getWxUserInfo: (code) => {
-    let url = GET_WX_USER + '?code=' + code;
-    return VueHttp.$http.get(url);
-  },
+  // getWxUserInfo: (code) => {
+  //   let url = GET_WX_USER + '?code=' + code;
+  //   return VueHttp.$http.get(url);
+  // },
   getActivity: () => {
     return VueHttp.$http.get(ACTIVITY);
   },
@@ -205,10 +207,10 @@ export default {
     return VueHttp.$http.get(url)
   },
 
-  getRanking: (aid) => {
-    let url = `${GETAWARDS}?aid=${aid}`;
-    return VueHttp.$http.get(RANKING)
-  },
+  // getRanking: (aid) => {
+  //   let url = `${GETAWARDS}?aid=${aid}`;
+  //   return VueHttp.$http.get(RANKING)
+  // },
   delActivityImg: (filename) => {
     let delImgUrl = `${delActivityImg}?image=${filename}`;
     return VueHttp.$http.delete(delImgUrl);
@@ -263,6 +265,13 @@ export default {
   },
   getPrize:() => {
     return VueHttp.$http.get(GETPRIZE);
+  },
+  getVoter:(openid,sid) => {
+       let url = `${GETVOTER}?openid=${openid}&sid=${sid}`;
+       return VueHttp.$http.get(url);
+  },
+  addVoter:(data) => {
+    return VueHttp.$http.post(ADDVOTER,data);
   },
   httpUrl: HOST,
   imgUrl: `${HOST}images/`,

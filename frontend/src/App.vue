@@ -54,25 +54,25 @@
 				}
 				return code;
 			},
-			getWxUserInfo(code) {
-				let this_ = this;
-				this.ApiSever.getWxUserInfo(code).then(res => {
-					console.log('weixin user',res);
-					if(res) {
-						let info = res.body;
-						this_.$store.dispatch('setWeixinUserInfo',info);
+			// getWxUserInfo(code) {
+			// 	let this_ = this;
+			// 	this.ApiSever.getWxUserInfo(code).then(res => {
+			// 		console.log('weixin user',res);
+			// 		if(res) {
+			// 			let info = res.body;
+			// 			this_.$store.dispatch('setWeixinUserInfo',info);
 
-						//如果当前已经报过名了，不能再报名了。
-						this_.ApiSever.getUserInfo(info.openid).then(res => {
-							if(res.data) {
-								this_.handleUpdateUser(info);
-							} else {
-								this_.handleAddUser(info);
-							}
-						});
-					}
-				});
-			},
+			// 			//如果当前已经报过名了，不能再报名了。
+			// 			this_.ApiSever.getUserInfo(info.openid).then(res => {
+			// 				if(res.data) {
+			// 					this_.handleUpdateUser(info);
+			// 				} else {
+			// 					this_.handleAddUser(info);
+			// 				}
+			// 			});
+			// 		}
+			// 	});
+			// },
 
 			//添加用户信息
 			handleAddUser(info) {
@@ -107,7 +107,7 @@
 			this.$store.dispatch("finishtimeChanged");
 			setTimeout(()=>{
 				self.$store.commit('conversionTime');
-			},500)
+			},500);
 		},
 		mounted() {
 			//alert('openid：'+this.$store.state.wxUser.openid);
@@ -119,13 +119,6 @@
 			} else if(!this.$store.state.wxUser.openid && userId){
 				this.$store.dispatch('setWeixinUserInfo',{openid:userId});
 			}
-			// this.ApiSever.weixin_code= this.$utils.getUrlKey("code");
-			// console.log('code',this.ApiSever.weixin_code);
-			// if(!this.ApiSever.weixin_code) {
-			// 	window.location.href =this.ApiSever.OAUTH;
-			// } else if(this.$store.wxUser == null){
-			// 	this.getWxUserInfo(this.ApiSever.weixin_code);
-			// }
 		}
 	}
 </script>
