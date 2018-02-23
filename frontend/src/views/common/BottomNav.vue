@@ -7,10 +7,10 @@
 					<div class="aui-bar-tab-label">首页</div>
 				</router-link>
 			</li>
-			<li v-if="isEnroltime">
-				<router-link to="/recruit">
+			<li>
+				<router-link to="/rules">
 					<i class="iconfont">&#xe630;</i>
-					<div class="aui-bar-tab-label">报名</div>
+					<div class="aui-bar-tab-label">规则</div>
 				</router-link>
 			</li>
 			<li>

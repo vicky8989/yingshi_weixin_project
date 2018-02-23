@@ -22,7 +22,7 @@
 							<img :src="imgURL+list" @load="successLoadImg" @error="errorLoadImg" />
 							<i class="close" @click="deletePhoto(index)">×</i>
 						</div>
-						<div class="input_photo bg_cover" v-if="!thumbPic||thumbPic.length<3">
+						<div class="input_photo bg_cover" v-if="!thumbPic||thumbPic.length < 3">
 							<img src="./../assets/images/imgadd.png" ref="regPhoto" />
 							<input v-if="!thumbPic||thumbPic.length<3" type="file" multiple placeholder="请选择" name="thumbPic" ref="thumbPic" accept="image/*" class="imgOne" @change="updataOne" />
 							<span class="hiden" ref="thumbPic_span">请上传生活照</span>
@@ -43,7 +43,7 @@
 	//文本框校验正则
 	let rejson = {
 		name: /\S/,
-		declaration: /^.{3,60}$/,
+		declaration: /^.{3,5000}$/,
 		phone: /^1[34578]\d{9}$/
 	};
 
@@ -126,10 +126,10 @@
 					this.user.pics = resultPhoto;
 				}
 
-				if(!this.$store.state.wxUser) {
+				if(!this.$store.state.wxUser.openid) {
 					this_.$toast({
-							message: '用户未授权'
-						});
+						message: '用户未授权'
+					});
 					bOk = false;
 				}
 

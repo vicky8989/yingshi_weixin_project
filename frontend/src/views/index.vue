@@ -49,12 +49,12 @@
 				<p>{{activity.info}}</p>
 				<img :src="imgURL+activity.infoimg" />
 			</div>
-			<div class="rules_title"><i class="iconfont icon_font">&#xe649;</i>参赛规则</div>
+			<!-- <div class="rules_title"><i class="iconfont icon_font">&#xe649;</i>参赛规则</div>
 			<div class="content">
 				<h1>{{activity.name}}</h1>
 				<h5>协办方：{{activity.sponsor}}</h5>
 				<span>大赛客服老师微信号：{{activity.contact}}</span>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </template>
@@ -258,7 +258,7 @@
 				oLi.appendChild(oImg);
 				oLi.appendChild(oSpan);
 				oLi.appendChild(oP);
-				oLi.appendChild(oDiv);
+				//oLi.appendChild(oDiv);
 
 				return oLi;
 			},

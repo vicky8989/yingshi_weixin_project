@@ -23,7 +23,11 @@
 			</li>
 		</ul>
 		<Slider :list="userData.pics" />
-		<div class="declaration"><i class="iconfont icon_font">&#xe6bf;</i>内容简述：{{userData.words}}</div>
+
+		<div class="declaration" @click="open=!open"><i class="iconfont icon_font">&#xe6bf;</i>内容简述：<span v-if="open==true">收起</span><span v-else>展开</span></div>
+		<div v-show="open" class="decs-content">
+            <slot>{{userData.words}}</slot>
+        </div>
 		<div class="enrol">
 			<a href="javascript:;" class="enrol_btn" @click="handleSignin" v-if="isEnroltime">我也要参加</a>
 		</div>
@@ -73,6 +77,8 @@
 			return {
 				userId: this.$route.params.id,
 				openId: this.$route.params.openid,
+				open:false,
+				isUserSendGift:false,
 				//isFinished:this.ApiSever.getFinishTime(),
 				userData: {
 					voteNum: 12,
@@ -133,11 +139,18 @@
 					});
 					//请求用户信息
 					self.ApiSever.getPresentsDetail(sid).then(gifts => {
-						let giftsInfo = gifts.body;
+						//debugger;
+						let giftsInfo = gifts.body,today_ = self.$moment(new Date()).format('YYYY-MM-DD');
 						console.log('gifts', giftsInfo);
 						self.userData.gifts = giftsInfo;
 						self.userData.giftnum = 0;
 						giftsInfo.map((item) => {
+							//今天是否已经送过礼物
+							let time_ = self.$moment(item.time).format("YYYY-MM-DD");
+							//alert(time_ == today_);
+							if(item.openid == self.openId && time_ == today_) {
+								self.isUserSendGift = true;
+							}
 							self.userData.giftnum += item.num;
 						})
 						self.$forceUpdate();
@@ -155,6 +168,22 @@
 
 			handletoGift() {
 				let this_ = this;
+				//如果今天已经送过礼物了
+				if(this_.isUserSendGift == true) {
+					this_.$toast({
+							message: '您今日已送过礼物了，明日再来！'
+						});
+					return;
+				}
+
+				//用户未授权提示
+				if(!this.$store.state.wxUser.openid) {
+					this_.$toast({
+						message: '用户未授权'
+					});
+					return;
+				}
+
 				this_.$store.commit('voteTime');
 				if(!this_.isVotetime) return false;
 
@@ -201,6 +230,14 @@
 			handleVotes() {
 				console.log('当前的选手id', this.userId);
 				let self = this;
+				//用户未授权提示
+				if(!this.$store.state.wxUser.openid) {
+					this_.$toast({
+						message: '用户未授权'
+					});
+					return;
+				}
+
 				//self.$store.commit('voteTime');
 				//if(!self.isVotetime) return false;
 

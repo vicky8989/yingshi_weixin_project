@@ -45,6 +45,13 @@ const routes = [{
 		}
 	},
 	{
+		path: '/rules',
+		name: 'rules',
+		component: resolve => {
+			require(['../views/rules.vue'], resolve)
+		}
+	},
+	{
 		path: '/ranking',
 		name: 'ranking',
 		component: resolve => {

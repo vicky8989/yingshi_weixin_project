@@ -206,7 +206,7 @@
 					num:self.currentGiftNum,
 					giftname:self.currentGiftName,
 					gid:self.currentId,
-					time:self.$moment(new Date()).format('YYYY-MM-DD')
+					time:self.$moment(new Date()).format('YYYY-MM-DD hh:mm:ss')
 				};
 
 				//换算成‘分’
