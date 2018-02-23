@@ -105,6 +105,28 @@ const Store = new Vuex.Store({
 		},		
 		setActivityInfo(state,info) {
 			state.actitiyInfo = info;
+			state.conutDown = info.voteend;
+			console.log('date',state.actitiyInfo)
+			let enrolstartTime = state.actitiyInfo.enrolstart;
+			let enrolendTime = state.actitiyInfo.enrolend;
+			let Enrolstart = Public.conversionTime(enrolstartTime);
+			let Enrolend = Public.conversionTime(enrolendTime);
+			let currentTime = Public.conversionTime(null);
+			if(Enrolstart > currentTime) {
+				state.isEnroltime = false;
+				MintUI.Toast({
+					message: '活动报名时间还没开始！',
+					position: 'middle'
+				});
+			} else if(currentTime >= Enrolstart && Enrolend >= currentTime) {
+				state.isEnroltime = true;
+			} else if(currentTime > Enrolend) {
+				state.isEnroltime = false;
+				MintUI.Toast({
+					message: '活动报名时间已结束！',
+					position: 'middle'
+				});
+			}
 		},
 		setWeixinUser(state, info) {
 			state.wxUser = info;

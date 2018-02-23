@@ -16,7 +16,7 @@
 					<span>{{activity.pv}}</span>
 				</li>
 			</ul>
-			<conutDown />
+			<conutDown :time="finishTime"/>
 			<!--<conutDown :time="finishTime" @validCurTime="validCurTime" />-->
 			<div class="enrol">
 				<a href="javascript:;" class="enrol_btn" @click="handleSignin" :class="{'div_end':!isEnroltime}">我要报名</a>
@@ -126,7 +126,8 @@
 						self.ApiSever.AID = result._id;
 						self.getListData(result._id);
 						self.$emit('finishTimeChanged', result.voteend);
-						//self.$emit('setActivityInfo',result);
+						self.finishTime =result.voteend;
+						self.$store.dispatch('setActivityInfo',result);
 						self.$forceUpdate();
 					}
 				});

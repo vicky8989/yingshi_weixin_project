@@ -103,13 +103,13 @@
 		},
 		created() {
 			let self=this;
-			this.$store.commit('timeChanged');
-			this.$store.dispatch("finishtimeChanged");
+			//this.$store.commit('timeChanged');
+			//this.$store.dispatch("finishtimeChanged");
 			setTimeout(()=>{
-				self.$store.commit('conversionTime');
+				//self.$store.commit('conversionTime');
 			},500);
 		},
-		mounted() {
+		beforeCreate() {
 			//alert('openid：'+this.$store.state.wxUser.openid);
 			//第一次创建的时候存入openid
 			var userId = this.$utils.getUrlKey("openid");
@@ -117,7 +117,15 @@
 			if(!this.$store.state.wxUser.openid && !userId) {
 				window.location.href =this.ApiSever.OAUTH;
 			} else if(!this.$store.state.wxUser.openid && userId){
-				this.$store.dispatch('setWeixinUserInfo',{openid:userId});
+				let this_ = this;
+				this.ApiSever.getUserInfo(userId).then(user => {
+					console.log(user);
+					if(user && user.data && user.data.length >0 ) {
+						let info = user.data[0];
+						//alert('userinfo'+JSON.stringify(info))
+						this_.$store.dispatch('setWeixinUserInfo',info);
+					}
+				});
 			}
 		}
 	}

@@ -22,18 +22,30 @@
 			}
 		},
 		created() {
-//			this.getactiveTime();
-						if(this.actitiyInfo) {
-							this.countDowns(this.actitiyInfo.enrolend);
-						}
+			setTimeout(() => {
+	          this.$nextTick(() => {
+	            if(this.actitiyInfo) {
+					this.countDowns(this.actitiyInfo.voteend);
+				}
+	          })
+    		},100);			
 		},
 		computed: {
 			actitiyInfo() {
 				return this.$store.state.actitiyInfo;
 			},
 		},
+		watch: {
+			actitiyInfo(val){
+				this.actitiyInfo = val;
+				if(this.actitiyInfo) {
+					this.countDowns(this.actitiyInfo.voteend);
+				}
+				//alert(JSON.stringify(val));
+			}
+		},
 		mounted: function() {
-			//			this.countDowns(this.conutTime);
+			// this.countDowns(this.conutTime);
 		},
 		methods: {
 			getactiveTime() {
@@ -47,6 +59,9 @@
 						}
 					}
 				});
+			},
+			finishTimeChanged(finishTime) {
+				this.$forceUpdate();
 			},
 			tick(d) {
 				if(!d) return false;
@@ -90,6 +105,7 @@
 				}
 			},
 			countDowns(d) {
+				//alert('time+'+d);
 				let self = this;
 				self.tick(d)
 				this.timer = window.setInterval(function() {

@@ -100,7 +100,7 @@
 						if(user && user.data && user.data.length >0 ) {
 							let info = user.data[0];
 							self.userData.headimgurl = info.headimgurl;
-							self.userData.nickname = user.nickname;
+							self.userData.unickname = user.nickname;
 							self.$forceUpdate();
 						}
 					});
@@ -197,6 +197,7 @@
 
 				if(self.feeUnit == 0) return;//如果没有取到对应价格。
 
+				//alert(JSON.stringify(self.$store.state.wxUser));
 				let data = {
 					sid:self.userData._id,
 					openid:self.$store.state.wxUser.openid,
@@ -224,7 +225,7 @@
 		                    'getBrandWCPayRequest',
 		                    jsApiParameters,
 		                    (res)=>{
-		                    	alert('orderpay:'+alert(JSON.stringify(res)));
+		                    	//alert('orderpay:'+alert(JSON.stringify(res)));
 		                        if (res.err_msg == "get_brand_wcpay_request:ok") {
 		                            //alert('支付成功');
 		                            _this.ApiSever.addPresentDetail(data).then(res=> {
