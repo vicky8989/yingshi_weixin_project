@@ -50,6 +50,7 @@ const ADDORDER = `${HOST}addOrder`; //发起微信支付
 const GETPRIZE = `${HOST}getPrize`; //1块钱对应多少点
 const GETVOTER = `${HOST}getVoter`; //获取今日投票者信息
 const ADDVOTER = `${HOST}addVoter`; //添加今日投票者信息
+const UPDATEACTIVITYPV = `${HOST}updateActivityPV`; //更新活动访问量
 
 /*测试的接口*/
 const TEST = `${HOST}test`;
@@ -230,6 +231,10 @@ export default {
   getUserInfo: (openid) => {
     let url = `${GETUSER}?openid=${openid}`;
     return VueHttp.$http.get(url)
+  },
+  updateActivityPV:(aid,data) => {
+    let url = `${UPDATEACTIVITYPV}?aid=${aid}`;
+    return VueHttp.$http.put(url,data);
   },
   getPresentsTotal: (sid) => {
     let url = `${GETPRESENTNUM}?sid=${sid}`;

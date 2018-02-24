@@ -148,11 +148,12 @@
 							//今天是否已经送过礼物
 							let time_ = self.$moment(item.time).format("YYYY-MM-DD");
 							//alert(time_ == today_);
-							if(item.openid == self.openId && time_ == today_) {
+							if(item.openid == self.$store.state.wxUser.openid && time_ == today_) {
 								self.isUserSendGift = true;
 							}
 							self.userData.giftnum += item.num;
 						})
+						self.$store.dispatch('setSendGiftStatus',self.isUserSendGift);
 						self.$forceUpdate();
 					});
 					self.addHot(); //增加热度
@@ -169,7 +170,8 @@
 			handletoGift() {
 				let this_ = this;
 				//如果今天已经送过礼物了
-				if(this_.isUserSendGift == true) {
+				//alert(this.$store.state.isSendGiftToday);
+				if(this.$store.state.isSendGiftToday == true) {
 					this_.$toast({
 							message: '您今日已送过礼物了，明日再来！'
 						});
@@ -240,8 +242,8 @@
 
 				//self.$store.commit('voteTime');
 				//if(!self.isVotetime) return false;
-
-				self.ApiSever.getVoter(self.openId,self.userId).then(res => {
+				//当前用户是否今日已投票了
+				self.ApiSever.getVoter(this.$store.state.wxUser.openid,self.userId).then(res => {
 					//今日已经投过票了
 					if(res.body.length > 0) {
 						self.$toast({
@@ -257,7 +259,7 @@
 
 			addVoter() {
 				let voter = {
-					openid:this.openId,
+					openid:this.$store.state.wxUser.openid,
 					sid:this.userId,
 					time:this.$moment(new Date).format('YYYY-MM-DD')
 				}

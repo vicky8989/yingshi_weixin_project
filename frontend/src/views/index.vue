@@ -129,6 +129,15 @@
 						self.finishTime =result.voteend;
 						self.$store.dispatch('setActivityInfo',result);
 						self.$forceUpdate();
+
+						//如果当前第一次进入页面，则浏览量+1
+						//alert(self.$store.state.isFirstIn);
+						if(self.$store.state.isFirstIn == 1) {
+							let pv = parseInt(result.pv);
+							self.ApiSever.updateActivityPV(result._id,{pv:pv++}).then(success => {
+								console.log('update pv',success);
+							})
+						}
 					}
 				});
 			},
@@ -231,7 +240,7 @@
 					this_.$router.push({
 						path: '/votes/' + data._id + '/' + data.openid,
 						params: {
-							id: data,
+							id: data._id,
 							openid: data.openid
 						},
 						query: {
@@ -310,12 +319,12 @@
 		},
 		created() {
 			//第一次创建的时候存入openid
-			var userId = this.$utils.getUrlKey("openid");
-			if(!this.$store.state.wxUser.openid && userId) {
-				this.$store.dispatch('setWeixinUserInfo', {
-					openid: userId
-				});
-			}
+			// var userId = this.$utils.getUrlKey("openid");
+			// if(!this.$store.state.wxUser.openid && userId) {
+			// 	this.$store.dispatch('setWeixinUserInfo', {
+			// 		openid: userId
+			// 	});
+			// }
 			this.getActivity();
 		},
 		destroyed() {

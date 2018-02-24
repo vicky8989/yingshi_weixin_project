@@ -116,8 +116,9 @@
 			//alert('userId:'+userId);
 			if(!this.$store.state.wxUser.openid && !userId) {
 				window.location.href =this.ApiSever.OAUTH;
-			} else if(!this.$store.state.wxUser.openid && userId){
+			} else if(!this.$store.state.wxUser.openid && userId) {
 				let this_ = this;
+				this.$store.dispatch('setPageInCount');
 				this.ApiSever.getUserInfo(userId).then(user => {
 					console.log(user);
 					if(user && user.data && user.data.length >0 ) {

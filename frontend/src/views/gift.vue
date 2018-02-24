@@ -227,6 +227,7 @@
 		                    (res)=>{
 		                    	//alert('orderpay:'+alert(JSON.stringify(res)));
 		                        if (res.err_msg == "get_brand_wcpay_request:ok") {
+		                        	_this.$store.dispatch('setSendGiftStatus',true);
 		                            //alert('支付成功');
 		                            _this.ApiSever.addPresentDetail(data).then(res=> {
 		                            	_this.gotoUserpage();

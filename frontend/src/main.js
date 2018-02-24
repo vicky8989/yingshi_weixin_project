@@ -38,16 +38,25 @@ const Store = new Vuex.Store({
 		conutDown: '',
 		actitiyInfo: null,
 		wxUser: {}, //正式环境
+		isFirstIn:0, //是否第一次进入系统，第一次进入系统更新pv
+		isSendGiftToday:false, //今日是否已送礼物
 		isEnroltime: true,
 		isVotetime: true,
 		// wxUser:{
-		// 	openid:'o933-1W4cdVDN25_e2JWKGOFeg_a',
+		// 	openid:'o933-1W4cdVDN25_e2JWKGOFeg_c',
 		// 	nikename:'文姬',
 		// 	headimgurl:"http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoDGe7wXlOa1mxspKHy64ZLmq0zNPbpqibxmEFoUTS2mrhgR8hiagCibdoyq90ib6NWKqzUlvFmzZDBrQ/132",
 		// 	language:'zh_CN'
 		// }
 	},
 	mutations: {
+		setSendGiftStatus(state,value){
+			state.isSendGiftToday = value;
+		},
+		addPageInCount(state) {
+			state.isFirstIn++;
+			//alert(state.isFirstIn);
+		},
 		checkToken(state, data) {
 			state.silderNav = data.silderNav;
 		},
@@ -141,6 +150,12 @@ const Store = new Vuex.Store({
 		},
 		setActivityInfo(context,info) {
 			context.commit('setActivityInfo',info);
+		},
+		setPageInCount(context) {
+			context.commit('addPageInCount');
+		},
+		setSendGiftStatus(context,value) {
+			context.commit('setSendGiftStatus',value);
 		}
 	}
 });
