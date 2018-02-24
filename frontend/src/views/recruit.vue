@@ -205,7 +205,14 @@
 				for(index = 0; index < len; index++){
 					let file = $('.imgOne').get(0).files[index];
 					//alert('图片大小'+file.size);
-					formData.append("images", file);
+					if(file.size/(1024*1024) <= 3.0)
+						formData.append("images", file);
+					else{
+						this.$toast({
+							message: '请选择不大于3M的图片！',
+							customClass:'large-font'
+						});
+					}
 
 					// let fd = new FileReader();
 					// fd.readAsDataURL(file);

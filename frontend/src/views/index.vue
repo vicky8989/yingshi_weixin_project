@@ -133,8 +133,10 @@
 						//如果当前第一次进入页面，则浏览量+1
 						//alert(self.$store.state.isFirstIn);
 						if(self.$store.state.isFirstIn == 1) {
+							self.$store.dispatch('setPageInCount');
 							let pv = parseInt(result.pv);
-							self.ApiSever.updateActivityPV(result._id,{pv:pv++}).then(success => {
+							self.ApiSever.updateActivityPV(result._id,{pv:pv+1}).then(success => {
+								result.pv += 1;
 								console.log('update pv',success);
 							})
 						}
