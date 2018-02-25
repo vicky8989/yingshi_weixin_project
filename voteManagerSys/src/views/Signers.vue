@@ -29,6 +29,13 @@
 					</div>
 				</template>
 			</el-table-column>
+			<el-table-column prop="words" label="内容简述">
+				<template scope="scope">
+					<el-button @click="showMore(scope.$index,scope.row)" type="text" size="small">详情</el-button>
+
+					<!-- <div class="div_words">{{scope.row.words}}</div> -->
+				</template>
+			</el-table-column>
 			<el-table-column label="操作">
 				<template slot-scope="scope">
 					<el-button @click="handleDelClick(scope.$index,scope.row)" type="text" size="small">删除</el-button>
@@ -61,6 +68,12 @@
 				</el-carousel>
 			</template>
 		</el-dialog>
+
+		<el-dialog center title="个人简述" :visible.sync="dialogVisible1" :before-close="handleClose1">
+			<template>
+				<div class="words-div">{{words}}</div>
+			</template>
+		</el-dialog>
 	</div>
 </template>
 
@@ -73,12 +86,18 @@
 				imgURL: this.ApiSever.imgUrl,
 				pics: [],
 				dialogVisible: false,
+				dialogVisible1:false,
 				signerList: [],
 				originData: [],
-				searchTxt: ''
+				searchTxt: '',
+				words:''
 			}
 		},
 		methods: {
+			showMore(index,row) {
+				this.words = row.words;
+				this.dialogVisible1 = true;
+			},
 			handleDelClick(index, row) {
 				let this_ = this;
 				this.ApiSever.delSigner(row._id).then(res => {
@@ -109,6 +128,9 @@
 			},
 			goBack() {
 				this.$router.push('/index');
+			},
+			handleClose1() {
+				this.dialogVisible1 = false;
 			},
 			handleClose() {
 				this.dialogVisible = false;
@@ -182,6 +204,10 @@
 		box-sizing: border-box;
 		border: 1px solid #d9d9d9;
 		cursor: pointer;
+	}
+	.words-div {
+		max-height: 300px;
+    	overflow-y: auto;
 	}
 	
 	.hide {

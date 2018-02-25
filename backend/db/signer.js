@@ -19,26 +19,32 @@ var User = function()
         return true;
     }
 
-    this.calcCode = function(aid){
+    this.calcCode = function(signers){
+	
+		var maxCode = 0;
+		for (var i=0,ilen = signers.length; i< ilen; i++) {
 
-        if (this.collection() == false) {
-            return;
-        }
-
+			var signer = signers[i];
+			if(maxCode < signer.code) {
+				maxCode = signer.code;
+			}
+		}
+		
+		maxCode += 1;
+		
+		console.log('maxcode',maxCode);
+		return maxCode; //获取最大的code
+		
         if (codeMap.isEmpty()) {
-
             var signers = collection.find().toArray();
             for (var i=0 ; i<signers.length; i++) {
 
                 var signer = signers[i]
-                if (codeMap.get(signer.aid) != null) {
-                    if(codeMap.get(signer.aid)<signer.code){
-                        codeMap.get(signer.aid) = signer.code;
-                    }
-                }
-                else{
-                    codeMap.put(signer.aid, 1);
-                }
+				if(codeMap.get(signer.aid) == null) codeMap.put(signer.aid, 1);
+				
+                if(codeMap.get(signer.aid)<signer.code){
+					codeMap.get(signer.aid) = signer.code;
+				}
             }
         }
 
@@ -63,30 +69,33 @@ var User = function()
         if (userData.aid == null) {
             return;
         }
+		
+		var this_ = this;
+		this.queryDataByAid(userData.aid,function(signers){
+			var data = {
+				'aid':userData.aid,
+				'openid': userData.openid,
+				'name': userData.name ,
+				'phone': userData.phone,
+				'address': userData.address,
+				'words': userData.words,
+				'hot': userData.hot,
+				'votenum': userData.votenum,
+				'pics': userData.pics,
+				'status':userData.status
+			};
 
-        var data = {
-            'aid':userData.aid,
-            'openid': userData.openid,
-            'name': userData.name ,
-            'phone': userData.phone,
-            'address': userData.address,
-            'words': userData.words,
-            'hot': userData.hot,
-            'votenum': userData.votenum,
-            'pics': userData.pics,
-            'status':userData.status
-        };
+			data.code = this_.calcCode(signers);
+			collection.insert(data, function(err, result) {
+				if(err)
+				{
+				  console.log('Error:'+ err);
+				  return;
+				}
 
-        data.code = this.calcCode(data.aid);
-        collection.insert(data, function(err, result) { 
-            if(err)
-            {
-              console.log('Error:'+ err);
-              return;
-            }
-
-            callback(result,result.ops[0]._id);
-        });
+				callback(result,result.ops[0]._id);
+			});			
+		});        
     }
 
     this.updateData = function(sid,userData,callback)

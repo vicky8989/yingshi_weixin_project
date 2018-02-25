@@ -26,11 +26,11 @@
 			<el-table-column prop="date" label="操作" width="660px">
 				<template scope="scope">
 					<el-button size="small" type="primary" icon="el-icon-edit-outline" @click="editDetials(scope.row)">编辑</el-button>
-					<el-button size="small" type="success" icon="el-icon-goods" @click="handleShowActive(scope.row)">投票选项</el-button>
+					<!-- <el-button size="small" type="success" icon="el-icon-goods" @click="handleShowActive(scope.row)">投票选项</el-button> -->
 					<el-button size="small" type="primary" icon="el-icon-menu" @click="handleShowSigner(scope.row)">报名管理</el-button>
 					<el-button size="small" type="success" icon="el-icon-document" @click="handleShowActive(scope.row)">投票记录</el-button>
-					<el-button size="small" type="danger" icon="el-icon-delete" @click="handleDelActive(scope.row,scope.$index)">删除</el-button>
-					<el-button size="small" type="primary" icon="el-icon-view">活动二维码</el-button>
+					<!-- <el-button size="small" type="danger" icon="el-icon-delete" @click="handleDelActive(scope.row,scope.$index)">删除</el-button>
+					<el-button size="small" type="primary" icon="el-icon-view">活动二维码</el-button> -->
 				</template>
 			</el-table-column>
 		</el-table>

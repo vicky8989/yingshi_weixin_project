@@ -110,7 +110,7 @@
 
 							self.listData[presentIndex].present = parseInt(num);
 							presentIndex++;
-							if(presentIndex == i) self.$forceUpdate();
+							if(presentIndex == ilen) self.$forceUpdate();
 						});
 					}
 				})

@@ -72,12 +72,7 @@
 			<!-- <el-table-column prop="giftnum" label="礼物数">
 			</el-table-column>
 			<el-table-column prop="money" label="礼物总额">
-			</el-table-column> -->
-			<el-table-column prop="words" label="内容简述">
-				<template scope="scope">
-					<div class="div_words">{{scope.row.words}}</div>
-				</template>
-			</el-table-column>
+			</el-table-column> -->			
 			<!--<el-table-column label="操作">
 				<template slot-scope="scope">
 			        <el-button @click="handleDelClick(scope.$index,scope.row)" type="text" size="small">删除</el-button>
