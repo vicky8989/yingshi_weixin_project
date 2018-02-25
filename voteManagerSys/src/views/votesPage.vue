@@ -37,8 +37,22 @@
 			</el-table-column>
 			<el-table-column prop="lasttime" label="最后投票时间">
 			</el-table-column>
+			<el-table-column prop="words" label="内容简述">
+				<template scope="scope">
+					<div>{{scope.row.words}}</div>
+				</template>
+			</el-table-column>
 		</el-table>
 		<el-table :data="paticitesList" v-else style="width: 100%;" border @cell-dblclick="editororderData">
+			<el-table-column type="expand">
+				<template slot-scope="props">
+					<div class="info_dec">
+						<label for="">内容简述:</label>
+						<span>{{ props.row.words }}</span>
+					</div>
+
+				</template>
+			</el-table-column>
 			<el-table-column prop="name" label="参与者昵称">
 			</el-table-column>
 			<el-table-column prop="code" label="编号">
@@ -59,11 +73,16 @@
 			</el-table-column>
 			<el-table-column prop="money" label="礼物总额">
 			</el-table-column> -->
-			<el-table-column label="操作">
+			<el-table-column prop="words" label="内容简述">
+				<template scope="scope">
+					<div class="div_words">{{scope.row.words}}</div>
+				</template>
+			</el-table-column>
+			<!--<el-table-column label="操作">
 				<template slot-scope="scope">
 			        <el-button @click="handleDelClick(scope.$index,scope.row)" type="text" size="small">删除</el-button>
 			      </template>
-			</el-table-column>
+			</el-table-column>-->
 		</el-table>
 	</div>
 </template>
@@ -120,7 +139,7 @@
 			getPaticiesList(aid) {
 				let self = this;
 				this.ApiSever.getPaticitesList(aid).then(res => {
-					if(res && res.data && res.data.length > 0){
+					if(res && res.data && res.data.length > 0) {
 						self.paticitesList = res.data;
 						self.originSigners = self.paticitesList;
 					}
@@ -180,9 +199,9 @@
 					});
 
 					//重新加载页面
-					setTimeout(function(){
+					setTimeout(function() {
 						window.location.reload();
-					},3000)
+					}, 3000)
 				});
 			},
 
@@ -203,7 +222,7 @@
 			getMoney() {
 				let self = this;
 				this.ApiSever.getMoney().then(res => {
-					if(res && res.data){
+					if(res && res.data) {
 						self.money = res.data.prize;
 					}
 				});
@@ -213,7 +232,7 @@
 			},
 
 			//删除某一行数据
-			handleDelClick(index,row) {
+			handleDelClick(index, row) {
 				this.delSigner(row);
 			},
 
@@ -231,11 +250,11 @@
 			// }
 			this.getMoney();
 			//this.getVoterList();
-			let this_= this;			
-			setTimeout(function(){
+			let this_ = this;
+			setTimeout(function() {
 				this_.getPaticiesList(this_.activeId);
-			},500)
-			
+			}, 500)
+
 		}
 	}
 </script>
@@ -244,8 +263,30 @@
 	.hide {
 		display: none;
 	}
-
+	
 	.show {
 		display: block;
+	}
+	
+	.div_words {
+		width: 100%;
+		display: block;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	
+	.info_dec {
+		line-height: 24px;
+		text-align: left;
+		font-size: 14px;
+		display: block;
+		overflow: hidden;
+		text-align: justify;
+	}
+	
+	.info_dec label {
+		padding-right: 6px;
+		font-weight: 600;
 	}
 </style>

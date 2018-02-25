@@ -29,6 +29,11 @@
 					</div>
 				</template>
 			</el-table-column>
+			<el-table-column label="操作">
+				<template slot-scope="scope">
+					<el-button @click="handleDelClick(scope.$index,scope.row)" type="text" size="small">删除</el-button>
+				</template>
+			</el-table-column>
 			<!-- <el-table-column label="审核状态">
 				<template slot-scope="scope">
 					<div class="productTr">
@@ -74,6 +79,20 @@
 			}
 		},
 		methods: {
+			handleDelClick(index, row) {
+				let this_ = this;
+				this.ApiSever.delSigner(row._id).then(res => {
+					this_.$message({
+						message: '删除成功！',
+						type: 'success'
+					});
+					this.getSignerList(this.activeId);
+					//重新加载页面
+					//					setTimeout(function(){
+					//						window.location.reload();
+					//					},3000)
+				});
+			},
 			search() {
 				let self = this,
 					txt = this.searchTxt.trim();
@@ -151,6 +170,8 @@
 		width: 80px;
 		height: 60px;
 		margin: auto auto;
+		display: inline-block;
+		margin-right: 10px;
 	}
 	
 	.config_log img {
