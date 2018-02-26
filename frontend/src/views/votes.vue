@@ -288,6 +288,7 @@
 				});
 			},
 
+			
 			//直接新增热度
 			addHot() {
 				console.log('当前的选手id', this.userId);

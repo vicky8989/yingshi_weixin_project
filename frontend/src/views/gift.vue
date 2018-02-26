@@ -118,11 +118,26 @@
 				//this.currentGiftNum *= this.currentNum;
 			},
 
+			updateSigner(num) {
+				if(!this.userData.votenum)
+					this.userData.votenum = 0;
+				this.userData.votenum += num*10;
+				let _this = this;
+				this.ApiSever.updateSinger(this.userData._id, this.userData).then(res => {
+					console.log('updateSigner', res);
+
+					_this.gotoUserpage();
+				});
+			},
+
 			getGiftsList() {
 				let self = this;
 				this.ApiSever.getGiftsList().then(res => {
 					console.log(res);
-					self.giftList = res.body;
+					if(res.body && res.body.length > 0) 
+						self.giftList = res.body.sort(function(a,b){
+							return parseInt(a.num) < parseInt(b.num)
+						});
 				});
 			},
 
@@ -230,7 +245,9 @@
 		                        	_this.$store.dispatch('setSendGiftStatus',true);
 		                            //alert('支付成功');
 		                            _this.ApiSever.addPresentDetail(data).then(res=> {
-		                            	_this.gotoUserpage();
+
+		                            	_this.updateSigner(_this.currentNum*_this.currentGiftNum);
+		                            	
 										// _this.$router.push({
 										// 	path: '/votes/' + _this.userData._id+'/'+_this.openId,
 										// 	params: {

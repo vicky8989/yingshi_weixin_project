@@ -26,7 +26,7 @@
 				<template scope="scope">
 					<span v-if="!scope.row.state">{{scope.row.num}}</span>
 					<div v-if="scope.row.state">
-						<el-input v-if="editorData" size="small" v-model="editorData.num" placeholder="请输入礼物点数" @blur="handleBlur($event,'num')"></el-input>
+						<el-input v-if="editorData" size="small" v-model.number="editorData.num" placeholder="请输入礼物点数" @blur="handleBlur($event,'num')" type="number"></el-input>
 					</div>
 				</template>
 			</el-table-column>
@@ -127,7 +127,8 @@
 					errorValue = '';
 					messageInfo = '礼物名称不能为空！';
 				} else if(currentName == 'num') {
-					reg = /^\d{n}$ /;
+					value = parseInt(value);
+					reg = /^[0-9]+$/;
 					errorValue = 1;
 					messageInfo = '礼物点数必须为数字！';
 				}
