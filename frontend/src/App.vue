@@ -114,8 +114,10 @@
 			//第一次创建的时候存入openid
 			var userId = this.$utils.getUrlKey("openid");
 			//alert('userId:'+userId);
-			if(!this.$store.state.wxUser.openid && !userId) {
+			var isFirst = sessionStorage.getItem('isLogined');
+			if(!isFirst || (!this.$store.state.wxUser.openid && !userId)) {
 				window.location.href =this.ApiSever.OAUTH;
+				sessionStorage.setItem('isLogined', 1);
 			} else if(!this.$store.state.wxUser.openid && userId) {
 				let this_ = this;
 				this.$store.dispatch('setPageInCount');
