@@ -12,6 +12,9 @@
 					<el-form-item label="活动标题:" prop="name">
 						<el-input v-model="activity.name"></el-input>
 					</el-form-item>
+					<el-form-item label="页面标题:" prop="name">
+						<el-input v-model="activity.process"></el-input>
+					</el-form-item>
 					<el-form-item label="封面:" prop="banner">
 						<div class="photo_div">
 							<div class="input_photo bg_cover" v-if="activity.banner&&activity.banner.length>0" v-for="(list, index) in activity.banner" @click="handlePictureCardPreview(list)">

@@ -120,6 +120,7 @@
 				this.ApiSever.getActivity().then(res => {
 					if(res && res.data && res.data.length > 0) {
 						let result = res.data[0];
+						window.document.title = result.process;//给当前页面标题赋值
 						self.activity = result;
 						self.pics = result.banner;
 						//						self.ApiSever.FINSIHTIME = result.voteend;
